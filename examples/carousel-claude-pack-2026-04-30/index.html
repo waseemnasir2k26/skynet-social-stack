@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waseem Carousels — Industry Style Pack (5×6 = 30 cards)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --cream:#F2EBE0;
+  --cream-deep:#E8DFD0;
+  --rust:#C4502E;
+  --rust-dark:#A23A1F;
+  --ink:#1F1B17;
+  --ink-soft:#3A332C;
+  --gray:#8C8479;
+  --term-bg:#1A1614;
+  --term-fg:#E8DFCF;
+  --term-dim:#8C8479;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0B0A09}
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--cream);
+  padding:32px 24px 80px;
+  min-height:100vh;
+}
+.page-head{max-width:1280px;margin:0 auto 24px}
+.page-head h1{font-family:'Archivo Black';font-size:36px;letter-spacing:-1px;margin-bottom:6px}
+.page-head p{color:#8C8479;font-size:13px;line-height:1.5}
+.page-head code{background:#1F1B17;padding:2px 6px;border-radius:3px;color:#E8DFCF;font-family:'JetBrains Mono';font-size:12px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;max-width:1280px;margin:24px auto 32px}
+.tab{padding:11px 18px;background:#1F1B17;color:#C4B79E;border:1px solid #3A332C;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;transition:all .15s}
+.tab:hover{background:#2A2520}
+.tab.active{background:var(--rust);color:#fff;border-color:var(--rust)}
+.tab .num{opacity:.6;margin-right:6px}
+.carousel{display:none;max-width:1280px;margin:0 auto}
+.carousel.active{display:block}
+.carousel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:16px 20px;background:#161412;border:1px solid #2A2520;border-radius:8px}
+.carousel-head h2{font-family:'Archivo Black';font-size:18px;color:#fff;letter-spacing:0.5px}
+.carousel-head .meta{color:#8C8479;font-size:12px;margin-top:4px;font-family:'JetBrains Mono'}
+.btn-all{padding:11px 18px;background:var(--rust);color:#fff;border:0;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px;letter-spacing:0.6px;text-transform:uppercase}
+.btn-all:hover{background:var(--rust-dark)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,540px);gap:32px;justify-content:center}
+.card-wrap{position:relative;width:540px;height:675px}
+.card-wrap .dl{position:absolute;top:8px;right:8px;z-index:50;padding:6px 12px;background:rgba(15,14,12,0.85);color:#fff;border:1px solid var(--rust);border-radius:4px;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;backdrop-filter:blur(4px)}
+.card-wrap .dl:hover{background:var(--rust)}
+.card-wrap .num{position:absolute;top:8px;left:8px;z-index:50;padding:4px 8px;background:rgba(15,14,12,0.7);color:#C4B79E;border-radius:4px;font-size:10px;font-family:'JetBrains Mono';font-weight:700}
+
+.card{
+  width:1080px;height:1350px;
+  transform:scale(0.5);transform-origin:top left;
+  background:var(--cream);
+  position:relative;
+  font-family:'Inter',sans-serif;
+  color:var(--ink);
+  overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g stroke='%23A89E8C' stroke-width='0.6' fill='none' opacity='0.55'><path d='M0 40 L60 40 L60 0'/><path d='M100 0 L100 80 L170 80 L170 220'/><path d='M0 120 L80 120 L80 160 L150 160'/><path d='M40 220 L40 180 L0 180'/><path d='M180 0 L180 30 L220 30'/><path d='M180 110 L220 110'/><path d='M30 0 L30 20'/><path d='M130 220 L130 200 L100 200'/></g><g fill='%23A89E8C' opacity='0.6'><circle cx='60' cy='40' r='2'/><circle cx='100' cy='80' r='2'/><circle cx='170' cy='80' r='2'/><circle cx='80' cy='120' r='2'/><circle cx='80' cy='160' r='2'/><circle cx='150' cy='160' r='2'/><circle cx='40' cy='180' r='2'/><circle cx='180' cy='30' r='2'/></g></svg>");
+  background-size:340px 340px;
+  opacity:0.4;
+  pointer-events:none;
+}
+.card-inner{position:relative;z-index:2;padding:64px 72px 56px;height:100%;display:flex;flex-direction:column}
+
+.tag-row{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:18px;color:var(--ink-soft);letter-spacing:1.5px;font-weight:700}
+.section-tag{margin-top:60px;font-family:'JetBrains Mono';font-size:18px;color:var(--rust);letter-spacing:3px;font-weight:700}
+.section-tag.big{font-family:'Archivo Black';font-size:48px;letter-spacing:1px;margin-top:36px;color:var(--ink)}
+.section-tag.big .num{color:var(--rust)}
+
+.headline{font-family:'Archivo Black';font-size:104px;line-height:0.92;letter-spacing:-2.5px;margin-top:28px;text-transform:uppercase;color:var(--ink)}
+.headline.sm{font-size:88px}
+.headline.xs{font-size:72px}
+.headline .accent{color:var(--rust)}
+.subhead{font-family:'Inter';font-weight:700;font-size:22px;line-height:1.45;color:var(--ink-soft);margin-top:36px;text-transform:uppercase;letter-spacing:0.6px;max-width:900px}
+
+.terminal-wrap{margin-top:auto;position:relative}
+.terminal-label{font-family:'JetBrains Mono';font-size:18px;color:var(--rust);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.terminal-label::before{content:"✸";color:var(--rust);font-size:22px}
+.terminal{
+  background:var(--term-bg);
+  border-radius:18px;
+  padding:32px 40px 36px;
+  font-family:'JetBrains Mono';
+  font-size:22px;
+  line-height:1.65;
+  color:var(--term-fg);
+  position:relative;
+  box-shadow:0 8px 0 rgba(31,27,23,0.06);
+}
+.terminal .lights{display:flex;gap:9px;margin-bottom:22px}
+.terminal .lights span{width:14px;height:14px;border-radius:50%}
+.terminal .lights span:nth-child(1){background:#FF5F56}
+.terminal .lights span:nth-child(2){background:#FFBD2E}
+.terminal .lights span:nth-child(3){background:#27C93F}
+.terminal .ln{white-space:pre}
+.terminal .prompt{color:var(--rust);font-weight:700}
+.terminal .arrow{color:#C4B79E}
+.terminal .ok{color:#27C93F;font-weight:700}
+.terminal .bad{color:#FF5F56;font-weight:700}
+.terminal .dim{color:var(--term-dim)}
+
+.mascot{position:absolute;right:-12px;bottom:8px;width:170px;height:auto;z-index:3}
+.mascot.lg{width:200px;right:0;bottom:0}
+
+.bottom{margin-top:32px;display:flex;justify-content:space-between;align-items:center}
+.handle{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono';font-size:20px;color:var(--ink);font-weight:700}
+.avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid var(--cream);box-shadow:0 0 0 1px #C4B79E}
+.verified{color:#3B82F6;font-size:18px}
+.dots{display:flex;gap:8px;position:absolute;left:50%;bottom:60px;transform:translateX(-50%)}
+.dots span{width:8px;height:8px;border-radius:50%;background:#C4B79E;opacity:.7}
+.dots span.on{background:var(--rust);opacity:1;width:24px;border-radius:4px}
+
+.swipe{position:absolute;right:64px;bottom:72px;font-family:'Archivo Black';font-size:22px;color:var(--rust);display:flex;align-items:center;gap:8px}
+.swipe svg{width:34px;height:34px}
+
+.side-arrow{position:absolute;top:50%;transform:translateY(-50%);width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;color:var(--rust);font-size:24px;font-weight:700;border:1px solid #C4B79E}
+.side-arrow.left{left:0;border-left:0;border-radius:0 27px 27px 0}
+.side-arrow.right{right:0;border-right:0;border-radius:27px 0 0 27px}
+
+.cta-stack{display:flex;flex-direction:column;gap:14px;margin-top:38px}
+.cta-pill{display:inline-flex;align-items:center;gap:14px;padding:18px 26px;background:var(--ink);color:var(--cream);border-radius:12px;font-family:'JetBrains Mono';font-size:22px;font-weight:700;letter-spacing:0.5px;width:fit-content}
+.cta-pill .k{color:var(--rust)}
+.cta-pill.alt{background:var(--rust);color:#fff}
+
+@media (max-width:1180px){
+  .cards{grid-template-columns:repeat(auto-fit,minmax(420px,1fr))}
+  .card-wrap{width:auto;height:auto;aspect-ratio:1080/1350;max-width:540px}
+  .card{transform:scale(.4);transform-origin:top left}
+  .card-wrap{height:540px}
+}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <h1>Waseem — Industry Carousel Pack</h1>
+  <p>5 carousels × 6 slides = 30 cards. 1080×1350 IG/LI ratio. Tab-switch carousels above. Click <code>↓ PNG</code> per card to download. Style ref: @tenfoldmarc editorial cream + rust + circuit pattern.</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div id="root"></div>
+
+<!-- shared SVG defs -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="rg" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#D8623C"/>
+      <stop offset="1" stop-color="#A23A1F"/>
+    </linearGradient>
+    <symbol id="bot-point" viewBox="0 0 200 240">
+      <line x1="100" y1="22" x2="100" y2="42" stroke="#1F1B17" stroke-width="3"/>
+      <circle cx="100" cy="18" r="6" fill="#C4502E"/>
+      <rect x="55" y="42" width="90" height="70" rx="10" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <circle cx="80" cy="74" r="8" fill="#3DEDF5" stroke="#1F1B17" stroke-width="2"/>
+      <circle cx="120" cy="74" r="8" fill="#3DEDF5" stroke="#1F1B17" stroke-width="2"/>
+      <rect x="78" y="94" width="44" height="6" fill="#1F1B17"/>
+      <rect x="92" y="112" width="16" height="8" fill="#1F1B17"/>
+      <rect x="50" y="120" width="100" height="92" rx="8" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <rect x="70" y="140" width="60" height="42" rx="4" fill="#A23A1F" stroke="#1F1B17" stroke-width="2"/>
+      <circle cx="86" cy="161" r="4" fill="#FFD93D"/>
+      <circle cx="100" cy="161" r="4" fill="#27C93F"/>
+      <circle cx="114" cy="161" r="4" fill="#3DEDF5"/>
+      <rect x="30" y="126" width="20" height="62" rx="4" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <rect x="150" y="98" width="14" height="34" rx="3" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <rect x="148" y="80" width="18" height="22" rx="3" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <circle cx="157" cy="78" r="6" fill="#A23A1F" stroke="#1F1B17" stroke-width="2"/>
+    </symbol>
+    <symbol id="bot-laptop" viewBox="0 0 200 240">
+      <line x1="100" y1="22" x2="100" y2="42" stroke="#1F1B17" stroke-width="3"/>
+      <circle cx="100" cy="18" r="6" fill="#C4502E"/>
+      <rect x="55" y="42" width="90" height="70" rx="10" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <circle cx="80" cy="74" r="8" fill="#3DEDF5" stroke="#1F1B17" stroke-width="2"/>
+      <circle cx="120" cy="74" r="8" fill="#3DEDF5" stroke="#1F1B17" stroke-width="2"/>
+      <rect x="78" y="94" width="44" height="6" fill="#1F1B17"/>
+      <rect x="92" y="112" width="16" height="8" fill="#1F1B17"/>
+      <rect x="50" y="120" width="100" height="80" rx="8" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <rect x="70" y="140" width="60" height="36" rx="4" fill="#A23A1F" stroke="#1F1B17" stroke-width="2"/>
+      <rect x="40" y="190" width="120" height="14" rx="2" fill="#1F1B17"/>
+      <rect x="50" y="172" width="100" height="22" rx="2" fill="#3A332C" stroke="#1F1B17" stroke-width="2"/>
+      <rect x="58" y="178" width="84" height="10" fill="#3DEDF5" opacity=".7"/>
+      <rect x="30" y="150" width="20" height="40" rx="4" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <rect x="150" y="150" width="20" height="40" rx="4" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+    </symbol>
+    <symbol id="bot-cross" viewBox="0 0 200 240">
+      <line x1="100" y1="22" x2="100" y2="42" stroke="#1F1B17" stroke-width="3"/>
+      <circle cx="100" cy="18" r="6" fill="#C4502E"/>
+      <rect x="55" y="42" width="90" height="70" rx="10" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <circle cx="80" cy="74" r="8" fill="#3DEDF5" stroke="#1F1B17" stroke-width="2"/>
+      <circle cx="120" cy="74" r="8" fill="#3DEDF5" stroke="#1F1B17" stroke-width="2"/>
+      <rect x="78" y="94" width="44" height="6" fill="#1F1B17"/>
+      <rect x="92" y="112" width="16" height="8" fill="#1F1B17"/>
+      <rect x="50" y="120" width="100" height="92" rx="8" fill="url(#rg)" stroke="#1F1B17" stroke-width="3"/>
+      <rect x="70" y="140" width="60" height="42" rx="4" fill="#A23A1F" stroke="#1F1B17" stroke-width="2"/>
+      <circle cx="86" cy="161" r="4" fill="#FFD93D"/>
+      <circle cx="100" cy="161" r="4" fill="#27C93F"/>
+      <circle cx="114" cy="161" r="4" fill="#3DEDF5"/>
+      <rect x="42" y="138" width="60" height="14" rx="3" fill="url(#rg)" stroke="#1F1B17" stroke-width="3" transform="rotate(-18 72 145)"/>
+      <rect x="100" y="138" width="60" height="14" rx="3" fill="url(#rg)" stroke="#1F1B17" stroke-width="3" transform="rotate(18 130 145)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<script>
+const AVATARS = {
+  c1: '_avatars/IMG_2742.jpg',
+  c2: '_avatars/IMG_2745.jpg',
+  c3: '_avatars/IMG_2747.jpg',
+  c4: '_avatars/IMG_2748.jpg',
+  c5: '_avatars/IMG_2749.jpg',
+};
+const HANDLE = '@waseemnasir2k26';
+
+// helpers for terminal lines
+const $p = (cmd) => `<span class="prompt">$</span> ${cmd}`;
+const $a = (txt) => `<span class="arrow">→</span> ${txt}`;
+const $ok = (txt) => `<span class="ok">✓</span> ${txt}`;
+const $bad = (txt) => `<span class="bad">✗</span> ${txt}`;
+
+const carousels = [
+  {
+    id:'c1',
+    tab:'Claude Code',
+    title:'STOP HITTING CLAUDE CODE LIMITS',
+    meta:'6 slides · LinkedIn carousel + IG · save as Claude-Code-Limits-PNG',
+    slides:[
+      {kind:'hero', tag:'CLAUDE CODE', headline:['STOP HITTING','CLAUDE CODE','<span class="accent">USAGE LIMITS</span>'], sub:'5 TRICKS THAT ACTUALLY WORK. YOU DON\'T NEED A BIGGER PLAN, YOU NEED TO USE IT SMARTER.', term:[$p('claude --check-usage'),$a('usage limit reached'),$bad('burning tokens too fast'),$ok('5 fixes incoming'),$ok('no upgrade needed')], bot:'bot-point'},
+      {kind:'trick', n:'01', tag:null, headline:['LET OPUS','PLAN. LET','<span class="accent">SONNET</span> EXECUTE.'], sub:'5X CHEAPER ON THE HEAVY LIFTING. SAME OUTPUT. ZERO COMPROMISE.', label:'Run this command:', term:[$p('/model opus-plan'),$a('Opus writes the plan'),$a('Sonnet does the work'),$ok('smart thinking up front'),$ok('cheap execution after'),$ok('~5x less spend on output')], bot:'bot-laptop'},
+      {kind:'trick', n:'02', headline:['<span class="accent">/CLEAR</span>','EVERY','MILESTONE.'], sub:'BLOATED CONTEXT BURNS TOKENS YOU\'RE NOT USING. RESET OFTEN.', label:'Habit to build:', term:[$p('/clear'),$a('context window: 0 tokens'),$ok('cache rebuilds in 5 min'),$ok('no stale file references'),$ok('next prompt = fresh start')], bot:'bot-cross'},
+      {kind:'trick', n:'03', headline:['PARALLEL','AGENTS','<span class="accent">NOT</span> SERIAL.'], sub:'ONE MESSAGE. MANY AGENTS. INDEPENDENT WORK FINISHES IN 1/N TIME.', label:'The pattern:', term:[$p('Agent × 5 in single message'),$a('research / build / test / scan / draft'),$ok('zero idle waiting'),$ok('main context stays clean'),$ok('5x throughput, same cost')], bot:'bot-point'},
+      {kind:'trick', n:'04', headline:['CACHE','EVERY','<span class="accent">SYSTEM PROMPT.</span>'], sub:'PROMPT CACHE = 90% DISCOUNT ON REPEATED TOKENS. 5-MIN TTL. USE IT.', label:'API call upgrade:', term:[$p('cache_control: ephemeral'),$a('first call: full price'),$a('next call (under 5min): 10%'),$ok('huge savings on long sysprompts'),$ok('zero quality loss')], bot:'bot-laptop'},
+      {kind:'cta', tag:'TAKEAWAY', headline:['STOP','UPGRADING.','<span class="accent">START</span> SHIPPING.'], sub:'5 FREE TRICKS. ZERO PLAN UPGRADES. SAME CLAUDE CODE.', ctas:[{k:'01.',v:'Save this post.'},{k:'02.',v:'Follow @waseemnasir2k26'},{k:'03.',v:'DM me <span class="k">CLAUDE</span> for the full PDF.'}], bot:'bot-point'},
+    ]
+  },
+  {
+    id:'c2',
+    tab:'AEO Pivot',
+    title:'STOP OPTIMIZING FOR GOOGLE',
+    meta:'6 slides · LinkedIn + IG · CiteLift launch tease',
+    slides:[
+      {kind:'hero', tag:'ANSWER ENGINE OPTIMIZATION', headline:['STOP RANKING','ON GOOGLE.','<span class="accent">START GETTING CITED.</span>'], sub:'AEO IS HERE. CHATGPT, CLAUDE, AND PERPLEXITY DECIDE WHAT YOUR BUYERS SEE.', term:[$p('aeo --audit your-site.com'),$a('google rank: #4'),$bad('chatgpt mentions: 0'),$bad('perplexity citations: 0'),$ok('5-step fix loading...')], bot:'bot-point'},
+      {kind:'trick', n:'01', headline:['ANSWER','<span class="accent">FIRST.</span>','CONTEXT SECOND.'], sub:'LLMS SCAN THE TOP 200 WORDS. BURY THE ANSWER, GET SKIPPED.', label:'Page rewrite rule:', term:[$p('inspect first-paragraph'),$a('lead with direct answer'),$a('save brand story for footer'),$ok('LLM extraction +400%'),$ok('citation rate jumps')], bot:'bot-laptop'},
+      {kind:'trick', n:'02', headline:['CITE','OR','<span class="accent">DIE.</span>'], sub:'OPINIONS DON\'T GET QUOTED. SOURCED CLAIMS DO. ADD PROOF EVERYWHERE.', label:'Page-level upgrade:', term:[$p('grep -r "studies show" pages/'),$bad('vague: "studies show"'),$ok('linked: <a href="...">2024 NIH study</a>'),$ok('LLMs trust citations'),$ok('your URL = the source')], bot:'bot-cross'},
+      {kind:'trick', n:'03', headline:['SCHEMA','EVERY','<span class="accent">PAGE.</span>'], sub:'FAQPAGE. HOWTO. ARTICLE. GIVE LLMS THE STRUCTURED HOOK.', label:'JSON-LD on every page:', term:[$p('add @type FAQPage'),$a('Q + A pairs in JSON'),$a('HowTo for guides'),$a('Article for posts'),$ok('Perplexity citation rate ~3x'),$ok('Google AI Overviews +')], bot:'bot-laptop'},
+      {kind:'trick', n:'04', headline:['OWN','<span class="accent">ONE</span>','CITATION.'], sub:'ONE QUOTE IN CHATGPT BEATS RANK #1 ON GOOGLE. CHASE THE QUOTE.', label:'Weekly habit:', term:[$p('ask: "best [your-niche] tool"'),$a('chatgpt + perplexity + claude'),$a('note who gets cited'),$ok('reverse-engineer their format'),$ok('own that question forever')], bot:'bot-point'},
+      {kind:'cta', tag:'WHAT\'S NEXT', headline:['THE FIRST','<span class="accent">AEO AUDIT</span>','TOOL IS COMING.'], sub:'CITELIFT.APP — FREE 30-SEC AUDIT. SEE WHAT CHATGPT THINKS OF YOUR SITE.', ctas:[{k:'01.',v:'Follow @waseemnasir2k26'},{k:'02.',v:'DM <span class="k">CITELIFT</span> for early access.'},{k:'03.',v:'Save this. Re-read in 90 days.'}], bot:'bot-point'},
+    ]
+  },
+  {
+    id:'c3',
+    tab:'Kill SaaS',
+    title:'KILL YOUR $500/MO SAAS STACK',
+    meta:'6 slides · n8n value content · DM keyword N8N',
+    slides:[
+      {kind:'hero', tag:'AUTOMATION', headline:['KILL YOUR','$500/MO','<span class="accent">SAAS STACK.</span>'], sub:'ONE SELF-HOSTED SERVER REPLACES ZAPIER, MAKE, AIRTABLE AUTOMATION, AND HALF YOUR CRM.', term:[$p('saas-bill --total'),$a('zapier pro: $99'),$a('make pro: $79'),$a('airtable auto: $54'),$bad('total: $500+/mo'),$ok('replace with: $5 VPS')], bot:'bot-laptop'},
+      {kind:'trick', n:'01', headline:['<span class="accent">n8n</span>','REPLACES','ZAPIER.'], sub:'UNLIMITED RUNS. SELF-HOSTED. ALL THE NODES YOU ACTUALLY NEED.', label:'One-line install:', term:[$p('docker run n8nio/n8n'),$a('400+ integrations'),$a('unlimited workflow runs'),$ok('no per-task pricing'),$ok('your data stays yours')], bot:'bot-cross'},
+      {kind:'trick', n:'02', headline:['HOOK','<span class="accent">CLAUDE</span>','INTO ANYTHING.'], sub:'HTTP NODE + SYSTEM PROMPT. NOW EVERY APP HAS AN AI BRAIN.', label:'The pattern:', term:[$p('HTTP → Anthropic API'),$a('system: your domain prompt'),$a('user: trigger payload'),$ok('Slack → AI summary'),$ok('Form → AI lead score'),$ok('Calendar → AI brief')], bot:'bot-point'},
+      {kind:'trick', n:'03', headline:['QUEUE','<span class="accent">+ RETRY</span>','= NO DEAD JOBS.'], sub:'BUILT-IN. NO REDIS SETUP. NO BULL.JS. JUST WORKS.', label:'Per-node setting:', term:[$p('settings → execution'),$a('retry on fail: 3x'),$a('wait between: 30s'),$a('on failure: send to error queue'),$ok('zero ghosted webhooks'),$ok('zero "must rerun manually"')], bot:'bot-laptop'},
+      {kind:'trick', n:'04', headline:['VERSION','<span class="accent">YOUR</span>','FLOWS.'], sub:'GIT EXPORT JSON. NO VENDOR LOCK. ROLLBACK IN 1 COMMAND.', label:'Real DevOps for automations:', term:[$p('n8n export:workflow --all'),$a('commit to git'),$a('diff between versions'),$ok('rollback bad deploys'),$ok('share flows team-wide'),$ok('Zapier could never')], bot:'bot-cross'},
+      {kind:'cta', tag:'YOUR MOVE', headline:['ONE WEEKEND.','<span class="accent">$5/MO.</span>','OWN YOUR STACK.'], sub:'I MIGRATED A CLIENT FROM $487/MO ZAPIER+MAKE TO $5/MO n8n. SAME WORKFLOWS. ZERO REGRETS.', ctas:[{k:'01.',v:'Save the post.'},{k:'02.',v:'DM <span class="k">N8N</span> for my setup script.'},{k:'03.',v:'Follow @waseemnasir2k26'}], bot:'bot-point'},
+    ]
+  },
+  {
+    id:'c4',
+    tab:'1-Man Agency',
+    title:'THE 1-MAN AGENCY STACK',
+    meta:'6 slides · Jarvis stack reveal · DM keyword GITHUB',
+    slides:[
+      {kind:'hero', tag:'THE STACK', headline:['HOW I RUN A','<span class="accent">1-MAN</span>','AGENCY.'], sub:'4 TOOLS. 1 BRAIN. ZERO EMPLOYEES. SHIPS FOR ~25 CLIENTS A QUARTER.', term:[$p('whoami'),$a('Waseem · Founder · SkynetLabs'),$a('clients shipped Q1: 24'),$a('headcount: 1'),$ok('the stack: revealing now')], bot:'bot-point'},
+      {kind:'trick', n:'01', headline:['CLAUDE','CODE','<span class="accent">= BUILDER.</span>'], sub:'FULL-DAY SWE WORK. PARALLEL AGENTS. NO CONTEXT-SWITCH TAX.', label:'Layer 1 — Build:', term:[$p('claude code'),$a('5 agents in parallel'),$a('research / build / test / QA / ship'),$ok('1 prompt = 5 hrs of work'),$ok('I review, not type'),$ok('100% of code reviewed by me')], bot:'bot-laptop'},
+      {kind:'trick', n:'02', headline:['<span class="accent">n8n</span>','=','DEPLOYER.'], sub:'CRONS. WEBHOOKS. LEAD ROUTING. FOLLOW-UPS. ALL ON A $5 VPS.', label:'Layer 2 — Run:', term:[$p('n8n workflows --active'),$a('lead → CRM → AI score → Slack'),$a('scheduled content drips'),$a('client onboarding chain'),$ok('no SaaS bills'),$ok('runs while I sleep')], bot:'bot-cross'},
+      {kind:'trick', n:'03', headline:['OBSIDIAN','<span class="accent">+ MCP</span>','= BRAIN.'], sub:'PERSISTENT MEMORY ACROSS CHATS. CLAUDE REMEMBERS EVERY CLIENT, EVERY DECISION.', label:'Layer 3 — Remember:', term:[$p('mcp obsidian search "client:nasir"'),$a('300+ project notes'),$a('every brief, every spec'),$ok('zero re-explaining'),$ok('zero lost context')], bot:'bot-point'},
+      {kind:'trick', n:'04', headline:['GHL','<span class="accent">+ MANYCHAT</span>','= FUNNEL.'], sub:'NO HUMAN CHASES A LEAD. CONTENT → DM → CALL → CONTRACT. ALL AUTO.', label:'Layer 4 — Sell:', term:[$p('post → trigger keyword'),$a('ManyChat: collect email'),$a('GHL: tag + nurture'),$a('Calendly: book call'),$ok('zero CRM data entry'),$ok('zero "did you reply yet?"')], bot:'bot-laptop'},
+      {kind:'cta', tag:'YOUR PLAYBOOK', headline:['STEAL THE','<span class="accent">WHOLE</span>','STACK.'], sub:'I WROTE THE FREE GUIDE. EVERY TOOL, EVERY WORKFLOW, EVERY DOLLAR.', ctas:[{k:'01.',v:'Comment <span class="k">GITHUB</span> for the free guide.'},{k:'02.',v:'Follow @waseemnasir2k26'},{k:'03.',v:'Save → re-read in 30 days.'}], bot:'bot-point'},
+    ]
+  },
+  {
+    id:'c5',
+    tab:'Vibe Code',
+    title:'VIBE CODE LIKE A SENIOR',
+    meta:'6 slides · Claude Code workflow · save & share',
+    slides:[
+      {kind:'hero', tag:'AI-NATIVE WORKFLOW', headline:['VIBE CODE','LIKE A','<span class="accent">SENIOR.</span>'], sub:'THE 4 RULES THAT SEPARATE JUNIORS FROM SHIPPERS WHEN AI WRITES THE CODE.', term:[$p('vibe-coder --score'),$a('idea → ship time: 2 weeks'),$bad('rewrites needed: 4'),$bad('prod bugs: 7'),$ok('4 rules incoming → 2 days, 0 bugs')], bot:'bot-laptop'},
+      {kind:'trick', n:'01', headline:['PLAN','<span class="accent">BEFORE</span>','YOU PROMPT.'], sub:'5 MINUTES OF SPEC SAVES 5 HOURS OF REWRITES. LET OPUS THINK FIRST.', label:'Step zero:', term:[$p('/plan'),$a('what changes? where? why?'),$a('which files? which tests?'),$a('what could break?'),$ok('lock the plan'),$ok('THEN start typing')], bot:'bot-point'},
+      {kind:'trick', n:'02', headline:['READ','<span class="accent">BEFORE</span>','YOU EDIT.'], sub:'AI THAT EDITS BLIND BREAKS THINGS. ALWAYS READ THE FILE FIRST.', label:'Hard rule:', term:[$p('Read file.ts → Edit file.ts'),$bad('NEVER: Edit without Read'),$ok('catches stale assumptions'),$ok('catches API drift'),$ok('half the bugs gone')], bot:'bot-cross'},
+      {kind:'trick', n:'03', headline:['TASKS','<span class="accent">&gt;</span>','MEMORY.'], sub:'YOUR BRAIN FORGETS. THE TASK LIST DOESN\'T. PIN EVERY STEP.', label:'Working memory:', term:[$p('TaskCreate × 5'),$a('one task = one ship-able unit'),$a('mark done as you go'),$ok('zero "what was I doing?"'),$ok('zero half-finished features'),$ok('clean PRs every time')], bot:'bot-laptop'},
+      {kind:'trick', n:'04', headline:['DIFF','<span class="accent">EVERYTHING.</span>',''], sub:'GIT DIFF IS THE ONLY SOURCE OF TRUTH. AI SUMMARIES LIE BY OMISSION.', label:'Before "done":', term:[$p('git diff main...HEAD'),$a('every line, with eyes'),$a('not the AI summary'),$ok('catch silent rewrites'),$ok('catch removed tests'),$ok('catch console.logs')], bot:'bot-cross'},
+      {kind:'cta', tag:'THE REAL UPGRADE', headline:['THE TOOL','<span class="accent">DIDN\'T CHANGE.</span>','YOUR PROCESS DID.'], sub:'4 RULES. ZERO COST. SHIP FASTER WITHOUT SHIPPING TRASH.', ctas:[{k:'01.',v:'Save this post.'},{k:'02.',v:'Tag a vibe-coder friend.'},{k:'03.',v:'Follow @waseemnasir2k26'}], bot:'bot-point'},
+    ]
+  },
+];
+
+function renderCard(c, slide, idx, total){
+  const dotsHtml = Array.from({length:total},(_,i)=>`<span class="${i===idx?'on':''}"></span>`).join('');
+  const pageNum = String(idx+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  let body = '';
+
+  if(slide.kind === 'hero'){
+    body = `
+      <div class="tag-row">
+        <span class="handle-top">${HANDLE}</span>
+        <span>${pageNum}</span>
+      </div>
+      <div class="section-tag">${slide.tag||''}</div>
+      <h1 class="headline">${slide.headline.map(l=>`<div>${l}</div>`).join('')}</h1>
+      <p class="subhead">${slide.sub}</p>
+      <div class="terminal-wrap">
+        ${slide.label?`<div class="terminal-label">${slide.label}</div>`:''}
+        <div class="terminal">
+          <div class="lights"><span></span><span></span><span></span></div>
+          ${slide.term.map(l=>`<div class="ln">${l}</div>`).join('')}
+        </div>
+        <svg class="mascot"><use href="#${slide.bot}"/></svg>
+      </div>`;
+  }
+  else if(slide.kind === 'trick'){
+    body = `
+      <div class="tag-row">
+        <span class="handle-top">${HANDLE}</span>
+        <span>${pageNum}</span>
+      </div>
+      <div class="section-tag big">TRICK <span class="num">${slide.n}</span></div>
+      <h1 class="headline sm">${slide.headline.map(l=>`<div>${l}</div>`).join('')}</h1>
+      <p class="subhead">${slide.sub}</p>
+      <div class="terminal-wrap">
+        ${slide.label?`<div class="terminal-label">${slide.label}</div>`:''}
+        <div class="terminal">
+          <div class="lights"><span></span><span></span><span></span></div>
+          ${slide.term.map(l=>`<div class="ln">${l}</div>`).join('')}
+        </div>
+        <svg class="mascot"><use href="#${slide.bot}"/></svg>
+      </div>`;
+  }
+  else if(slide.kind === 'cta'){
+    body = `
+      <div class="tag-row">
+        <span class="handle-top">${HANDLE}</span>
+        <span>${pageNum}</span>
+      </div>
+      <div class="section-tag">${slide.tag||''}</div>
+      <h1 class="headline sm">${slide.headline.map(l=>`<div>${l}</div>`).join('')}</h1>
+      <p class="subhead">${slide.sub}</p>
+      <div class="cta-stack">
+        ${slide.ctas.map((x,i)=>`<div class="cta-pill ${i===slide.ctas.length-1?'alt':''}"><span class="k">${x.k}</span> <span>${x.v}</span></div>`).join('')}
+      </div>
+      <svg class="mascot lg" style="position:absolute;right:64px;bottom:120px;width:170px"><use href="#${slide.bot}"/></svg>`;
+  }
+
+  const isLast = idx === total-1;
+  const swipe = !isLast ? `<div class="swipe">SWIPE <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>` : '';
+
+  return `
+    <div class="card-wrap">
+      <span class="num">${idx+1}/${total}</span>
+      <button class="dl" data-card-id="${c.id}-${idx}">↓ PNG</button>
+      <div class="card" id="card-${c.id}-${idx}">
+        <div class="card-inner">${body}</div>
+        <div class="dots">${dotsHtml}</div>
+        ${swipe}
+        <div class="bottom" style="position:absolute;left:64px;right:64px;bottom:48px">
+          <div class="handle">
+            <img src="${AVATARS[c.id]}" class="avatar" crossorigin="anonymous">
+            <span>${HANDLE.replace('@','')}</span>
+            <span class="verified">✓</span>
+          </div>
+          <span></span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function render(){
+  const tabs = document.getElementById('tabs');
+  const root = document.getElementById('root');
+  tabs.innerHTML = carousels.map((c,i)=>`<button class="tab ${i===0?'active':''}" data-tab="${c.id}"><span class="num">0${i+1}</span>${c.tab}</button>`).join('');
+  root.innerHTML = carousels.map((c,i)=>`
+    <div class="carousel ${i===0?'active':''}" id="carousel-${c.id}">
+      <div class="carousel-head">
+        <div>
+          <h2>${c.title}</h2>
+          <div class="meta">${c.meta}</div>
+        </div>
+        <button class="btn-all" data-all="${c.id}">↓ Download all 6 PNGs</button>
+      </div>
+      <div class="cards">
+        ${c.slides.map((s,si)=>renderCard(c,s,si,c.slides.length)).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  // tab clicks
+  tabs.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      tabs.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('.carousel').forEach(x=>x.classList.remove('active'));
+      document.getElementById('carousel-'+t.dataset.tab).classList.add('active');
+    });
+  });
+
+  // single download
+  document.querySelectorAll('.dl').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const id = btn.dataset.cardId;
+      await downloadCard(id);
+    });
+  });
+
+  // download all in carousel
+  document.querySelectorAll('.btn-all').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const cid = btn.dataset.all;
+      btn.disabled = true; btn.textContent = 'rendering...';
+      const c = carousels.find(x=>x.id===cid);
+      for(let i=0;i<c.slides.length;i++){
+        await downloadCard(`${cid}-${i}`);
+        await new Promise(r=>setTimeout(r,300));
+      }
+      btn.disabled = false; btn.textContent = '↓ Download all 6 PNGs';
+    });
+  });
+}
+
+async function downloadCard(id){
+  const el = document.getElementById('card-'+id);
+  // temporarily un-scale for capture
+  const original = el.style.transform;
+  el.style.transform = 'none';
+  el.style.position = 'absolute';
+  el.style.left = '-99999px';
+  document.body.appendChild(el);
+  try{
+    const canvas = await html2canvas(el, {
+      width:1080, height:1350, scale:1,
+      backgroundColor:'#F2EBE0',
+      useCORS:true, allowTaint:true,
+    });
+    const link = document.createElement('a');
+    link.download = `waseem-carousel-${id}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } finally {
+    el.style.transform = original;
+    el.style.position = '';
+    el.style.left = '';
+    // put back into card-wrap
+    document.getElementById('card-'+id+'-wrap-anchor');
+  }
+}
+// simpler: render uses fixed positions — to safely re-host, wrap original anchor
+// simpler path: don't move element, just render and let html2canvas use the scaled origin inversed via canvas scale
+// → switching to a non-detach approach below
+async function downloadCardSafe(id){
+  const el = document.getElementById('card-'+id);
+  const canvas = await html2canvas(el, {
+    width:1080, height:1350, scale:1,
+    backgroundColor:'#F2EBE0',
+    useCORS:true, allowTaint:true,
+    onclone:(doc)=>{
+      const c = doc.getElementById('card-'+id);
+      if(c){ c.style.transform='none'; }
+    }
+  });
+  const link = document.createElement('a');
+  link.download = `waseem-carousel-${id}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+// override
+downloadCard = downloadCardSafe;
+
+render();
+</script>
+
+</body>
+</html>

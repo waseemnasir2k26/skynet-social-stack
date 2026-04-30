@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+.env
+.env.local
+*.log
+
+# personal photos — never commit, rotation log is private
+_avatars/
+**/_avatars/
+
+# generated outputs (each user's own)
+outputs/
+**/outputs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Node (if any future template uses it)
+node_modules/
+package-lock.json
