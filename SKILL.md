@@ -1,6 +1,6 @@
 ---
 name: social-stack
-version: 1.0.0
+version: 1.1.0
 description: |
   Build, render, and schedule social-media post packs end-to-end across LinkedIn,
   Instagram, Facebook, X/Twitter, Pinterest, YouTube. Picks the right template
@@ -149,6 +149,9 @@ outputs/<slug>-<YYYY-MM-DD>/
 - `recipes/x-pack-mwf-drip.md` — 12-tweet pack, MWF over 3 weeks
 - `recipes/pin-batch.md` — 30 pins, +14d shift
 - `recipes/cross-platform-pack.md` — same content × 4 CSVs (LI/FB/IG/Pin)
+- `recipes/post-mortem.md` — engagement retro after every batch (top 5 / bottom 5 / pattern extraction)
+- `recipes/repurpose-chain.md` — 1 topic → 9 derivatives across LI/IG/FB/X/Pin/Newsletter
+- `recipes/competitor-sweep.md` — 15-min Sunday peer sweep, pattern-match weekly
 
 ---
 

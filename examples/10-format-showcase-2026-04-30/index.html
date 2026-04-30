@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waseem — 10-Format Social Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Caveat:wght@500;700&family=DM+Serif+Display&family=Fraunces:ital,wght@0,300;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0B0A09;color:#E8DFCF;font-family:'Inter',sans-serif}
+body{padding:32px 20px 80px}
+.page-head{max-width:1280px;margin:0 auto 16px}
+.page-head h1{font-family:'Archivo Black';font-size:36px;letter-spacing:-1px}
+.page-head p{color:#8C8479;font-size:13px;margin-top:6px;line-height:1.5;max-width:840px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;max-width:1280px;margin:24px auto 28px;padding:12px;background:#161412;border:1px solid #2A2520;border-radius:10px}
+.tab{padding:9px 14px;background:#1F1B17;color:#C4B79E;border:1px solid #2A2520;border-radius:5px;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;display:flex;flex-direction:column;align-items:flex-start;line-height:1.2}
+.tab .num{font-size:9px;opacity:.6;margin-bottom:2px}
+.tab.active{background:#C4502E;color:#fff;border-color:#C4502E}
+.tab:hover:not(.active){background:#2A2520}
+.section{display:none;max-width:1280px;margin:0 auto}
+.section.active{display:block}
+.sec-head{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;margin-bottom:20px;padding:18px 24px;background:#161412;border:1px solid #2A2520;border-radius:8px}
+.sec-head h2{font-family:'Archivo Black';font-size:22px;color:#fff;letter-spacing:0.5px;margin-bottom:6px}
+.sec-head .meta{color:#8C8479;font-size:12px;font-family:'JetBrains Mono';line-height:1.6}
+.sec-head .meta b{color:#C4B79E}
+.dl-btn{padding:12px 20px;background:#C4502E;color:#fff;border:0;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px;letter-spacing:0.6px;text-transform:uppercase;white-space:nowrap}
+.dl-btn:hover{background:#A23A1F}
+.body-grid{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start}
+@media (max-width:1100px){.body-grid{grid-template-columns:1fr}}
+.preview{position:relative}
+.preview .poster{transform-origin:top left;background:#fff;overflow:hidden;position:relative}
+.copy-block{background:#161412;border:1px solid #2A2520;border-radius:10px;padding:24px;font-family:'JetBrains Mono';font-size:13px;line-height:1.7;color:#E8DFCF}
+.copy-block h3{font-family:'Archivo Black';font-size:15px;color:#C4502E;margin-bottom:12px;letter-spacing:0.5px;text-transform:uppercase}
+.copy-block .caption{background:#0F0E0C;border:1px solid #2A2520;border-radius:6px;padding:16px;margin-bottom:16px;white-space:pre-wrap;color:#C4B79E}
+.copy-block ul{padding-left:18px;color:#8C8479}
+.copy-block ul li{margin-bottom:4px}
+.tag{display:inline-block;padding:3px 8px;background:#2A2520;color:#C4B79E;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-right:6px;margin-bottom:6px}
+
+/* ==================== POSTER STYLES ==================== */
+
+/* 1. CAROUSEL — Cream + Rust Circuit */
+.poster-carousel{width:1080px;height:1350px;background:#F2EBE0;color:#1F1B17}
+.poster-carousel::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g stroke='%23A89E8C' stroke-width='0.6' fill='none' opacity='0.55'><path d='M0 40 L60 40 L60 0'/><path d='M100 0 L100 80 L170 80 L170 220'/><path d='M0 120 L80 120 L80 160 L150 160'/><path d='M180 0 L180 30 L220 30'/></g><g fill='%23A89E8C' opacity='0.6'><circle cx='60' cy='40' r='2'/><circle cx='170' cy='80' r='2'/><circle cx='150' cy='160' r='2'/></g></svg>");background-size:340px;opacity:.4}
+.poster-carousel .inner{position:relative;z-index:2;padding:64px 72px;height:100%;display:flex;flex-direction:column;font-family:'Inter'}
+.poster-carousel .top{display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:18px;font-weight:700;color:#3A332C;letter-spacing:1.5px}
+.poster-carousel .tag{font-family:'JetBrains Mono';font-size:18px;color:#C4502E;letter-spacing:3px;font-weight:700;margin-top:60px}
+.poster-carousel h1{font-family:'Archivo Black';font-size:104px;line-height:0.92;letter-spacing:-2.5px;margin-top:28px;text-transform:uppercase}
+.poster-carousel h1 .accent{color:#C4502E}
+.poster-carousel .sub{font-weight:700;font-size:22px;line-height:1.45;color:#3A332C;margin-top:36px;text-transform:uppercase}
+.poster-carousel .term{margin-top:auto;background:#1A1614;border-radius:18px;padding:32px 40px;font-family:'JetBrains Mono';font-size:22px;line-height:1.65;color:#E8DFCF}
+.poster-carousel .term .lights{display:flex;gap:9px;margin-bottom:20px}
+.poster-carousel .term .lights span{width:14px;height:14px;border-radius:50%}
+.poster-carousel .term .lights span:nth-child(1){background:#FF5F56}
+.poster-carousel .term .lights span:nth-child(2){background:#FFBD2E}
+.poster-carousel .term .lights span:nth-child(3){background:#27C93F}
+.poster-carousel .term .ok{color:#27C93F;font-weight:700}
+.poster-carousel .term .bad{color:#FF5F56;font-weight:700}
+.poster-carousel .term .pr{color:#C4502E;font-weight:700}
+.poster-carousel .bottom{margin-top:32px;display:flex;justify-content:space-between;align-items:center}
+.poster-carousel .handle{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono';font-size:20px;font-weight:700}
+.poster-carousel .handle img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid #F2EBE0;box-shadow:0 0 0 1px #C4B79E}
+
+/* 2. LINKEDIN SINGLE — Dark + Gold Editorial */
+.poster-li{width:1080px;height:1350px;background:#0A0908;color:#E6DCC2;font-family:'Fraunces',serif;position:relative;overflow:hidden}
+.poster-li::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at top,rgba(201,161,74,0.12),transparent 60%)}
+.poster-li .inner{position:relative;z-index:3;padding:80px 72px;height:100%;display:flex;flex-direction:column}
+.poster-li .pre{font-family:'Inter';font-size:14px;letter-spacing:6px;color:#C9A14A;text-transform:uppercase;font-weight:700}
+.poster-li h1{font-family:'Fraunces';font-style:italic;font-weight:300;font-size:96px;line-height:1.0;letter-spacing:-2px;margin-top:28px;color:#F4ECDA}
+.poster-li h1 .gold{color:#C9A14A;font-style:italic;font-weight:700}
+.poster-li .quote-mark{font-family:'Fraunces';font-size:200px;line-height:0.5;color:#C9A14A;margin-top:40px;opacity:0.3}
+.poster-li .body{font-family:'Inter';font-weight:300;font-size:24px;line-height:1.5;margin-top:40px;color:#C8BFA8}
+.poster-li .body em{font-family:'Fraunces';font-style:italic;color:#C9A14A;font-weight:700}
+.poster-li .photo-frame{position:absolute;right:72px;bottom:160px;width:280px;height:340px;border:2px solid #C9A14A;padding:14px;background:#0A0908}
+.poster-li .photo-frame img{width:100%;height:100%;object-fit:cover;filter:sepia(.3) brightness(.9)}
+.poster-li .photo-frame .label{position:absolute;bottom:-32px;left:0;font-family:'Fraunces';font-style:italic;font-size:14px;color:#C9A14A}
+.poster-li .footer{margin-top:auto;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #C9A14A33;padding-top:24px}
+.poster-li .footer .h{font-family:'Inter';font-weight:600;font-size:16px;letter-spacing:1px;color:#E6DCC2}
+.poster-li .footer .h span{color:#C9A14A;font-style:italic;font-family:'Fraunces'}
+.poster-li .footer .pg{font-family:'Inter';font-size:13px;color:#C9A14A;letter-spacing:3px}
+
+/* 3. FACEBOOK — Tabloid Breaking-News */
+.poster-fb{width:1080px;height:1350px;background:#FFFFFF;color:#0A0A0A;font-family:'Inter';position:relative}
+.poster-fb .breaking{background:#E63946;color:#fff;padding:18px 32px;display:flex;align-items:center;gap:16px;font-family:'Anton',sans-serif;font-size:36px;letter-spacing:3px;text-transform:uppercase}
+.poster-fb .breaking::before{content:"●";color:#fff;animation:none;font-size:24px}
+.poster-fb .breaking .right{margin-left:auto;font-family:'Inter';font-size:14px;letter-spacing:2px;font-weight:600;background:rgba(0,0,0,0.2);padding:6px 14px;border-radius:3px}
+.poster-fb .lead{padding:48px 56px 24px;border-bottom:6px solid #0A0A0A}
+.poster-fb .kicker{font-family:'Inter';font-size:16px;font-weight:700;color:#E63946;letter-spacing:3px;text-transform:uppercase}
+.poster-fb h1{font-family:'Anton',sans-serif;font-size:108px;line-height:0.95;letter-spacing:-1px;margin-top:18px;text-transform:uppercase;color:#0A0A0A}
+.poster-fb h1 .red{color:#E63946}
+.poster-fb .stand{font-family:'Inter';font-size:22px;font-weight:500;line-height:1.4;margin-top:24px;color:#333}
+.poster-fb .photo-area{flex:1;position:relative;background:#000}
+.poster-fb .photo-area img{width:100%;height:100%;object-fit:cover}
+.poster-fb .photo-cap{position:absolute;bottom:0;left:0;right:0;padding:24px 32px;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);color:#fff;font-family:'Inter';font-size:16px;font-weight:600}
+.poster-fb .footer{padding:18px 32px;background:#0A0A0A;color:#fff;display:flex;justify-content:space-between;align-items:center;font-family:'Inter';font-size:14px;font-weight:600;letter-spacing:1px}
+.poster-fb .footer .src{color:#E63946}
+.poster-fb-frame{display:flex;flex-direction:column;height:100%}
+
+/* 4. X / TWITTER — Terminal Hacker */
+.poster-x{width:1200px;height:675px;background:#0F0F0F;color:#00FF66;font-family:'IBM Plex Mono',monospace;padding:40px 56px;position:relative}
+.poster-x::before{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,rgba(0,255,102,0.03) 0,rgba(0,255,102,0.03) 1px,transparent 1px,transparent 4px);pointer-events:none}
+.poster-x .frame{position:relative;z-index:2;border:1px solid #00FF66;padding:32px 40px;height:100%;display:flex;flex-direction:column}
+.poster-x .top{font-size:14px;color:#00FF66;letter-spacing:2px;display:flex;justify-content:space-between;border-bottom:1px solid #00FF6644;padding-bottom:12px}
+.poster-x .top .blink{color:#00FF66}
+.poster-x .body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:24px 0}
+.poster-x .ln{font-size:22px;line-height:1.5;letter-spacing:0.5px}
+.poster-x .ln .pr{color:#FF6600}
+.poster-x .ln .com{color:#444}
+.poster-x .ln .em{color:#fff;font-weight:700}
+.poster-x .h1{font-family:'IBM Plex Mono';font-weight:700;font-size:44px;color:#fff;line-height:1.15;margin:14px 0;letter-spacing:-0.5px}
+.poster-x .h1 .gr{color:#00FF66}
+.poster-x .ascii{font-size:10px;color:#00FF6688;line-height:1;white-space:pre;margin:8px 0}
+.poster-x .footer{font-size:12px;color:#00FF66AA;letter-spacing:1.5px;border-top:1px solid #00FF6644;padding-top:12px;display:flex;justify-content:space-between}
+
+/* 5. PINTEREST — Editorial Magazine */
+.poster-pin{width:1000px;height:1500px;background:#F5E0DC;color:#3E2723;font-family:'Inter';position:relative;overflow:hidden}
+.poster-pin .photo-block{height:780px;position:relative;overflow:hidden}
+.poster-pin .photo-block img{width:100%;height:100%;object-fit:cover;filter:saturate(0.85) contrast(1.05)}
+.poster-pin .photo-block .corner{position:absolute;top:32px;left:32px;background:#3E2723;color:#F5E0DC;font-family:'DM Serif Display',serif;font-size:22px;letter-spacing:3px;padding:10px 22px;text-transform:uppercase}
+.poster-pin .photo-block .vol{position:absolute;top:32px;right:32px;background:#F5E0DC;color:#3E2723;font-family:'Inter';font-size:14px;font-weight:700;letter-spacing:3px;padding:10px 22px;text-transform:uppercase}
+.poster-pin .text-block{padding:64px 64px 48px}
+.poster-pin .kicker{font-family:'Inter';font-size:14px;font-weight:600;color:#A0522D;letter-spacing:6px;text-transform:uppercase}
+.poster-pin h1{font-family:'Playfair Display',serif;font-style:italic;font-weight:900;font-size:84px;line-height:1.0;margin-top:20px;color:#3E2723;letter-spacing:-1px}
+.poster-pin h1 .amp{font-family:'Playfair Display';font-weight:400;color:#A0522D}
+.poster-pin .body{font-family:'Inter';font-weight:400;font-size:22px;line-height:1.55;margin-top:28px;color:#5D4037}
+.poster-pin .save{position:absolute;bottom:48px;right:48px;background:#3E2723;color:#F5E0DC;font-family:'Inter';font-size:14px;font-weight:700;letter-spacing:3px;padding:14px 26px;text-transform:uppercase;border-radius:50px}
+
+/* 6. QUOTE CARD — Brutalist Memphis */
+.poster-quote{width:1080px;height:1080px;background:#FFE600;color:#000;font-family:'Space Grotesk',sans-serif;position:relative;overflow:hidden;border:14px solid #000}
+.poster-quote .geo1{position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:#FF3B30;border:8px solid #000;border-radius:50%}
+.poster-quote .geo2{position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;background:#0066FF;border:8px solid #000;transform:rotate(15deg)}
+.poster-quote .geo3{position:absolute;top:50%;right:60px;width:80px;height:80px;background:#000;transform:rotate(45deg)}
+.poster-quote .stripes{position:absolute;top:80px;left:80px;width:120px;height:24px;background:repeating-linear-gradient(90deg,#000 0,#000 12px,transparent 12px,transparent 24px)}
+.poster-quote .inner{position:relative;z-index:5;padding:90px;height:100%;display:flex;flex-direction:column;justify-content:center}
+.poster-quote .label{font-family:'Space Grotesk';font-weight:700;font-size:14px;letter-spacing:6px;text-transform:uppercase;background:#000;color:#FFE600;padding:8px 16px;display:inline-block;width:fit-content;margin-bottom:36px}
+.poster-quote h1{font-family:'Space Grotesk';font-weight:700;font-size:96px;line-height:0.95;letter-spacing:-3px;color:#000}
+.poster-quote h1 .strike{text-decoration:line-through;text-decoration-thickness:8px;color:#FF3B30}
+.poster-quote h1 .box{background:#000;color:#FFE600;padding:0 12px}
+.poster-quote .attr{font-family:'Space Grotesk';font-weight:700;font-size:18px;letter-spacing:3px;margin-top:48px;text-transform:uppercase;display:flex;align-items:center;gap:16px}
+.poster-quote .attr img{width:60px;height:60px;border-radius:50%;border:4px solid #000;object-fit:cover}
+.poster-quote .corner-h{position:absolute;top:32px;right:48px;font-family:'Space Grotesk';font-weight:700;font-size:14px;letter-spacing:3px;background:#000;color:#FFE600;padding:8px 16px;z-index:6}
+
+/* 7. REEL SCRIPT — Cinematic Storyboard */
+.poster-reel{width:1080px;height:1920px;background:#0A0A0F;color:#fff;font-family:'IBM Plex Mono',monospace;padding:48px;position:relative;overflow:hidden}
+.poster-reel::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 10%,rgba(255,107,107,0.1),transparent 40%),radial-gradient(circle at 80% 90%,rgba(0,200,255,0.1),transparent 40%)}
+.poster-reel .grain{position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence baseFrequency='0.9' /></filter><rect width='100' height='100' filter='url(%23n)' opacity='0.06'/></svg>");pointer-events:none}
+.poster-reel .inner{position:relative;z-index:3}
+.poster-reel .head{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FF6B6B;padding-bottom:18px}
+.poster-reel .head .l{font-family:'Bebas Neue';font-size:36px;letter-spacing:6px;color:#FF6B6B}
+.poster-reel .head .r{font-family:'IBM Plex Mono';font-size:14px;color:#888;letter-spacing:2px}
+.poster-reel h1{font-family:'Bebas Neue';font-size:108px;line-height:0.95;letter-spacing:2px;margin-top:24px;color:#fff}
+.poster-reel h1 .pink{color:#FF6B6B}
+.poster-reel .frames{display:grid;grid-template-columns:1fr;gap:24px;margin-top:48px}
+.poster-reel .frame{display:grid;grid-template-columns:120px 1fr;gap:24px;background:rgba(255,255,255,0.04);border-left:4px solid #FF6B6B;padding:20px 24px;border-radius:8px}
+.poster-reel .frame .ts{font-family:'Bebas Neue';font-size:48px;color:#FF6B6B;letter-spacing:2px;line-height:1}
+.poster-reel .frame .ts small{display:block;font-size:14px;color:#888;letter-spacing:2px;margin-top:6px;font-family:'IBM Plex Mono'}
+.poster-reel .frame h3{font-family:'IBM Plex Mono';font-weight:700;font-size:20px;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.poster-reel .frame .script{font-family:'IBM Plex Mono';font-size:16px;line-height:1.5;color:#C8C8C8}
+.poster-reel .frame .vis{font-family:'IBM Plex Mono';font-size:13px;color:#00C8FF;margin-top:8px;letter-spacing:0.5px}
+.poster-reel .footer{position:absolute;bottom:48px;left:48px;right:48px;display:flex;justify-content:space-between;align-items:center;border-top:2px solid rgba(255,255,255,0.1);padding-top:18px;font-family:'IBM Plex Mono';font-size:14px;color:#888;letter-spacing:2px}
+.poster-reel .footer .h{display:flex;align-items:center;gap:12px}
+.poster-reel .footer .h img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+
+/* 8. STORY — Sunset Gradient Gen-Z */
+.poster-story{width:1080px;height:1920px;background:linear-gradient(160deg,#FFB084 0%,#FF6B6B 35%,#FF3578 70%,#A040F0 100%);color:#fff;font-family:'Inter';position:relative;overflow:hidden;padding:80px 60px}
+.poster-story::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%,rgba(255,255,255,0.2),transparent 30%),radial-gradient(circle at 80% 70%,rgba(255,200,150,0.3),transparent 35%);pointer-events:none}
+.poster-story .top{display:flex;justify-content:space-between;align-items:center;font-family:'Inter';font-size:18px;font-weight:600;letter-spacing:1px}
+.poster-story .top .pill{background:rgba(0,0,0,0.25);padding:8px 18px;border-radius:50px;backdrop-filter:blur(10px)}
+.poster-story .sticker{position:absolute;font-family:'Caveat';font-weight:700;background:#FFE600;color:#000;padding:12px 22px;border-radius:8px;transform:rotate(-8deg);box-shadow:6px 6px 0 rgba(0,0,0,0.3);font-size:36px;z-index:5}
+.poster-story .sticker.s1{top:160px;right:60px;transform:rotate(8deg)}
+.poster-story .sticker.s2{top:1100px;left:60px;background:#00FF99;color:#000;font-size:32px}
+.poster-story .polaroid{margin:120px auto 0;width:680px;background:#fff;padding:24px 24px 80px;transform:rotate(-3deg);box-shadow:0 30px 80px rgba(0,0,0,0.3)}
+.poster-story .polaroid img{width:100%;height:680px;object-fit:cover}
+.poster-story .polaroid .cap{font-family:'Caveat';font-weight:700;font-size:48px;color:#000;text-align:center;margin-top:18px;line-height:1}
+.poster-story h1{font-family:'Inter';font-weight:800;font-size:96px;line-height:0.95;letter-spacing:-3px;text-align:center;margin-top:80px;text-shadow:0 4px 20px rgba(0,0,0,0.2)}
+.poster-story h1 em{font-family:'Caveat';font-weight:700;font-style:normal;color:#FFE600}
+.poster-story .swipe{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);text-align:center;font-family:'Inter';font-size:24px;font-weight:600;letter-spacing:4px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
+.poster-story .swipe::after{content:"⌃";font-size:48px;animation:bounce 1.5s infinite}
+.poster-story .handle{position:absolute;top:80px;left:60px;display:flex;align-items:center;gap:12px}
+.poster-story .handle img{width:50px;height:50px;border-radius:50%;border:3px solid #fff;object-fit:cover}
+.poster-story .handle .h{font-family:'Inter';font-size:18px;font-weight:600}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* 9. LINKEDIN TEXT-ONLY — Native Feed Style */
+.poster-litext{width:1080px;height:1350px;background:#F3F2EF;color:#000;font-family:'Inter';padding:24px;position:relative}
+.poster-litext .card{background:#fff;border:1px solid #E0DFDC;border-radius:8px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.poster-litext .post-head{display:flex;align-items:center;gap:12px;padding:24px}
+.poster-litext .post-head img{width:64px;height:64px;border-radius:50%;object-fit:cover}
+.poster-litext .post-head .name{font-weight:700;font-size:20px;color:#000}
+.poster-litext .post-head .name span{color:#0A66C2;font-size:14px;margin-left:4px}
+.poster-litext .post-head .title{font-size:14px;color:#666;margin-top:2px}
+.poster-litext .post-head .meta{font-size:12px;color:#666;margin-top:4px;display:flex;align-items:center;gap:6px}
+.poster-litext .post-head .meta::before{content:"🌐";font-size:11px}
+.poster-litext .post-body{padding:0 24px 24px;font-family:'Inter';font-size:22px;line-height:1.45;color:#000;font-weight:400;flex:1}
+.poster-litext .post-body .hook{font-weight:600;font-size:24px}
+.poster-litext .post-body .hash{color:#0A66C2;font-weight:600}
+.poster-litext .post-body p{margin-bottom:20px}
+.poster-litext .react{padding:16px 24px;border-top:1px solid #E0DFDC;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#666}
+.poster-litext .react .icons{display:flex;gap:4px;align-items:center}
+.poster-litext .react .icons span{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:#fff;border:2px solid #fff;margin-left:-6px}
+.poster-litext .react .icons span:nth-child(1){background:#0A66C2;margin-left:0}
+.poster-litext .react .icons span:nth-child(2){background:#7FC15E}
+.poster-litext .react .icons span:nth-child(3){background:#DF704D}
+.poster-litext .actions{display:flex;justify-content:space-around;border-top:1px solid #E0DFDC;padding:8px 0}
+.poster-litext .actions .btn{padding:14px 18px;font-size:15px;font-weight:600;color:#666;display:flex;align-items:center;gap:8px}
+
+/* 10. NEWSLETTER — Swiss Minimal */
+.poster-news{width:1080px;height:1350px;background:#FAFAFA;color:#0A0A0A;font-family:'Inter';padding:0;position:relative;overflow:hidden}
+.poster-news::before{content:"";position:absolute;inset:0;background-image:linear-gradient(to right,rgba(0,0,0,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,0.03) 1px,transparent 1px);background-size:90px 90px;pointer-events:none}
+.poster-news .inner{position:relative;z-index:2;padding:80px 80px 60px;height:100%;display:flex;flex-direction:column}
+.poster-news .top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #0A0A0A;padding-bottom:24px}
+.poster-news .brand{font-family:'Inter';font-weight:700;font-size:18px;letter-spacing:1px;text-transform:uppercase;color:#0A0A0A}
+.poster-news .issue{font-family:'Inter';font-weight:300;font-size:96px;letter-spacing:-3px;line-height:1;color:#0A0A0A}
+.poster-news .issue small{font-size:14px;letter-spacing:3px;font-weight:600;display:block;text-transform:uppercase;color:#666;margin-bottom:8px}
+.poster-news .meta{font-family:'Inter';font-size:13px;font-weight:600;letter-spacing:2px;color:#666;text-transform:uppercase;margin-top:8px}
+.poster-news .body{flex:1;display:grid;grid-template-columns:1fr 380px;gap:48px;margin-top:64px;align-items:start}
+.poster-news .body h1{font-family:'Inter';font-weight:800;font-size:80px;line-height:0.95;letter-spacing:-2.5px;color:#0A0A0A}
+.poster-news .body h1 em{font-family:'Inter';font-weight:300;font-style:italic}
+.poster-news .body .stand{font-family:'Inter';font-size:20px;line-height:1.5;color:#444;margin-top:32px;max-width:540px}
+.poster-news .body .photo{position:relative}
+.poster-news .body .photo img{width:100%;height:480px;object-fit:cover;display:block;filter:grayscale(0.3) contrast(1.05)}
+.poster-news .body .photo .caption{font-family:'Inter';font-size:11px;letter-spacing:2px;font-weight:600;color:#666;margin-top:8px;text-transform:uppercase}
+.poster-news .footer{margin-top:auto;border-top:1px solid #0A0A0A;padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-family:'Inter';font-size:13px;font-weight:600;color:#666;letter-spacing:2px;text-transform:uppercase}
+.poster-news .footer .read{background:#0A0A0A;color:#FAFAFA;padding:14px 24px;letter-spacing:3px;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <h1>Waseem — 10-Format Social Showcase</h1>
+  <p>Ten distinct platform formats. Ten distinct visual styles. Built 2026-04-30. Tab through, click <code style="background:#1F1B17;padding:2px 6px;border-radius:3px;color:#C4B79E;font-family:JetBrains Mono;font-size:12px">↓ PNG</code> to download. Photo rotation: 10 portraits picked from log. Source captions humanizer-passed. <b style="color:#C4502E">Each format = different aesthetic on purpose</b> — feed variety beats template clones (algo penalty).</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div id="root"></div>
+
+<script>
+const FORMATS = [
+  {
+    id:'carousel', tab:'Carousel · LI/IG', no:'01', dim:'1080×1350',
+    title:'CAROUSEL — Cream + Rust Circuit',
+    aesthetic:'Editorial cream, rust accent, Archivo Black 104px, JetBrains Mono terminal block, circuit-pattern bg, robot mascot.',
+    fonts:'Archivo Black · JetBrains Mono · Inter',
+    palette:'#F2EBE0 cream · #C4502E rust · #1F1B17 ink',
+    when:'Multi-slide tip pack. 5–6 slides. LI/IG primary. Save-bait.',
+    avatar:'_avatars/IMG_2742.jpg', handle:'@waseemnasir2k26',
+    caption:`Stop hitting Claude Code limits.\n\n5 free tricks. Zero plan upgrades. Same Claude Code.\n\nSwipe →\n\n#ClaudeCode #AI #Vibecoding`,
+  },
+  {
+    id:'li', tab:'LinkedIn · Single', no:'02', dim:'1080×1350',
+    title:'LINKEDIN SINGLE — Dark + Gold Editorial',
+    aesthetic:'Luxury legacy. Fraunces serif italic, gold accents on near-black. Photo framed bottom-right. Vow Sanctuary energy.',
+    fonts:'Fraunces · Inter',
+    palette:'#0A0908 ink · #C9A14A gold · #E6DCC2 cream',
+    when:'High-stakes value posts. Founders. Quote-led. Clinic / agency / luxury vertical.',
+    avatar:'_avatars/IMG_2745.jpg', handle:'Waseem Nasir',
+    caption:`Most agencies sell hours.\n\nI sell systems that compound.\n\nA built workflow runs while I sleep. An hour billed runs once.\n\nThat's the whole game.\n\n— from a year of solo agency notes\n\n#SkynetLabs #AgencyLife #AIAutomation`,
+  },
+  {
+    id:'fb', tab:'Facebook · News', no:'03', dim:'1080×1350',
+    title:'FACEBOOK NEWS — Tabloid Breaking-News',
+    aesthetic:'Anton condensed sans, red-bar BREAKING tag, photo-led mid-frame, dark footer with source line.',
+    fonts:'Anton · Inter',
+    palette:'#FFFFFF · #E63946 red · #0A0A0A ink',
+    when:'Personal FB news commentary. Real news ≤48h. Conversational caption.',
+    avatar:'_avatars/IMG_2747.jpg',
+    caption:`Wait — Anthropic just shipped Claude Opus 4.7 with 1M context.\n\nFor builders this is huge. Whole monorepos in one prompt. No more "let me find that file" dance.\n\nBeen testing it for the last 48h on a client repo. Honest take in comments 👇\n\nWhat's the first thing you'd throw at a 1M context window?`,
+  },
+  {
+    id:'x', tab:'X · Image Tweet', no:'04', dim:'1200×675',
+    title:'X — Terminal Hacker',
+    aesthetic:'IBM Plex Mono. Green-on-black terminal. ASCII frame. Code-block aesthetic. Dev/builder audience.',
+    fonts:'IBM Plex Mono',
+    palette:'#0F0F0F · #00FF66 green · #FF6600 orange',
+    when:'Builder Twitter. Tech POV. Screenshot-friendly. Pairs w/ thread.',
+    avatar:null, handle:'@waseemnasir2k26',
+    caption:`shipped my first claude-code skill: \`social-stack\`\n\nbuilds cross-platform post packs end-to-end\n→ HTML preview\n→ PNG export (html2canvas)\n→ GHL CSV (canonical 6-col)\n→ ManyChat keyword wire\n\nopen-source: github.com/waseemnasir2k26/skynet-social-stack\n\n👇 thread on what i learned distilling 30+ shipped batches into one skill`,
+  },
+  {
+    id:'pin', tab:'Pinterest · Pin', no:'05', dim:'1000×1500',
+    title:'PINTEREST — Editorial Magazine',
+    aesthetic:'Soft cream-pink, Playfair italic display 84px, photo top-half, Aesop / Goop / Cup of Jo lifestyle vibe.',
+    fonts:'Playfair Display · DM Serif Display · Inter',
+    palette:'#F5E0DC blush · #3E2723 brown · #A0522D sienna',
+    when:'Pinterest. Search-led. Lifestyle / wellness / how-to. Long shelf life (months).',
+    avatar:'_avatars/IMG_2740.jpg',
+    caption:`The 1-Man Agency Stack — 4 tools, zero employees, 24 clients last quarter.\n\nNot a productivity hack. A delivery model.\n\nFull breakdown saved in profile → /guides/jarvis-stack`,
+  },
+  {
+    id:'quote', tab:'Quote · Square', no:'06', dim:'1080×1080',
+    title:'QUOTE CARD — Brutalist Memphis',
+    aesthetic:'Bold yellow, geometric shapes, thick black borders, Space Grotesk display, strikethrough drama. 80s Memphis revival.',
+    fonts:'Space Grotesk',
+    palette:'#FFE600 yellow · #FF3B30 red · #0066FF blue · #000 black',
+    when:'IG single post. Save-bait quote. Scroll-stopping in feed. High contrast = mobile-readable.',
+    avatar:'_avatars/IMG_2741.jpg',
+    caption:`Most people optimize for Google.\n\nGoogle is 2014.\n\nLLMs decide what your buyers see now. AEO is the new SEO. CiteLift launching to score every site against ChatGPT, Claude, Perplexity.\n\nWho's already seeing chat-search traffic in their analytics? 👇`,
+  },
+  {
+    id:'reel', tab:'Reel · Script', no:'07', dim:'1080×1920',
+    title:'REEL SCRIPT — Cinematic Storyboard',
+    aesthetic:'Storyboard-as-poster. Dark cinematic, kinetic typography, timestamped frames, director-board energy.',
+    fonts:'Bebas Neue · IBM Plex Mono',
+    palette:'#0A0A0F ink · #FF6B6B coral · #00C8FF cyan',
+    when:'Reel/Short script delivery. Pre-record planning doc. Save-as-PNG to send creator/editor.',
+    avatar:'_avatars/IMG_2748.jpg',
+    caption:`Reel script: "The 1-Man Agency Stack"\n\n30 sec. 4 cuts. One mic.\n\nFull script + frame-by-frame in image. Re-saving for next shoot. Bookmark if you script your reels.`,
+  },
+  {
+    id:'story', tab:'Story · IG/FB', no:'08', dim:'1080×1920',
+    title:'STORY — Sunset Gradient Gen-Z',
+    aesthetic:'Warm sunset gradient, polaroid photo tilt, Caveat handwritten captions, sticker-style emojis, casual mood-board energy.',
+    fonts:'Inter Black · Caveat',
+    palette:'gradient: #FFB084 → #FF6B6B → #FF3578 → #A040F0',
+    when:'IG/FB Stories. 24h ephemeral. Behind-the-scenes / mood / quick-win. Swipe-up CTA.',
+    avatar:'_avatars/IMG_2749.jpg', handle:'@waseemnasir2k26',
+    caption:`(Story copy — 24h ephemeral)\n\n"4 AM. Half the work shipped before sunrise."\n\nCaption sticker: night shift wins\nSwipe-up: link to today's drop`,
+  },
+  {
+    id:'litext', tab:'LI · Text Only', no:'09', dim:'1080×1350',
+    title:'LINKEDIN TEXT-ONLY — Native Feed Mockup',
+    aesthetic:'Renders as if it IS the LinkedIn post. White card, profile head, body-text dominant, reactions strip. No image.',
+    fonts:'Inter (LinkedIn system)',
+    palette:'#F3F2EF feed bg · #FFFFFF card · #0A66C2 LI blue',
+    when:'Text-only LI posts. Often outperforms image posts on engagement. Long-form storytelling.',
+    avatar:'_avatars/IMG_2743.jpg',
+    caption:`(This format IS the post — LinkedIn renders no image)\n\nThe full text shipped natively. ~1500 chars. Zero attachments.`,
+  },
+  {
+    id:'news', tab:'Newsletter', no:'10', dim:'1080×1350',
+    title:'NEWSLETTER — Swiss Minimal',
+    aesthetic:'Helvetica/Inter, big issue number, grid lines, two-column body, footer CTA. Stratechery / Substack premium.',
+    fonts:'Inter (Helvetica substitute)',
+    palette:'#FAFAFA off-white · #0A0A0A ink',
+    when:'Newsletter cover / repurpose target. Beehiiv / Substack hero. Drives email signup.',
+    avatar:'_avatars/IMG_2759.jpg',
+    caption:`Issue #007 — The 1-Man Agency Stack\n\nThis week: how I run 24 clients on 4 tools, zero employees, $5/mo VPS.\n\nFull issue → skynetjoe.com/newsletter`,
+  },
+];
+
+function poster(f){
+  switch(f.id){
+    case 'carousel': return `
+      <div class="poster poster-carousel" style="transform:scale(0.45)">
+        <div class="inner">
+          <div class="top"><span>${f.handle}</span><span>01 / 06</span></div>
+          <div class="tag">CLAUDE CODE</div>
+          <h1>STOP HITTING<br>CLAUDE CODE<br><span class="accent">USAGE LIMITS</span></h1>
+          <div class="sub">5 TRICKS THAT ACTUALLY WORK. YOU DON'T NEED A BIGGER PLAN, YOU NEED TO USE IT SMARTER.</div>
+          <div class="term">
+            <div class="lights"><span></span><span></span><span></span></div>
+            <div><span class="pr">$</span> claude --check-usage</div>
+            <div>→ usage limit reached</div>
+            <div><span class="bad">✗</span> burning tokens too fast</div>
+            <div><span class="ok">✓</span> 5 fixes incoming</div>
+            <div><span class="ok">✓</span> no upgrade needed</div>
+          </div>
+          <div class="bottom">
+            <div class="handle"><img src="${f.avatar}" crossorigin="anonymous"><span>waseemnasir2k26</span></div>
+          </div>
+        </div>
+      </div>`;
+    case 'li': return `
+      <div class="poster poster-li" style="transform:scale(0.45)">
+        <div class="inner">
+          <div class="pre">— ESSAY · 03 OF A SERIES</div>
+          <h1>Most agencies <span class="gold">sell hours.</span></h1>
+          <div class="quote-mark">"</div>
+          <div class="body">I sell <em>systems that compound.</em><br><br>A built workflow runs while I sleep.<br>An hour billed runs once.<br><br>That's the whole game.</div>
+          <div class="photo-frame">
+            <img src="${f.avatar}" crossorigin="anonymous">
+            <div class="label">Waseem Nasir, 2026</div>
+          </div>
+          <div class="footer">
+            <div class="h">SKYNET<span>labs</span></div>
+            <div class="pg">VOL · 03 / 12</div>
+          </div>
+        </div>
+      </div>`;
+    case 'fb': return `
+      <div class="poster poster-fb" style="transform:scale(0.45)">
+        <div class="poster-fb-frame">
+          <div class="breaking">BREAKING<span class="right">2026 · APR · 30</span></div>
+          <div class="lead">
+            <div class="kicker">AI · TECH · TODAY</div>
+            <h1>CLAUDE 4.7<br>HITS <span class="red">1M CONTEXT</span></h1>
+            <div class="stand">Anthropic ships entire-monorepo prompts. Builders losing hours of "find the file" dance. First takes from 48 hours of testing.</div>
+          </div>
+          <div class="photo-area">
+            <img src="${f.avatar}" crossorigin="anonymous">
+            <div class="photo-cap">Waseem Nasir, founder of SkynetLabs, testing the 1M-token window on a 200-file client codebase.</div>
+          </div>
+          <div class="footer">
+            <span class="src">SKYNETLABS · @waseemnasir2k26</span>
+            <span>READ THE TAKE →</span>
+          </div>
+        </div>
+      </div>`;
+    case 'x': return `
+      <div class="poster poster-x" style="transform:scale(0.55)">
+        <div class="frame">
+          <div class="top"><span>~/social-stack/v1.0.0</span><span class="blink">[ READY ]</span></div>
+          <div class="body">
+            <div class="ascii">┌─────────────────────────────────────┐
+│  shipped a new claude-code skill    │
+└─────────────────────────────────────┘</div>
+            <div class="h1">$ <span class="gr">social-stack</span> --build</div>
+            <div class="ln"><span class="pr">→</span> 5 templates</div>
+            <div class="ln"><span class="pr">→</span> 6 recipes</div>
+            <div class="ln"><span class="pr">→</span> GHL CSV builder</div>
+            <div class="ln"><span class="pr">→</span> ManyChat funnel wired</div>
+            <div class="ln" style="margin-top:14px"><span class="com"># open source · MIT</span></div>
+            <div class="ln"><span class="em">github.com/waseemnasir2k26/skynet-social-stack</span></div>
+          </div>
+          <div class="footer"><span>@waseemnasir2k26</span><span>2026.04.30</span></div>
+        </div>
+      </div>`;
+    case 'pin': return `
+      <div class="poster poster-pin" style="transform:scale(0.4)">
+        <div class="photo-block">
+          <img src="${f.avatar}" crossorigin="anonymous">
+          <div class="corner">SKYNET</div>
+          <div class="vol">VOL 04</div>
+        </div>
+        <div class="text-block">
+          <div class="kicker">— THE SOLO STUDIO ESSAYS</div>
+          <h1>The 1-Man<br>Agency <span class="amp">&</span><br>Its Stack</h1>
+          <div class="body">Four tools. Zero employees. 24 clients shipped last quarter. Not a productivity hack — a delivery model. Full breakdown in the guide, free.</div>
+        </div>
+        <div class="save">SAVE THE GUIDE →</div>
+      </div>`;
+    case 'quote': return `
+      <div class="poster poster-quote" style="transform:scale(0.55)">
+        <div class="geo1"></div>
+        <div class="geo2"></div>
+        <div class="geo3"></div>
+        <div class="stripes"></div>
+        <div class="corner-h">SKYNET · 2026</div>
+        <div class="inner">
+          <div class="label">★ HOT TAKE 04</div>
+          <h1><span class="strike">SEO</span><br>IS DEAD.<br><span class="box">AEO</span><br>IS NEXT.</h1>
+          <div class="attr"><img src="${f.avatar}" crossorigin="anonymous"> WASEEM NASIR · SKYNETLABS</div>
+        </div>
+      </div>`;
+    case 'reel': return `
+      <div class="poster poster-reel" style="transform:scale(0.32)">
+        <div class="grain"></div>
+        <div class="inner">
+          <div class="head">
+            <div class="l">REEL · 30s</div>
+            <div class="r">2026 · 04 · 30 · TAKE 01</div>
+          </div>
+          <h1>THE 1-MAN<br><span class="pink">AGENCY</span> STACK.</h1>
+          <div class="frames">
+            <div class="frame">
+              <div class="ts">0:00<small>HOOK</small></div>
+              <div>
+                <h3>FRAME 01 · CLOSE-UP</h3>
+                <div class="script">"24 clients last quarter. Zero employees. Here's the stack."</div>
+                <div class="vis">// VIS: hard-cut intro. Direct face-to-cam. No B-roll yet.</div>
+              </div>
+            </div>
+            <div class="frame">
+              <div class="ts">0:03<small>STACK</small></div>
+              <div>
+                <h3>FRAME 02 · SCREEN GRAB</h3>
+                <div class="script">"Tool 1: Claude Code. Tool 2: n8n. Tool 3: Obsidian. Tool 4: GHL."</div>
+                <div class="vis">// VIS: rapid cuts to each app icon, kinetic text overlay.</div>
+              </div>
+            </div>
+            <div class="frame">
+              <div class="ts">0:18<small>PROOF</small></div>
+              <div>
+                <h3>FRAME 03 · TIMELAPSE</h3>
+                <div class="script">"Built this dashboard in 4 hours. Used to take a team a week."</div>
+                <div class="vis">// VIS: sped-up screen recording. End on Vercel deploy.</div>
+              </div>
+            </div>
+            <div class="frame">
+              <div class="ts">0:25<small>CTA</small></div>
+              <div>
+                <h3>FRAME 04 · LOGO LOCKUP</h3>
+                <div class="script">"Free guide. Comment STACK. Out."</div>
+                <div class="vis">// VIS: end card. Logo + text. Caption: link in bio.</div>
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+            <div class="h"><img src="${f.avatar}" crossorigin="anonymous"><span>WASEEM NASIR</span></div>
+            <span>SKYNETLABS · DIR.</span>
+          </div>
+        </div>
+      </div>`;
+    case 'story': return `
+      <div class="poster poster-story" style="transform:scale(0.32)">
+        <div class="handle"><img src="${f.avatar}" crossorigin="anonymous"><span class="h">${f.handle}</span></div>
+        <div class="top" style="position:absolute;top:80px;right:60px"><span class="pill">LIVE · 4 AM PKT</span></div>
+        <div class="sticker s1">night shift! ✨</div>
+        <div class="polaroid">
+          <img src="${f.avatar}" crossorigin="anonymous">
+          <div class="cap">half the work shipped<br>before sunrise.</div>
+        </div>
+        <div class="sticker s2">save this energy →</div>
+        <h1>4AM <em>builds</em><br>different.</h1>
+        <div class="swipe">SWIPE UP</div>
+      </div>`;
+    case 'litext': return `
+      <div class="poster poster-litext" style="transform:scale(0.45)">
+        <div class="card">
+          <div class="post-head">
+            <img src="${f.avatar}" crossorigin="anonymous">
+            <div>
+              <div class="name">Waseem Nasir <span>· 2nd</span></div>
+              <div class="title">Founder, SkynetLabs · AI agency · Building Jarvis stack</div>
+              <div class="meta">2h · Edited</div>
+            </div>
+          </div>
+          <div class="post-body">
+            <p class="hook">I shipped 30 social posts in 90 minutes today.</p>
+            <p>Not by working faster.</p>
+            <p>By stopping the part of the work that didn't need a human.</p>
+            <p>The stack:<br>→ Claude Code writes the HTML<br>→ html2canvas exports the PNGs<br>→ A Python script builds the GHL CSV<br>→ ManyChat handles the DM funnel</p>
+            <p>I review. I don't type.</p>
+            <p>That's the whole shift.</p>
+            <p>The next 10 years isn't about who works harder. It's about who builds the workflows that work for them.</p>
+            <p><span class="hash">#AIautomation</span> <span class="hash">#SoloFounder</span> <span class="hash">#ClaudeCode</span></p>
+          </div>
+          <div class="react">
+            <div class="icons"><span>👍</span><span>💡</span><span>❤️</span> 247 reactions</div>
+            <div>34 comments · 12 reposts</div>
+          </div>
+          <div class="actions">
+            <div class="btn">👍 Like</div>
+            <div class="btn">💬 Comment</div>
+            <div class="btn">🔁 Repost</div>
+            <div class="btn">📤 Send</div>
+          </div>
+        </div>
+      </div>`;
+    case 'news': return `
+      <div class="poster poster-news" style="transform:scale(0.45)">
+        <div class="inner">
+          <div class="top">
+            <div class="brand">SKYNET WEEKLY</div>
+            <div class="issue"><small>ISSUE</small>007</div>
+          </div>
+          <div class="meta">2026 · APRIL · 30 · BUILDER NOTES FROM A 1-MAN STUDIO</div>
+          <div class="body">
+            <div>
+              <h1>The 4-tool<br><em>stack</em> that<br>runs my<br>agency.</h1>
+              <div class="stand">No employees. No SaaS bills above $5/mo. 24 clients shipped last quarter. The full breakdown — every tool, every workflow, every dollar — inside this issue.</div>
+            </div>
+            <div class="photo">
+              <img src="${f.avatar}" crossorigin="anonymous">
+              <div class="caption">— THE STUDIO · 4AM SHIFT</div>
+            </div>
+          </div>
+          <div class="footer">
+            <span>SKYNETJOE.COM/NEWSLETTER</span>
+            <span class="read">READ THE ISSUE →</span>
+          </div>
+        </div>
+      </div>`;
+  }
+  return '<div>—</div>';
+}
+
+function render(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = FORMATS.map((f,i)=>`
+    <button class="tab ${i===0?'active':''}" data-id="${f.id}">
+      <span class="num">${f.no}</span>
+      <span>${f.tab}</span>
+    </button>`).join('');
+  document.getElementById('root').innerHTML = FORMATS.map((f,i)=>`
+    <div class="section ${i===0?'active':''}" id="sec-${f.id}">
+      <div class="sec-head">
+        <div>
+          <h2>${f.title}</h2>
+          <div class="meta">
+            <b>Aesthetic:</b> ${f.aesthetic}<br>
+            <b>Fonts:</b> ${f.fonts} &nbsp;·&nbsp; <b>Palette:</b> ${f.palette}<br>
+            <b>When to use:</b> ${f.when} &nbsp;·&nbsp; <b>Dim:</b> ${f.dim}
+          </div>
+        </div>
+        <button class="dl-btn" data-dl="${f.id}">↓ Download PNG</button>
+      </div>
+      <div class="body-grid">
+        <div class="preview" id="prev-${f.id}">
+          ${poster(f)}
+        </div>
+        <div class="copy-block">
+          <h3>Caption · paste-ready</h3>
+          <div class="caption">${f.caption.replace(/</g,'&lt;')}</div>
+          <h3>Tags</h3>
+          <div>
+            <span class="tag">${f.tab}</span>
+            <span class="tag">${f.dim}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  tabs.querySelectorAll('.tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      tabs.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
+      document.getElementById('sec-'+t.dataset.id).classList.add('active');
+    });
+  });
+  document.querySelectorAll('.dl-btn').forEach(b=>{
+    b.addEventListener('click',async()=>{
+      const id=b.dataset.dl;
+      const el=document.querySelector(`#prev-${id} .poster`);
+      if(!el)return;
+      b.disabled=true;b.textContent='rendering...';
+      try{
+        const orig = el.style.transform;
+        const m = orig && orig.match(/scale\(([\d.]+)\)/);
+        const baseScale = m ? parseFloat(m[1]) : 0.45;
+        const c = await html2canvas(el,{
+          backgroundColor:null,
+          useCORS:true,allowTaint:true,
+          scale:1/baseScale,
+          width:el.offsetWidth, height:el.offsetHeight,
+          onclone:(doc)=>{
+            const tgt = doc.querySelector(`#prev-${id} .poster`);
+            if(tgt) tgt.style.transform='none';
+          }
+        });
+        const a=document.createElement('a');
+        a.download=`waseem-${id}-2026-04-30.png`;
+        a.href=c.toDataURL('image/png');
+        a.click();
+      } finally {
+        b.disabled=false;b.textContent='↓ Download PNG';
+      }
+    });
+  });
+}
+render();
+</script>
+</body>
+</html>
