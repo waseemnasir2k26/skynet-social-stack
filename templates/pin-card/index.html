@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pinterest Pin Batch | 1000x1500</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #0d0d0e; color: #e8e6e1; font-family: 'Inter', system-ui, sans-serif; }
+  body { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+
+  /* ===== PAGE CHROME ===== */
+  header { max-width: 1400px; margin: 0 auto 24px; }
+  h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(28px, 4vw, 48px); letter-spacing: -0.02em; margin-bottom: 8px; }
+  .sub { color: #a4a09b; font-size: clamp(13px, 1.4vw, 16px); margin-bottom: 20px; }
+
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    background: #16161a; padding: 14px; border-radius: 14px; margin-bottom: 14px;
+    border: 1px solid #25252b;
+  }
+  .controls label { font-size: 13px; color: #a4a09b; }
+  .filter-btn, .action-btn {
+    min-height: 44px; padding: 10px 18px; border-radius: 10px;
+    background: #25252b; color: #e8e6e1; border: 1px solid #34343a;
+    font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .filter-btn[aria-pressed="true"] { background: #C9A961; color: #0a0a0a; border-color: #C9A961; }
+  .action-btn { background: #C9A961; color: #0a0a0a; border-color: #C9A961; }
+  .action-btn:hover { background: #d8b870; }
+  .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .warning {
+    background: #2a1f0a; border: 1px solid #C9A961; color: #f0d488;
+    padding: 14px 18px; border-radius: 12px; margin-bottom: 16px;
+    font-size: 14px; line-height: 1.5;
+  }
+  .warning strong { color: #C9A961; }
+
+  /* ===== GRID ===== */
+  .grid {
+    max-width: 1400px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: clamp(12px, 2vw, 22px);
+  }
+  .grid-item {
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .preview-frame {
+    width: 100%; aspect-ratio: 1000 / 1500;
+    max-width: 400px;
+    background: #16161a; border-radius: 14px; overflow: hidden;
+    border: 1px solid #25252b;
+    position: relative;
+  }
+  .scale-wrap {
+    position: absolute; inset: 0;
+    transform-origin: top left;
+  }
+  .item-actions { display: flex; gap: 6px; }
+  .item-actions button {
+    flex: 1; min-height: 38px; padding: 8px 10px;
+    background: #25252b; color: #e8e6e1; border: 1px solid #34343a;
+    border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;
+    font-family: inherit;
+  }
+  .item-actions button:hover { background: #34343a; }
+  .item-meta { font-size: 12px; color: #a4a09b; }
+  .item-meta .id { color: #C9A961; font-weight: 700; }
+
+  /* ===== HIDDEN EXPORT NODE ===== */
+  .export-stage {
+    position: fixed; left: -99999px; top: 0;
+    width: 1000px; height: 1500px;
+    pointer-events: none;
+  }
+
+  /* ===== PIN CARD (1000x1500) ===== */
+  .pin {
+    width: 1000px; height: 1500px;
+    display: flex; flex-direction: column;
+    overflow: hidden; position: relative;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* TOP 70% — photo / color block + title overlay */
+  .pin-top {
+    height: 1050px; /* 70% of 1500 */
+    position: relative;
+    display: flex; align-items: flex-end;
+    padding: 70px 70px 60px;
+    overflow: hidden;
+  }
+  .pin-top::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+  .pin-photo {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    z-index: 0;
+  }
+  .pin-title {
+    position: relative; z-index: 2;
+    font-family: 'Fraunces', serif; font-weight: 700;
+    font-size: 96px; line-height: 1.02; letter-spacing: -0.025em;
+  }
+  .pin-keyword-stamp {
+    position: absolute; top: 60px; left: 70px; z-index: 2;
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: 22px; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 12px 22px; border-radius: 999px;
+  }
+
+  /* BOTTOM 30% — body + CTA + URL stamp */
+  .pin-bot {
+    height: 450px; /* 30% of 1500 */
+    padding: 50px 70px 60px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .pin-body {
+    font-family: 'Inter', sans-serif; font-weight: 500;
+    font-size: 30px; line-height: 1.45;
+    max-width: 860px;
+  }
+  .pin-cta-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px;
+  }
+  .pin-cta {
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: 28px; letter-spacing: 0.02em;
+    padding: 22px 40px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .pin-cta::after {
+    content: "\2192"; font-size: 28px;
+  }
+  .pin-url {
+    font-family: 'Inter', sans-serif; font-weight: 600;
+    font-size: 22px; letter-spacing: 0.02em;
+    opacity: 0.78;
+  }
+
+  /* ===== PALETTES ===== */
+  /* CREAM */
+  .pin.cream .pin-top { background: #F2EBE0; }
+  .pin.cream .pin-title { color: #1a1410; }
+  .pin.cream .pin-keyword-stamp { background: #8B3A3A; color: #F2EBE0; }
+  .pin.cream .pin-bot { background: #F2EBE0; color: #1a1410; }
+  .pin.cream .pin-body { color: #2a2018; }
+  .pin.cream .pin-cta { background: #1a1410; color: #F2EBE0; }
+  .pin.cream .pin-url { color: #6b5a4a; }
+
+  /* CLARET */
+  .pin.claret .pin-top { background: #8B3A3A; }
+  .pin.claret .pin-title { color: #F2EBE0; }
+  .pin.claret .pin-keyword-stamp { background: #C9A961; color: #1a0a0a; }
+  .pin.claret .pin-bot { background: #5e2424; color: #F2EBE0; }
+  .pin.claret .pin-body { color: #f0e3d0; }
+  .pin.claret .pin-cta { background: #C9A961; color: #1a0a0a; }
+  .pin.claret .pin-url { color: #d4b8a3; }
+
+  /* DARK */
+  .pin.dark .pin-top { background: #0a0a0a; }
+  .pin.dark .pin-title { color: #f0e8d6; }
+  .pin.dark .pin-keyword-stamp { background: #C9A961; color: #0a0a0a; }
+  .pin.dark .pin-bot { background: #16140e; color: #f0e8d6; }
+  .pin.dark .pin-body { color: #d4ccba; }
+  .pin.dark .pin-cta { background: #C9A961; color: #0a0a0a; }
+  .pin.dark .pin-url { color: #a4a09b; }
+
+  /* ===== STATUS LINE ===== */
+  .status {
+    max-width: 1400px; margin: 16px auto 0;
+    font-size: 13px; color: #a4a09b;
+    background: #16161a; padding: 12px 16px; border-radius: 10px;
+    border: 1px solid #25252b;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .controls { gap: 8px; padding: 12px; }
+    .filter-btn, .action-btn { padding: 10px 14px; font-size: 13px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+  }
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .item-actions button { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Pinterest Pin Batch</h1>
+  <div class="sub">1000x1500 export. 30 pins. Fraunces title. Inter body. Cream / Claret / Dark.</div>
+
+  <div class="warning" id="dateShiftWarning" role="alert">
+    <strong>DATE-SHIFT TRAP:</strong> If you are reusing this batch CSV (re-upload, second run, monthly retread), <strong>shift dates +14 days minimum</strong> before upload. Pinterest dedupes by URL+date. Same UTM same day = silent drops. Run <code>scripts/shift_dates.py --days 14</code> first.
+  </div>
+
+  <div class="controls" role="toolbar" aria-label="Filter and export controls">
+    <label>Palette:</label>
+    <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+    <button class="filter-btn" data-filter="cream" aria-pressed="false">Cream</button>
+    <button class="filter-btn" data-filter="claret" aria-pressed="false">Claret</button>
+    <button class="filter-btn" data-filter="dark" aria-pressed="false">Dark</button>
+    <span style="flex:1"></span>
+    <button class="action-btn" id="downloadAllBtn">Download All as ZIP</button>
+  </div>
+</header>
+
+<main class="grid" id="grid" aria-live="polite"></main>
+
+<div class="status" id="status">Loading data.json...</div>
+
+<!-- HIDDEN EXPORT NODE (1000x1500 sibling for html2canvas) -->
+<div class="export-stage" id="exportStage" aria-hidden="true"></div>
+
+<script>
+const CFG = { batch: "batch", destination_base: "" };
+let PINS = [];
+let CURRENT_FILTER = "all";
+
+const $ = (s, p=document) => p.querySelector(s);
+const $$ = (s, p=document) => Array.from(p.querySelectorAll(s));
+
+function buildUrl(pin) {
+  const base = CFG.destination_base.replace(/\/$/, "");
+  const path = (pin.destination_path || "").startsWith("/") ? pin.destination_path : "/" + (pin.destination_path || "");
+  const url = base + path;
+  const id = String(pin.id).padStart(2, "0");
+  const params = new URLSearchParams({
+    utm_source: "pinterest",
+    utm_medium: "pin",
+    utm_campaign: CFG.batch,
+    utm_content: `pin-${id}`
+  });
+  return `${url}?${params.toString()}`;
+}
+
+function urlStamp(pin) {
+  try {
+    const u = new URL(buildUrl(pin));
+    return (u.host + u.pathname).replace(/\/$/, "");
+  } catch (e) {
+    return "skynetjoe.com";
+  }
+}
+
+function pinHTML(pin) {
+  const url = urlStamp(pin);
+  const photoStyle = pin.photo
+    ? `<div class="pin-photo" style="background-image:url('${pin.photo}')"></div>`
+    : "";
+  const id = String(pin.id).padStart(2, "0");
+  return `
+    <div class="pin ${pin.palette}" role="img" aria-label="Pinterest pin ${id}: ${escapeAttr(pin.title)}">
+      <div class="pin-top">
+        ${photoStyle}
+        <div class="pin-keyword-stamp">PIN-IT</div>
+        <div class="pin-title">${escapeHtml(pin.title)}</div>
+      </div>
+      <div class="pin-bot">
+        <div class="pin-body">${escapeHtml(pin.body)}</div>
+        <div class="pin-cta-row">
+          <div class="pin-cta">${escapeHtml(pin.cta || "Save for later")}</div>
+          <div class="pin-url">${escapeHtml(url)}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function escapeHtml(s) {
+  return String(s || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+}
+function escapeAttr(s) { return escapeHtml(s); }
+
+function renderGrid() {
+  const grid = $("#grid");
+  grid.innerHTML = "";
+  const filtered = CURRENT_FILTER === "all" ? PINS : PINS.filter(p => p.palette === CURRENT_FILTER);
+  filtered.forEach(pin => {
+    const id = String(pin.id).padStart(2, "0");
+    const item = document.createElement("div");
+    item.className = "grid-item";
+    item.innerHTML = `
+      <div class="preview-frame" data-id="${pin.id}">
+        <div class="scale-wrap">${pinHTML(pin)}</div>
+      </div>
+      <div class="item-meta"><span class="id">PIN ${id}</span> &middot; ${pin.palette}</div>
+      <div class="item-actions">
+        <button class="dl-one" data-id="${pin.id}">Download PNG</button>
+      </div>`;
+    grid.appendChild(item);
+  });
+  // scale previews to fit frame
+  requestAnimationFrame(() => {
+    $$(".preview-frame").forEach(frame => {
+      const wrap = $(".scale-wrap", frame);
+      const w = frame.clientWidth;
+      const scale = w / 1000;
+      wrap.style.transform = `scale(${scale})`;
+      wrap.style.width = "1000px";
+      wrap.style.height = "1500px";
+    });
+  });
+  status(`Showing ${filtered.length} pin${filtered.length !== 1 ? "s" : ""} (filter: ${CURRENT_FILTER})`);
+}
+
+function status(msg) { $("#status").textContent = msg; }
+
+function findPin(id) { return PINS.find(p => String(p.id) === String(id)); }
+
+async function renderToCanvas(pin) {
+  const stage = $("#exportStage");
+  stage.innerHTML = pinHTML(pin);
+  const node = stage.firstElementChild;
+  // ensure fonts are ready
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  const canvas = await html2canvas(node, {
+    width: 1000, height: 1500,
+    windowWidth: 1000, windowHeight: 1500,
+    scale: 1, backgroundColor: null, useCORS: true, logging: false
+  });
+  stage.innerHTML = "";
+  return canvas;
+}
+
+async function downloadOne(id) {
+  const pin = findPin(id);
+  if (!pin) return;
+  status(`Rendering pin ${id}...`);
+  const canvas = await renderToCanvas(pin);
+  canvas.toBlob(blob => {
+    const padded = String(pin.id).padStart(2, "0");
+    saveAs(blob, `pin-${padded}-${pin.palette}.png`);
+    status(`Downloaded pin ${padded}.`);
+  }, "image/png");
+}
+
+async function downloadAll() {
+  const btn = $("#downloadAllBtn");
+  btn.disabled = true;
+  const zip = new JSZip();
+  for (let i = 0; i < PINS.length; i++) {
+    const pin = PINS[i];
+    const padded = String(pin.id).padStart(2, "0");
+    status(`Rendering ${i + 1}/${PINS.length} (pin ${padded})...`);
+    try {
+      const canvas = await renderToCanvas(pin);
+      const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
+      zip.file(`pin-${padded}-${pin.palette}.png`, blob);
+    } catch (e) {
+      console.error("Failed pin", pin.id, e);
+    }
+  }
+  status("Building ZIP...");
+  const out = await zip.generateAsync({ type: "blob" });
+  saveAs(out, `pinterest-batch-${CFG.batch}.zip`);
+  status(`Done. ${PINS.length} pins zipped.`);
+  btn.disabled = false;
+}
+
+document.addEventListener("click", e => {
+  if (e.target.matches(".filter-btn")) {
+    CURRENT_FILTER = e.target.dataset.filter;
+    $$(".filter-btn").forEach(b => b.setAttribute("aria-pressed", b.dataset.filter === CURRENT_FILTER ? "true" : "false"));
+    renderGrid();
+  } else if (e.target.matches(".dl-one")) {
+    downloadOne(e.target.dataset.id);
+  } else if (e.target.id === "downloadAllBtn") {
+    downloadAll();
+  }
+});
+
+window.addEventListener("resize", () => {
+  $$(".preview-frame").forEach(frame => {
+    const wrap = $(".scale-wrap", frame);
+    const w = frame.clientWidth;
+    const scale = w / 1000;
+    wrap.style.transform = `scale(${scale})`;
+  });
+});
+
+(async () => {
+  try {
+    const res = await fetch("data.json");
+    if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
+    const json = await res.json();
+    CFG.batch = json.batch || "batch";
+    CFG.destination_base = json.destination_base || "https://skynetjoe.com";
+    PINS = (json.pins || []).map(p => ({
+      id: p.id,
+      palette: ["cream", "claret", "dark"].includes(p.palette) ? p.palette : "cream",
+      title: p.title || "",
+      body: p.body || "",
+      cta: p.cta || "Save for later",
+      destination_path: p.destination_path || "/",
+      photo: p.photo || null
+    }));
+    renderGrid();
+    status(`Loaded ${PINS.length} pins. Batch: ${CFG.batch}`);
+  } catch (e) {
+    status(`ERROR loading data.json: ${e.message}. Open via http server (npx serve .) — fetch needs http, not file://`);
+  }
+})();
+</script>
+
+</body>
+</html>

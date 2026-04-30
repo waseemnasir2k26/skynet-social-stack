@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FB Personal News — 9-card pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+  :root{
+    --gold:#D4AF37;
+    --ink:#0a0a0a;
+    --paper:#f5f1ea;
+    --mute:#7a7368;
+    --warn:#c1440e;
+    --ok:#3a7d44;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{padding:clamp(16px,3vw,40px) clamp(12px,3vw,48px) 80px;min-height:100vh}
+
+  /* page chrome */
+  header.page{max-width:1280px;margin:0 auto 24px;padding:0}
+  h1.page{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(24px,3.6vw,44px);line-height:1.05;letter-spacing:-0.02em}
+  p.lede{font-size:clamp(13px,1.4vw,16px);color:var(--mute);margin-top:8px;max-width:780px;line-height:1.5}
+
+  .timeline{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 12px;font-size:12px;color:var(--mute);letter-spacing:0.06em;text-transform:uppercase}
+  .timeline span{padding:4px 10px;border:1px solid #e2dccf;border-radius:999px;background:#fff}
+  .timeline strong{color:var(--ink);font-weight:600}
+
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 24px;align-items:center}
+  .tabs{display:flex;gap:6px;background:#fff;padding:4px;border-radius:10px;border:1px solid #e2dccf}
+  .tab{appearance:none;border:0;background:transparent;font:inherit;color:var(--mute);padding:10px 16px;min-height:44px;border-radius:8px;cursor:pointer;font-weight:600;font-size:13px;letter-spacing:0.04em}
+  .tab[aria-selected="true"]{background:var(--ink);color:#fff}
+  .btn{appearance:none;border:0;font:inherit;font-weight:600;font-size:13px;letter-spacing:0.04em;padding:12px 18px;min-height:44px;border-radius:8px;cursor:pointer;background:var(--ink);color:#fff}
+  .btn.secondary{background:#fff;color:var(--ink);border:1px solid #e2dccf}
+  .btn:disabled{opacity:0.5;cursor:not-allowed}
+  .btn:hover:not(:disabled){opacity:0.9}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:clamp(12px,2vw,24px);max-width:1280px;margin:0 auto}
+
+  .card{background:#fff;border:1px solid #e2dccf;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+  .card.locked{outline:2px solid var(--gold);outline-offset:-2px}
+  .card.warn{outline:2px solid var(--warn);outline-offset:-2px}
+
+  /* preview frame — page-side, scaled */
+  .card-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio: 1080 / 1350;
+    background:#000;
+    overflow:hidden;
+  }
+  .card-frame img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .card-frame .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,0.55) 60%,rgba(0,0,0,0.92) 100%);pointer-events:none}
+  .card-frame .badge{position:absolute;top:6%;right:6%;color:var(--gold);font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(10px,1.4vw,13px);letter-spacing:0.16em;text-transform:uppercase;text-align:right;line-height:1.3}
+  .card-frame .badge .num{display:block;font-family:'Fraunces',serif;font-size:clamp(18px,3vw,28px);letter-spacing:0;margin-top:2px}
+  .card-frame .stack{position:absolute;left:6%;right:6%;bottom:6%;color:#fff}
+  .card-frame .date{font-family:'Inter',sans-serif;font-size:clamp(9px,1.1vw,11px);font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .card-frame .head{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(18px,3.6vw,34px);line-height:1.05;letter-spacing:-0.015em;margin-bottom:10px}
+  .card-frame .body{font-family:'Inter',sans-serif;font-size:clamp(11px,1.5vw,14px);line-height:1.45;color:rgba(255,255,255,0.88);font-weight:400}
+  .card-frame .source{font-family:'Inter',sans-serif;font-size:clamp(8px,1vw,10px);color:rgba(255,255,255,0.55);margin-top:10px;letter-spacing:0.04em;word-break:break-all}
+
+  .card-meta{padding:14px 16px;border-top:1px solid #f0ead9;display:flex;flex-direction:column;gap:8px}
+  .meta-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:#f0ead9;color:var(--ink)}
+  .pill.info{background:#eaf3ff;color:#1e4a8a}
+  .pill.motiv{background:#fff4e0;color:#8a5a1e}
+  .pill.sell{background:#e9f6ec;color:#1e6a3a}
+  .pill.closer{background:var(--gold);color:#000}
+  .pill.lock{background:#000;color:var(--gold)}
+  .pill.warn{background:#fbe8e0;color:var(--warn)}
+  .slot{font-family:'Inter',sans-serif;font-weight:600;font-size:12px;color:var(--mute)}
+  .slot strong{color:var(--ink)}
+  .url{font-size:11px;color:var(--mute);word-break:break-all;line-height:1.4}
+  .url a{color:var(--ink)}
+  .download{appearance:none;border:0;background:var(--ink);color:#fff;font:inherit;font-weight:600;font-size:12px;padding:10px 14px;min-height:40px;border-radius:6px;cursor:pointer;width:100%;letter-spacing:0.04em}
+  .download:hover{opacity:0.9}
+  .download.locked-btn{background:#444}
+
+  /* offscreen 1080x1350 export node */
+  .export-host{position:fixed;left:-99999px;top:0;width:1080px;height:1350px;pointer-events:none}
+  .export-node{position:relative;width:1080px;height:1350px;background:#000;overflow:hidden;font-family:'Inter',sans-serif}
+  .export-node img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .export-node .grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,0.55) 60%,rgba(0,0,0,0.92) 100%)}
+  .export-node .badge{position:absolute;top:60px;right:64px;color:var(--gold);font-weight:700;font-size:18px;letter-spacing:0.18em;text-transform:uppercase;text-align:right;line-height:1.3}
+  .export-node .badge .num{display:block;font-family:'Fraunces',serif;font-size:38px;letter-spacing:0;margin-top:4px;font-weight:700}
+  .export-node .stack{position:absolute;left:64px;right:64px;bottom:64px;color:#fff}
+  .export-node .date{font-size:18px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .export-node .head{font-family:'Fraunces',serif;font-weight:700;font-size:72px;line-height:1.04;letter-spacing:-0.018em;margin-bottom:24px}
+  .export-node .body{font-size:28px;line-height:1.45;color:rgba(255,255,255,0.92);font-weight:400}
+  .export-node .source{font-size:18px;color:rgba(255,255,255,0.55);margin-top:22px;letter-spacing:0.04em;word-break:break-all}
+
+  .empty{padding:48px;text-align:center;color:var(--mute);font-size:14px;border:1px dashed #d6cfc0;border-radius:12px;background:#fff;grid-column:1 / -1}
+  .footer{margin:48px auto 0;max-width:1280px;font-size:12px;color:var(--mute);line-height:1.6}
+
+  @media (max-width:520px){
+    .grid{grid-template-columns:1fr}
+    .toolbar{justify-content:flex-start}
+  }
+</style>
+</head>
+<body>
+  <header class="page">
+    <h1 class="page">FB Personal News, 9 cards</h1>
+    <p class="lede">Editorial overlay pack for personal Facebook drip. 4 info + 2 motivation + 2 sell + 1 locked closer. 1080 by 1350 export. Edit copy in <code>data.json</code>. Card 9 is locked.</p>
+    <div class="timeline" aria-label="3-day drip timeline">
+      <span><strong>Day 1</strong> 11:00 / 16:00 / 21:00</span>
+      <span><strong>Day 2</strong> 11:00 / 16:00 / 21:00</span>
+      <span><strong>Day 3</strong> 11:00 / 16:00 / 21:00</span>
+    </div>
+    <div class="toolbar">
+      <div class="tabs" role="tablist" aria-label="Day filter">
+        <button class="tab" role="tab" aria-selected="true" data-day="all">All 9</button>
+        <button class="tab" role="tab" aria-selected="false" data-day="1">Day 1</button>
+        <button class="tab" role="tab" aria-selected="false" data-day="2">Day 2</button>
+        <button class="tab" role="tab" aria-selected="false" data-day="3">Day 3</button>
+      </div>
+      <button id="dl-all" class="btn" type="button">Download all 9 (zip)</button>
+      <button id="reload" class="btn secondary" type="button">Reload data.json</button>
+    </div>
+  </header>
+
+  <main id="grid" class="grid" aria-live="polite"></main>
+
+  <div id="export-host" class="export-host" aria-hidden="true"></div>
+
+  <footer class="footer">
+    <p>Quality gates: news cards must cite a source URL (≤48h old). No em-dashes. No invented metrics. Card 9 (closer) is locked. Photos picked via <code>python _pick-next.py</code>, mark used after export.</p>
+  </footer>
+
+<script>
+(() => {
+  const grid = document.getElementById('grid');
+  const exportHost = document.getElementById('export-host');
+  const tabs = document.querySelectorAll('.tab');
+  const dlAllBtn = document.getElementById('dl-all');
+  const reloadBtn = document.getElementById('reload');
+
+  let cards = [];
+  let activeDay = 'all';
+
+  // ---------- load
+  async function load(){
+    grid.innerHTML = '<div class="empty">Loading data.json...</div>';
+    try {
+      const res = await fetch('data.json?ts=' + Date.now(), {cache:'no-store'});
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      cards = await res.json();
+      validate();
+      render();
+    } catch (err) {
+      grid.innerHTML = `<div class="empty">Could not load data.json. Serve this folder over http (not file://). <br><small>${err.message}</small></div>`;
+    }
+  }
+
+  // ---------- validation
+  function validate(){
+    if (cards.length !== 9) console.warn('Expected 9 cards, got', cards.length);
+    const last = cards[cards.length - 1];
+    if (last && !last.locked) console.warn('Card 9 should have locked:true');
+  }
+
+  function isWarn(card){
+    return card.type === 'info' && (!card.source_url || card.source_url.trim() === '');
+  }
+
+  // ---------- render preview grid
+  function render(){
+    grid.innerHTML = '';
+    const filtered = cards.filter(c => activeDay === 'all' || String(c.day) === String(activeDay));
+    if (!filtered.length){
+      grid.innerHTML = '<div class="empty">No cards for this day.</div>';
+      return;
+    }
+    filtered.forEach(card => grid.appendChild(buildPreviewCard(card)));
+  }
+
+  function buildPreviewCard(card){
+    const wrap = document.createElement('article');
+    wrap.className = 'card' + (card.locked ? ' locked' : '') + (isWarn(card) ? ' warn' : '');
+    wrap.setAttribute('role','img');
+    wrap.setAttribute('aria-label', `Card ${card.post_number}: ${card.headline}`);
+
+    const dateStamp = `DAY ${card.day} / ${card.slot}`;
+    const num = String(card.post_number).padStart(2,'0');
+    const sourceLine = card.type === 'info' && card.source_url
+      ? `<div class="source">${escapeHtml(prettyUrl(card.source_url))}</div>` : '';
+
+    wrap.innerHTML = `
+      <div class="card-frame" role="img" aria-label="FB news card ${num} day ${card.day} ${escapeAttr(card.headline || '')}">
+        <img class="bg" src="${escapeAttr(card.photo)}" alt="" onerror="this.style.background='#222';this.removeAttribute('src')">
+        <div class="grad"></div>
+        <div class="badge">DAY ${card.day}<span class="num">${num}</span></div>
+        <div class="stack">
+          <div class="date">${escapeHtml(dateStamp)}</div>
+          <div class="head">${escapeHtml(card.headline)}</div>
+          <div class="body">${escapeHtml(card.body)}</div>
+          ${sourceLine}
+        </div>
+      </div>
+      <div class="card-meta">
+        <div class="meta-row">
+          <span class="pill ${card.type}">${card.type}</span>
+          ${card.locked ? '<span class="pill lock">LOCKED — do not edit</span>' : ''}
+          ${isWarn(card) ? '<span class="pill warn">Missing source URL</span>' : ''}
+          <span class="slot">Day <strong>${card.day}</strong> / <strong>${card.slot}</strong></span>
+        </div>
+        ${card.source_url ? `<div class="url"><a href="${escapeAttr(card.source_url)}" target="_blank" rel="noopener">${escapeHtml(card.source_url)}</a></div>` : (card.type === 'info' ? '<div class="url" style="color:var(--warn)">No source URL — info cards require ≤48h news source.</div>' : '')}
+        <button class="download${card.locked ? ' locked-btn' : ''}" type="button" data-slug="${escapeAttr(card.slug)}">Download PNG</button>
+      </div>
+    `;
+
+    wrap.querySelector('.download').addEventListener('click', () => downloadCard(card));
+    return wrap;
+  }
+
+  // ---------- export node (1080x1350)
+  function buildExportNode(card){
+    const num = String(card.post_number).padStart(2,'0');
+    const dateStamp = `DAY ${card.day} / ${card.slot}`;
+    const node = document.createElement('div');
+    node.className = 'export-node';
+    node.innerHTML = `
+      <img class="bg" src="${escapeAttr(card.photo)}" alt="" crossorigin="anonymous">
+      <div class="grad"></div>
+      <div class="badge">DAY ${card.day}<span class="num">${num}</span></div>
+      <div class="stack">
+        <div class="date">${escapeHtml(dateStamp)}</div>
+        <div class="head">${escapeHtml(card.headline)}</div>
+        <div class="body">${escapeHtml(card.body)}</div>
+        ${card.type === 'info' && card.source_url ? `<div class="source">${escapeHtml(prettyUrl(card.source_url))}</div>` : ''}
+      </div>
+    `;
+    return node;
+  }
+
+  async function renderToBlob(card){
+    const node = buildExportNode(card);
+    exportHost.innerHTML = '';
+    exportHost.appendChild(node);
+    // wait for bg image
+    const img = node.querySelector('img.bg');
+    await new Promise(resolve => {
+      if (img.complete && img.naturalWidth) return resolve();
+      img.addEventListener('load', resolve, {once:true});
+      img.addEventListener('error', resolve, {once:true});
+      setTimeout(resolve, 2500);
+    });
+    // wait font ready
+    if (document.fonts && document.fonts.ready) {
+      try { await document.fonts.ready; } catch(e){}
+    }
+    const canvas = await html2canvas(node, {
+      width: 1080,
+      height: 1350,
+      windowWidth: 1080,
+      windowHeight: 1350,
+      backgroundColor: '#000',
+      scale: 1,
+      useCORS: true,
+      allowTaint: true,
+      logging: false
+    });
+    return new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
+  }
+
+  async function downloadCard(card){
+    try {
+      const blob = await renderToBlob(card);
+      if (!blob) throw new Error('canvas blob failed');
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${card.slug}-day${card.day}-${card.slot.replace(':','')}.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    } catch (err) {
+      alert('Export failed: ' + err.message);
+    }
+  }
+
+  async function downloadAll(){
+    if (!cards.length) return;
+    dlAllBtn.disabled = true;
+    const orig = dlAllBtn.textContent;
+    try {
+      const zip = new JSZip();
+      for (let i = 0; i < cards.length; i++){
+        const card = cards[i];
+        dlAllBtn.textContent = `Rendering ${i+1}/${cards.length}...`;
+        const blob = await renderToBlob(card);
+        if (blob){
+          zip.file(`${card.slug}-day${card.day}-${card.slot.replace(':','')}.png`, blob);
+        }
+      }
+      dlAllBtn.textContent = 'Zipping...';
+      const out = await zip.generateAsync({type:'blob'});
+      const url = URL.createObjectURL(out);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `fb-news-9card-${new Date().toISOString().slice(0,10)}.zip`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    } catch (err) {
+      alert('Zip export failed: ' + err.message);
+    } finally {
+      dlAllBtn.textContent = orig;
+      dlAllBtn.disabled = false;
+    }
+  }
+
+  // ---------- helpers
+  function escapeHtml(s){return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  function escapeAttr(s){return escapeHtml(s).replace(/`/g,'&#96;')}
+  function prettyUrl(u){try{const x=new URL(u);return x.host+x.pathname}catch(e){return u}}
+
+  // ---------- events
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(o => o.setAttribute('aria-selected', o === t ? 'true' : 'false'));
+    activeDay = t.dataset.day;
+    render();
+  }));
+  dlAllBtn.addEventListener('click', downloadAll);
+  reloadBtn.addEventListener('click', load);
+
+  load();
+})();
+</script>
+</body>
+</html>

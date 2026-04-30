@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Waseem Carousels — Industry Style Pack (5×6 = 30 cards)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carousel Cream + Rust, 5 carousels x 6 slides (Industry Pack)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <style>
 :root{
   --cream:#F2EBE0;
@@ -22,45 +23,134 @@
   --term-dim:#8C8479;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#0B0A09}
-body{
-  font-family:'Inter',sans-serif;
-  color:var(--cream);
-  padding:32px 24px 80px;
-  min-height:100vh;
-}
-.page-head{max-width:1280px;margin:0 auto 24px}
-.page-head h1{font-family:'Archivo Black';font-size:36px;letter-spacing:-1px;margin-bottom:6px}
-.page-head p{color:#8C8479;font-size:13px;line-height:1.5}
-.page-head code{background:#1F1B17;padding:2px 6px;border-radius:3px;color:#E8DFCF;font-family:'JetBrains Mono';font-size:12px}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;max-width:1280px;margin:24px auto 32px}
-.tab{padding:11px 18px;background:#1F1B17;color:#C4B79E;border:1px solid #3A332C;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;transition:all .15s}
-.tab:hover{background:#2A2520}
-.tab.active{background:var(--rust);color:#fff;border-color:var(--rust)}
-.tab .num{opacity:.6;margin-right:6px}
-.carousel{display:none;max-width:1280px;margin:0 auto}
-.carousel.active{display:block}
-.carousel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:16px 20px;background:#161412;border:1px solid #2A2520;border-radius:8px}
-.carousel-head h2{font-family:'Archivo Black';font-size:18px;color:#fff;letter-spacing:0.5px}
-.carousel-head .meta{color:#8C8479;font-size:12px;margin-top:4px;font-family:'JetBrains Mono'}
-.btn-all{padding:11px 18px;background:var(--rust);color:#fff;border:0;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px;letter-spacing:0.6px;text-transform:uppercase}
-.btn-all:hover{background:var(--rust-dark)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,540px);gap:32px;justify-content:center}
-.card-wrap{position:relative;width:540px;height:675px}
-.card-wrap .dl{position:absolute;top:8px;right:8px;z-index:50;padding:6px 12px;background:rgba(15,14,12,0.85);color:#fff;border:1px solid var(--rust);border-radius:4px;cursor:pointer;font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;backdrop-filter:blur(4px)}
-.card-wrap .dl:hover{background:var(--rust)}
-.card-wrap .num{position:absolute;top:8px;left:8px;z-index:50;padding:4px 8px;background:rgba(15,14,12,0.7);color:#C4B79E;border-radius:4px;font-size:10px;font-family:'JetBrains Mono';font-weight:700}
+html,body{background:#0B0A09;color:var(--cream);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{padding:clamp(16px,3vw,32px) clamp(12px,3vw,28px) 80px;min-height:100vh}
 
-.card{
+/* ============ PAGE CHROME ============ */
+.page-head{max-width:1320px;margin:0 auto 24px;padding:0 4px}
+.page-head h1{font-family:'Archivo Black',sans-serif;font-size:clamp(24px,3.6vw,40px);letter-spacing:-0.5px;line-height:1.05;color:#fff;margin-bottom:8px}
+.page-head p{color:#8C8479;font-size:clamp(12px,1.4vw,14px);line-height:1.55;max-width:780px}
+.page-head code{background:#1F1B17;padding:2px 6px;border-radius:3px;color:#E8DFCF;font-family:'JetBrains Mono',monospace;font-size:11px}
+
+/* ============ TABS ============ */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;max-width:1320px;margin:24px auto 24px;padding:0 4px}
+.tab{
+  appearance:none;border:0;font:inherit;
+  padding:12px 18px;min-height:44px;
+  background:#1F1B17;color:#C4B79E;border:1px solid #3A332C;border-radius:6px;
+  cursor:pointer;font-size:11.5px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;
+  transition:all .15s;font-family:'Inter',sans-serif;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.tab:hover{background:#2A2520;color:#fff}
+.tab[aria-selected="true"]{background:var(--rust);color:#fff;border-color:var(--rust)}
+.tab .num{opacity:.65;font-family:'JetBrains Mono',monospace;font-size:10px}
+
+/* ============ BULK BAR ============ */
+.bulk-bar{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  max-width:1320px;margin:0 auto 24px;padding:14px 18px;
+  background:#161412;border:1px solid #2A2520;border-radius:8px;
+}
+.bulk-bar .meta{color:#8C8479;font-size:12px;font-family:'JetBrains Mono',monospace;line-height:1.5}
+.bulk-bar .meta b{color:var(--rust)}
+.bulk-bar .actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  appearance:none;border:0;font:inherit;
+  padding:12px 18px;min-height:44px;
+  background:var(--rust);color:#fff;border-radius:6px;cursor:pointer;
+  font-weight:700;font-size:12px;letter-spacing:0.6px;text-transform:uppercase;
+  font-family:'Inter',sans-serif;
+}
+.btn:hover{background:var(--rust-dark)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.secondary{background:#1F1B17;color:#E8DFCF;border:1px solid #3A332C}
+.btn.secondary:hover{background:#2A2520}
+
+/* ============ CAROUSELS ============ */
+.carousel{display:none;max-width:1320px;margin:0 auto}
+.carousel.active{display:block}
+.carousel-head{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  margin-bottom:20px;padding:16px 20px;
+  background:#161412;border:1px solid #2A2520;border-radius:8px;
+}
+.carousel-head h2{font-family:'Archivo Black',sans-serif;font-size:clamp(15px,2vw,18px);color:#fff;letter-spacing:0.5px;line-height:1.2}
+.carousel-head .meta{color:#8C8479;font-size:11.5px;margin-top:4px;font-family:'JetBrains Mono',monospace;line-height:1.5}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));
+  gap:clamp(20px,2.5vw,32px);
+  justify-content:center;
+}
+
+/* ============ CARD WRAP (page-side preview, scaled) ============ */
+.card-wrap{
+  position:relative;
+  width:100%;
+  max-width:540px;
+  margin:0 auto;
+}
+.card-frame{
+  position:relative;
+  width:100%;
+  aspect-ratio:1080 / 1350;
+  background:var(--cream);
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,0.35);
+}
+.card-frame .num-badge{
+  position:absolute;top:8px;left:8px;z-index:50;
+  padding:5px 10px;background:rgba(15,14,12,0.78);color:#C4B79E;
+  border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.5px;
+  backdrop-filter:blur(4px);
+  pointer-events:none;
+}
+.card-frame .kind-badge{
+  position:absolute;top:8px;right:8px;z-index:50;
+  padding:5px 10px;background:rgba(196,80,46,0.92);color:#fff;
+  border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.6px;
+  pointer-events:none;
+}
+.card-scale{
+  position:absolute;top:0;left:0;
   width:1080px;height:1350px;
-  transform:scale(0.5);transform-origin:top left;
+  transform-origin:top left;
+  /* scale set by JS = wrap.width / 1080 */
+}
+
+/* ============ PER-CARD FOOTER (controls outside frame) ============ */
+.card-footer{
+  margin-top:12px;
+  padding:12px 14px;
+  background:#161412;border:1px solid #2A2520;border-radius:8px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.card-footer .label{font-family:'JetBrains Mono',monospace;font-size:11px;color:#8C8479;letter-spacing:0.5px}
+.btn-dl{
+  appearance:none;border:0;font:inherit;
+  padding:10px 14px;min-height:44px;
+  background:var(--rust);color:#fff;border-radius:5px;
+  cursor:pointer;font-weight:700;font-size:11px;letter-spacing:0.6px;text-transform:uppercase;
+  font-family:'Inter',sans-serif;
+}
+.btn-dl:hover{background:var(--rust-dark)}
+.btn-dl:disabled{opacity:.5;cursor:not-allowed}
+
+/* ============ CARD CONTENT (1080x1350, preview AND export) ============ */
+/* Pixel-perfect fixed sizes inside .card-content. NO clamp() / vw here. */
+.card-content{
+  width:1080px;height:1350px;
   background:var(--cream);
   position:relative;
   font-family:'Inter',sans-serif;
   color:var(--ink);
   overflow:hidden;
 }
-.card::before{
+.card-content::before{
   content:"";position:absolute;inset:0;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g stroke='%23A89E8C' stroke-width='0.6' fill='none' opacity='0.55'><path d='M0 40 L60 40 L60 0'/><path d='M100 0 L100 80 L170 80 L170 220'/><path d='M0 120 L80 120 L80 160 L150 160'/><path d='M40 220 L40 180 L0 180'/><path d='M180 0 L180 30 L220 30'/><path d='M180 110 L220 110'/><path d='M30 0 L30 20'/><path d='M130 220 L130 200 L100 200'/></g><g fill='%23A89E8C' opacity='0.6'><circle cx='60' cy='40' r='2'/><circle cx='100' cy='80' r='2'/><circle cx='170' cy='80' r='2'/><circle cx='80' cy='120' r='2'/><circle cx='80' cy='160' r='2'/><circle cx='150' cy='160' r='2'/><circle cx='40' cy='180' r='2'/><circle cx='180' cy='30' r='2'/></g></svg>");
   background-size:340px 340px;
@@ -69,25 +159,25 @@ body{
 }
 .card-inner{position:relative;z-index:2;padding:64px 72px 56px;height:100%;display:flex;flex-direction:column}
 
-.tag-row{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono';font-size:18px;color:var(--ink-soft);letter-spacing:1.5px;font-weight:700}
-.section-tag{margin-top:60px;font-family:'JetBrains Mono';font-size:18px;color:var(--rust);letter-spacing:3px;font-weight:700}
-.section-tag.big{font-family:'Archivo Black';font-size:48px;letter-spacing:1px;margin-top:36px;color:var(--ink)}
+.tag-row{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--ink-soft);letter-spacing:1.5px;font-weight:700}
+.section-tag{margin-top:60px;font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--rust);letter-spacing:3px;font-weight:700}
+.section-tag.big{font-family:'Archivo Black',sans-serif;font-size:48px;letter-spacing:1px;margin-top:36px;color:var(--ink)}
 .section-tag.big .num{color:var(--rust)}
 
-.headline{font-family:'Archivo Black';font-size:104px;line-height:0.92;letter-spacing:-2.5px;margin-top:28px;text-transform:uppercase;color:var(--ink)}
+.headline{font-family:'Archivo Black',sans-serif;font-size:104px;line-height:0.92;letter-spacing:-2.5px;margin-top:28px;text-transform:uppercase;color:var(--ink)}
 .headline.sm{font-size:88px}
 .headline.xs{font-size:72px}
 .headline .accent{color:var(--rust)}
-.subhead{font-family:'Inter';font-weight:700;font-size:22px;line-height:1.45;color:var(--ink-soft);margin-top:36px;text-transform:uppercase;letter-spacing:0.6px;max-width:900px}
+.subhead{font-family:'Inter',sans-serif;font-weight:700;font-size:22px;line-height:1.45;color:var(--ink-soft);margin-top:36px;text-transform:uppercase;letter-spacing:0.6px;max-width:900px}
 
 .terminal-wrap{margin-top:auto;position:relative}
-.terminal-label{font-family:'JetBrains Mono';font-size:18px;color:var(--rust);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.terminal-label::before{content:"✸";color:var(--rust);font-size:22px}
+.terminal-label{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--rust);font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.terminal-label::before{content:"*";color:var(--rust);font-size:22px}
 .terminal{
   background:var(--term-bg);
   border-radius:18px;
   padding:32px 40px 36px;
-  font-family:'JetBrains Mono';
+  font-family:'JetBrains Mono',monospace;
   font-size:22px;
   line-height:1.65;
   color:var(--term-fg);
@@ -95,11 +185,11 @@ body{
   box-shadow:0 8px 0 rgba(31,27,23,0.06);
 }
 .terminal .lights{display:flex;gap:9px;margin-bottom:22px}
-.terminal .lights span{width:14px;height:14px;border-radius:50%}
+.terminal .lights span{width:14px;height:14px;border-radius:50%;display:inline-block}
 .terminal .lights span:nth-child(1){background:#FF5F56}
 .terminal .lights span:nth-child(2){background:#FFBD2E}
 .terminal .lights span:nth-child(3){background:#27C93F}
-.terminal .ln{white-space:pre}
+.terminal .ln{white-space:pre-wrap;word-break:break-word}
 .terminal .prompt{color:var(--rust);font-weight:700}
 .terminal .arrow{color:#C4B79E}
 .terminal .ok{color:#27C93F;font-weight:700}
@@ -109,47 +199,101 @@ body{
 .mascot{position:absolute;right:-12px;bottom:8px;width:170px;height:auto;z-index:3}
 .mascot.lg{width:200px;right:0;bottom:0}
 
-.bottom{margin-top:32px;display:flex;justify-content:space-between;align-items:center}
-.handle{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono';font-size:20px;color:var(--ink);font-weight:700}
-.avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid var(--cream);box-shadow:0 0 0 1px #C4B79E}
+.bottom{position:absolute;left:64px;right:64px;bottom:48px;display:flex;justify-content:space-between;align-items:center}
+.handle{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--ink);font-weight:700}
+.avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;border:3px solid var(--cream);box-shadow:0 0 0 1px #C4B79E;flex-shrink:0}
+.avatar.empty{background:#C4B79E;display:inline-block}
 .verified{color:#3B82F6;font-size:18px}
 .dots{display:flex;gap:8px;position:absolute;left:50%;bottom:60px;transform:translateX(-50%)}
 .dots span{width:8px;height:8px;border-radius:50%;background:#C4B79E;opacity:.7}
 .dots span.on{background:var(--rust);opacity:1;width:24px;border-radius:4px}
 
-.swipe{position:absolute;right:64px;bottom:72px;font-family:'Archivo Black';font-size:22px;color:var(--rust);display:flex;align-items:center;gap:8px}
+.swipe{position:absolute;right:64px;bottom:72px;font-family:'Archivo Black',sans-serif;font-size:22px;color:var(--rust);display:flex;align-items:center;gap:8px}
 .swipe svg{width:34px;height:34px}
 
-.side-arrow{position:absolute;top:50%;transform:translateY(-50%);width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;color:var(--rust);font-size:24px;font-weight:700;border:1px solid #C4B79E}
-.side-arrow.left{left:0;border-left:0;border-radius:0 27px 27px 0}
-.side-arrow.right{right:0;border-right:0;border-radius:27px 0 0 27px}
-
 .cta-stack{display:flex;flex-direction:column;gap:14px;margin-top:38px}
-.cta-pill{display:inline-flex;align-items:center;gap:14px;padding:18px 26px;background:var(--ink);color:var(--cream);border-radius:12px;font-family:'JetBrains Mono';font-size:22px;font-weight:700;letter-spacing:0.5px;width:fit-content}
+.cta-pill{display:inline-flex;align-items:center;gap:14px;padding:18px 26px;background:var(--ink);color:var(--cream);border-radius:12px;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:0.5px;width:fit-content;max-width:100%}
 .cta-pill .k{color:var(--rust)}
+.cta-pill .kw{color:var(--rust);font-weight:700}
 .cta-pill.alt{background:var(--rust);color:#fff}
+.cta-pill.alt .k{color:#FFD9C9}
+.cta-pill.alt .kw{color:#FFD9C9}
 
-@media (max-width:1180px){
-  .cards{grid-template-columns:repeat(auto-fit,minmax(420px,1fr))}
-  .card-wrap{width:auto;height:auto;aspect-ratio:1080/1350;max-width:540px}
-  .card{transform:scale(.4);transform-origin:top left}
-  .card-wrap{height:540px}
+/* ============ EXPORT HOST (offscreen, exact 1080x1350) ============ */
+.export-host{
+  position:fixed;left:-99999px;top:0;
+  width:1080px;height:1350px;
+  pointer-events:none;
+}
+.card-export{
+  position:relative;
+  width:1080px;height:1350px;
+}
+
+/* ============ ERROR / EMPTY STATES ============ */
+.empty{
+  padding:48px;text-align:center;color:#8C8479;font-size:14px;
+  border:1px dashed #3A332C;border-radius:12px;background:#161412;
+  grid-column:1 / -1;
+}
+.error{
+  max-width:760px;margin:60px auto;padding:24px;
+  background:#1a0e0e;border:1px solid #4a2222;border-radius:8px;color:#E0533D;
+}
+
+.footer{margin:48px auto 0;max-width:1320px;font-size:12px;color:#8C8479;line-height:1.6;padding:0 4px}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+@media (max-width:1024px){
+  .cards{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+}
+@media (max-width:768px){
+  .cards{grid-template-columns:1fr}
+  .card-wrap{max-width:100%}
+  .tab{font-size:10.5px;padding:10px 12px}
+  .carousel-head{padding:14px 16px}
+}
+@media (max-width:480px){
+  body{padding:14px 10px 60px}
+  .bulk-bar{flex-direction:column;align-items:stretch}
+  .bulk-bar .actions{flex-direction:column}
+  .btn,.btn-dl{width:100%}
+}
+@media (max-width:360px){
+  .page-head h1{font-size:22px}
+  .tabs{gap:6px}
 }
 </style>
 </head>
 <body>
 
-<div class="page-head">
-  <h1>Waseem — Industry Carousel Pack</h1>
-  <p>5 carousels × 6 slides = 30 cards. 1080×1350 IG/LI ratio. Tab-switch carousels above. Click <code>↓ PNG</code> per card to download. Style ref: @tenfoldmarc editorial cream + rust + circuit pattern.</p>
+<header class="page-head">
+  <h1>Carousel Cream + Rust, 5 carousels x 6 slides</h1>
+  <p>
+    Tenfoldmarc-style editorial cream + rust + circuit pattern + robot mascot. Archivo Black headlines, Inter body, JetBrains Mono terminal.
+    Tabs switch carousels above. Each card exports at exact <code>1080x1350</code> via html2canvas. Edit copy in <code>data.json</code>.
+    Bulk download grabs all 30 PNGs as a zip.
+  </p>
+</header>
+
+<div class="tabs" id="tabs" role="tablist" aria-label="Carousel filter"></div>
+
+<div class="bulk-bar">
+  <div class="meta">
+    Pack: <b id="packCount">0</b> cards &nbsp;.&nbsp; Export: <b>1080x1350</b> &nbsp;.&nbsp; Pattern: <b>5 x 6</b>
+  </div>
+  <div class="actions">
+    <button class="btn secondary" id="reload" type="button">Reload data.json</button>
+    <button class="btn" id="zipAll" type="button">Download all 30 (zip)</button>
+  </div>
 </div>
 
-<div class="tabs" id="tabs"></div>
+<main id="root" aria-live="polite"></main>
 
-<div id="root"></div>
+<div id="export-host" class="export-host" aria-hidden="true"></div>
 
-<!-- shared SVG defs -->
-<svg width="0" height="0" style="position:absolute">
+<!-- shared SVG defs (mascot + gradient) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <linearGradient id="rg" x1="0" x2="0" y1="0" y2="1">
       <stop offset="0" stop-color="#D8623C"/>
@@ -208,275 +352,419 @@ body{
   </defs>
 </svg>
 
+<footer class="footer">
+  <p>Quality gates: no em-dashes, no fake claims, photos picked via <code>python _pick-next.py</code>. Card content stays at fixed 1080x1350 px for pixel-perfect export. Page chrome scales with <code>clamp()</code>. Tested at 360 / 480 / 768 / 1024 / 1440.</p>
+</footer>
+
 <script>
-const AVATARS = {
-  c1: '_avatars/IMG_2742.jpg',
-  c2: '_avatars/IMG_2745.jpg',
-  c3: '_avatars/IMG_2747.jpg',
-  c4: '_avatars/IMG_2748.jpg',
-  c5: '_avatars/IMG_2749.jpg',
-};
-const HANDLE = '@waseemnasir2k26';
+(() => {
+  /* ===== STATE ===== */
+  let DATA = null;
+  let HANDLE = '@waseemnasir2k26';
+  const tabsEl = document.getElementById('tabs');
+  const root = document.getElementById('root');
+  const exportHost = document.getElementById('export-host');
+  const reloadBtn = document.getElementById('reload');
+  const zipAllBtn = document.getElementById('zipAll');
+  const packCountEl = document.getElementById('packCount');
 
-// helpers for terminal lines
-const $p = (cmd) => `<span class="prompt">$</span> ${cmd}`;
-const $a = (txt) => `<span class="arrow">→</span> ${txt}`;
-const $ok = (txt) => `<span class="ok">✓</span> ${txt}`;
-const $bad = (txt) => `<span class="bad">✗</span> ${txt}`;
+  /* ===== HELPERS ===== */
+  function escapeHtml(s){
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+  function escapeAttr(s){return escapeHtml(s).replace(/`/g,'&#96;')}
 
-const carousels = [
-  {
-    id:'c1',
-    tab:'Claude Code',
-    title:'STOP HITTING CLAUDE CODE LIMITS',
-    meta:'6 slides · LinkedIn carousel + IG · save as Claude-Code-Limits-PNG',
-    slides:[
-      {kind:'hero', tag:'CLAUDE CODE', headline:['STOP HITTING','CLAUDE CODE','<span class="accent">USAGE LIMITS</span>'], sub:'5 TRICKS THAT ACTUALLY WORK. YOU DON\'T NEED A BIGGER PLAN, YOU NEED TO USE IT SMARTER.', term:[$p('claude --check-usage'),$a('usage limit reached'),$bad('burning tokens too fast'),$ok('5 fixes incoming'),$ok('no upgrade needed')], bot:'bot-point'},
-      {kind:'trick', n:'01', tag:null, headline:['LET OPUS','PLAN. LET','<span class="accent">SONNET</span> EXECUTE.'], sub:'5X CHEAPER ON THE HEAVY LIFTING. SAME OUTPUT. ZERO COMPROMISE.', label:'Run this command:', term:[$p('/model opus-plan'),$a('Opus writes the plan'),$a('Sonnet does the work'),$ok('smart thinking up front'),$ok('cheap execution after'),$ok('~5x less spend on output')], bot:'bot-laptop'},
-      {kind:'trick', n:'02', headline:['<span class="accent">/CLEAR</span>','EVERY','MILESTONE.'], sub:'BLOATED CONTEXT BURNS TOKENS YOU\'RE NOT USING. RESET OFTEN.', label:'Habit to build:', term:[$p('/clear'),$a('context window: 0 tokens'),$ok('cache rebuilds in 5 min'),$ok('no stale file references'),$ok('next prompt = fresh start')], bot:'bot-cross'},
-      {kind:'trick', n:'03', headline:['PARALLEL','AGENTS','<span class="accent">NOT</span> SERIAL.'], sub:'ONE MESSAGE. MANY AGENTS. INDEPENDENT WORK FINISHES IN 1/N TIME.', label:'The pattern:', term:[$p('Agent × 5 in single message'),$a('research / build / test / scan / draft'),$ok('zero idle waiting'),$ok('main context stays clean'),$ok('5x throughput, same cost')], bot:'bot-point'},
-      {kind:'trick', n:'04', headline:['CACHE','EVERY','<span class="accent">SYSTEM PROMPT.</span>'], sub:'PROMPT CACHE = 90% DISCOUNT ON REPEATED TOKENS. 5-MIN TTL. USE IT.', label:'API call upgrade:', term:[$p('cache_control: ephemeral'),$a('first call: full price'),$a('next call (under 5min): 10%'),$ok('huge savings on long sysprompts'),$ok('zero quality loss')], bot:'bot-laptop'},
-      {kind:'cta', tag:'TAKEAWAY', headline:['STOP','UPGRADING.','<span class="accent">START</span> SHIPPING.'], sub:'5 FREE TRICKS. ZERO PLAN UPGRADES. SAME CLAUDE CODE.', ctas:[{k:'01.',v:'Save this post.'},{k:'02.',v:'Follow @waseemnasir2k26'},{k:'03.',v:'DM me <span class="k">CLAUDE</span> for the full PDF.'}], bot:'bot-point'},
-    ]
-  },
-  {
-    id:'c2',
-    tab:'AEO Pivot',
-    title:'STOP OPTIMIZING FOR GOOGLE',
-    meta:'6 slides · LinkedIn + IG · CiteLift launch tease',
-    slides:[
-      {kind:'hero', tag:'ANSWER ENGINE OPTIMIZATION', headline:['STOP RANKING','ON GOOGLE.','<span class="accent">START GETTING CITED.</span>'], sub:'AEO IS HERE. CHATGPT, CLAUDE, AND PERPLEXITY DECIDE WHAT YOUR BUYERS SEE.', term:[$p('aeo --audit your-site.com'),$a('google rank: #4'),$bad('chatgpt mentions: 0'),$bad('perplexity citations: 0'),$ok('5-step fix loading...')], bot:'bot-point'},
-      {kind:'trick', n:'01', headline:['ANSWER','<span class="accent">FIRST.</span>','CONTEXT SECOND.'], sub:'LLMS SCAN THE TOP 200 WORDS. BURY THE ANSWER, GET SKIPPED.', label:'Page rewrite rule:', term:[$p('inspect first-paragraph'),$a('lead with direct answer'),$a('save brand story for footer'),$ok('LLM extraction +400%'),$ok('citation rate jumps')], bot:'bot-laptop'},
-      {kind:'trick', n:'02', headline:['CITE','OR','<span class="accent">DIE.</span>'], sub:'OPINIONS DON\'T GET QUOTED. SOURCED CLAIMS DO. ADD PROOF EVERYWHERE.', label:'Page-level upgrade:', term:[$p('grep -r "studies show" pages/'),$bad('vague: "studies show"'),$ok('linked: <a href="...">2024 NIH study</a>'),$ok('LLMs trust citations'),$ok('your URL = the source')], bot:'bot-cross'},
-      {kind:'trick', n:'03', headline:['SCHEMA','EVERY','<span class="accent">PAGE.</span>'], sub:'FAQPAGE. HOWTO. ARTICLE. GIVE LLMS THE STRUCTURED HOOK.', label:'JSON-LD on every page:', term:[$p('add @type FAQPage'),$a('Q + A pairs in JSON'),$a('HowTo for guides'),$a('Article for posts'),$ok('Perplexity citation rate ~3x'),$ok('Google AI Overviews +')], bot:'bot-laptop'},
-      {kind:'trick', n:'04', headline:['OWN','<span class="accent">ONE</span>','CITATION.'], sub:'ONE QUOTE IN CHATGPT BEATS RANK #1 ON GOOGLE. CHASE THE QUOTE.', label:'Weekly habit:', term:[$p('ask: "best [your-niche] tool"'),$a('chatgpt + perplexity + claude'),$a('note who gets cited'),$ok('reverse-engineer their format'),$ok('own that question forever')], bot:'bot-point'},
-      {kind:'cta', tag:'WHAT\'S NEXT', headline:['THE FIRST','<span class="accent">AEO AUDIT</span>','TOOL IS COMING.'], sub:'CITELIFT.APP — FREE 30-SEC AUDIT. SEE WHAT CHATGPT THINKS OF YOUR SITE.', ctas:[{k:'01.',v:'Follow @waseemnasir2k26'},{k:'02.',v:'DM <span class="k">CITELIFT</span> for early access.'},{k:'03.',v:'Save this. Re-read in 90 days.'}], bot:'bot-point'},
-    ]
-  },
-  {
-    id:'c3',
-    tab:'Kill SaaS',
-    title:'KILL YOUR $500/MO SAAS STACK',
-    meta:'6 slides · n8n value content · DM keyword N8N',
-    slides:[
-      {kind:'hero', tag:'AUTOMATION', headline:['KILL YOUR','$500/MO','<span class="accent">SAAS STACK.</span>'], sub:'ONE SELF-HOSTED SERVER REPLACES ZAPIER, MAKE, AIRTABLE AUTOMATION, AND HALF YOUR CRM.', term:[$p('saas-bill --total'),$a('zapier pro: $99'),$a('make pro: $79'),$a('airtable auto: $54'),$bad('total: $500+/mo'),$ok('replace with: $5 VPS')], bot:'bot-laptop'},
-      {kind:'trick', n:'01', headline:['<span class="accent">n8n</span>','REPLACES','ZAPIER.'], sub:'UNLIMITED RUNS. SELF-HOSTED. ALL THE NODES YOU ACTUALLY NEED.', label:'One-line install:', term:[$p('docker run n8nio/n8n'),$a('400+ integrations'),$a('unlimited workflow runs'),$ok('no per-task pricing'),$ok('your data stays yours')], bot:'bot-cross'},
-      {kind:'trick', n:'02', headline:['HOOK','<span class="accent">CLAUDE</span>','INTO ANYTHING.'], sub:'HTTP NODE + SYSTEM PROMPT. NOW EVERY APP HAS AN AI BRAIN.', label:'The pattern:', term:[$p('HTTP → Anthropic API'),$a('system: your domain prompt'),$a('user: trigger payload'),$ok('Slack → AI summary'),$ok('Form → AI lead score'),$ok('Calendar → AI brief')], bot:'bot-point'},
-      {kind:'trick', n:'03', headline:['QUEUE','<span class="accent">+ RETRY</span>','= NO DEAD JOBS.'], sub:'BUILT-IN. NO REDIS SETUP. NO BULL.JS. JUST WORKS.', label:'Per-node setting:', term:[$p('settings → execution'),$a('retry on fail: 3x'),$a('wait between: 30s'),$a('on failure: send to error queue'),$ok('zero ghosted webhooks'),$ok('zero "must rerun manually"')], bot:'bot-laptop'},
-      {kind:'trick', n:'04', headline:['VERSION','<span class="accent">YOUR</span>','FLOWS.'], sub:'GIT EXPORT JSON. NO VENDOR LOCK. ROLLBACK IN 1 COMMAND.', label:'Real DevOps for automations:', term:[$p('n8n export:workflow --all'),$a('commit to git'),$a('diff between versions'),$ok('rollback bad deploys'),$ok('share flows team-wide'),$ok('Zapier could never')], bot:'bot-cross'},
-      {kind:'cta', tag:'YOUR MOVE', headline:['ONE WEEKEND.','<span class="accent">$5/MO.</span>','OWN YOUR STACK.'], sub:'I MIGRATED A CLIENT FROM $487/MO ZAPIER+MAKE TO $5/MO n8n. SAME WORKFLOWS. ZERO REGRETS.', ctas:[{k:'01.',v:'Save the post.'},{k:'02.',v:'DM <span class="k">N8N</span> for my setup script.'},{k:'03.',v:'Follow @waseemnasir2k26'}], bot:'bot-point'},
-    ]
-  },
-  {
-    id:'c4',
-    tab:'1-Man Agency',
-    title:'THE 1-MAN AGENCY STACK',
-    meta:'6 slides · Jarvis stack reveal · DM keyword GITHUB',
-    slides:[
-      {kind:'hero', tag:'THE STACK', headline:['HOW I RUN A','<span class="accent">1-MAN</span>','AGENCY.'], sub:'4 TOOLS. 1 BRAIN. ZERO EMPLOYEES. SHIPS FOR ~25 CLIENTS A QUARTER.', term:[$p('whoami'),$a('Waseem · Founder · SkynetLabs'),$a('clients shipped Q1: 24'),$a('headcount: 1'),$ok('the stack: revealing now')], bot:'bot-point'},
-      {kind:'trick', n:'01', headline:['CLAUDE','CODE','<span class="accent">= BUILDER.</span>'], sub:'FULL-DAY SWE WORK. PARALLEL AGENTS. NO CONTEXT-SWITCH TAX.', label:'Layer 1 — Build:', term:[$p('claude code'),$a('5 agents in parallel'),$a('research / build / test / QA / ship'),$ok('1 prompt = 5 hrs of work'),$ok('I review, not type'),$ok('100% of code reviewed by me')], bot:'bot-laptop'},
-      {kind:'trick', n:'02', headline:['<span class="accent">n8n</span>','=','DEPLOYER.'], sub:'CRONS. WEBHOOKS. LEAD ROUTING. FOLLOW-UPS. ALL ON A $5 VPS.', label:'Layer 2 — Run:', term:[$p('n8n workflows --active'),$a('lead → CRM → AI score → Slack'),$a('scheduled content drips'),$a('client onboarding chain'),$ok('no SaaS bills'),$ok('runs while I sleep')], bot:'bot-cross'},
-      {kind:'trick', n:'03', headline:['OBSIDIAN','<span class="accent">+ MCP</span>','= BRAIN.'], sub:'PERSISTENT MEMORY ACROSS CHATS. CLAUDE REMEMBERS EVERY CLIENT, EVERY DECISION.', label:'Layer 3 — Remember:', term:[$p('mcp obsidian search "client:nasir"'),$a('300+ project notes'),$a('every brief, every spec'),$ok('zero re-explaining'),$ok('zero lost context')], bot:'bot-point'},
-      {kind:'trick', n:'04', headline:['GHL','<span class="accent">+ MANYCHAT</span>','= FUNNEL.'], sub:'NO HUMAN CHASES A LEAD. CONTENT → DM → CALL → CONTRACT. ALL AUTO.', label:'Layer 4 — Sell:', term:[$p('post → trigger keyword'),$a('ManyChat: collect email'),$a('GHL: tag + nurture'),$a('Calendly: book call'),$ok('zero CRM data entry'),$ok('zero "did you reply yet?"')], bot:'bot-laptop'},
-      {kind:'cta', tag:'YOUR PLAYBOOK', headline:['STEAL THE','<span class="accent">WHOLE</span>','STACK.'], sub:'I WROTE THE FREE GUIDE. EVERY TOOL, EVERY WORKFLOW, EVERY DOLLAR.', ctas:[{k:'01.',v:'Comment <span class="k">GITHUB</span> for the free guide.'},{k:'02.',v:'Follow @waseemnasir2k26'},{k:'03.',v:'Save → re-read in 30 days.'}], bot:'bot-point'},
-    ]
-  },
-  {
-    id:'c5',
-    tab:'Vibe Code',
-    title:'VIBE CODE LIKE A SENIOR',
-    meta:'6 slides · Claude Code workflow · save & share',
-    slides:[
-      {kind:'hero', tag:'AI-NATIVE WORKFLOW', headline:['VIBE CODE','LIKE A','<span class="accent">SENIOR.</span>'], sub:'THE 4 RULES THAT SEPARATE JUNIORS FROM SHIPPERS WHEN AI WRITES THE CODE.', term:[$p('vibe-coder --score'),$a('idea → ship time: 2 weeks'),$bad('rewrites needed: 4'),$bad('prod bugs: 7'),$ok('4 rules incoming → 2 days, 0 bugs')], bot:'bot-laptop'},
-      {kind:'trick', n:'01', headline:['PLAN','<span class="accent">BEFORE</span>','YOU PROMPT.'], sub:'5 MINUTES OF SPEC SAVES 5 HOURS OF REWRITES. LET OPUS THINK FIRST.', label:'Step zero:', term:[$p('/plan'),$a('what changes? where? why?'),$a('which files? which tests?'),$a('what could break?'),$ok('lock the plan'),$ok('THEN start typing')], bot:'bot-point'},
-      {kind:'trick', n:'02', headline:['READ','<span class="accent">BEFORE</span>','YOU EDIT.'], sub:'AI THAT EDITS BLIND BREAKS THINGS. ALWAYS READ THE FILE FIRST.', label:'Hard rule:', term:[$p('Read file.ts → Edit file.ts'),$bad('NEVER: Edit without Read'),$ok('catches stale assumptions'),$ok('catches API drift'),$ok('half the bugs gone')], bot:'bot-cross'},
-      {kind:'trick', n:'03', headline:['TASKS','<span class="accent">&gt;</span>','MEMORY.'], sub:'YOUR BRAIN FORGETS. THE TASK LIST DOESN\'T. PIN EVERY STEP.', label:'Working memory:', term:[$p('TaskCreate × 5'),$a('one task = one ship-able unit'),$a('mark done as you go'),$ok('zero "what was I doing?"'),$ok('zero half-finished features'),$ok('clean PRs every time')], bot:'bot-laptop'},
-      {kind:'trick', n:'04', headline:['DIFF','<span class="accent">EVERYTHING.</span>',''], sub:'GIT DIFF IS THE ONLY SOURCE OF TRUTH. AI SUMMARIES LIE BY OMISSION.', label:'Before "done":', term:[$p('git diff main...HEAD'),$a('every line, with eyes'),$a('not the AI summary'),$ok('catch silent rewrites'),$ok('catch removed tests'),$ok('catch console.logs')], bot:'bot-cross'},
-      {kind:'cta', tag:'THE REAL UPGRADE', headline:['THE TOOL','<span class="accent">DIDN\'T CHANGE.</span>','YOUR PROCESS DID.'], sub:'4 RULES. ZERO COST. SHIP FASTER WITHOUT SHIPPING TRASH.', ctas:[{k:'01.',v:'Save this post.'},{k:'02.',v:'Tag a vibe-coder friend.'},{k:'03.',v:'Follow @waseemnasir2k26'}], bot:'bot-point'},
-    ]
-  },
-];
+  // Render a headline line with safe interpolation.
+  // Custom token <accent>...</accent> -> <span class="accent">...</span>
+  function renderHeadlineLine(line){
+    if (line == null) return '';
+    let s = String(line);
+    // Split into accent vs plain segments
+    const parts = [];
+    const re = /<accent>([\s\S]*?)<\/accent>/g;
+    let last = 0, m;
+    while ((m = re.exec(s)) !== null){
+      if (m.index > last) parts.push({type:'plain', text:s.slice(last, m.index)});
+      parts.push({type:'accent', text:m[1]});
+      last = m.index + m[0].length;
+    }
+    if (last < s.length) parts.push({type:'plain', text:s.slice(last)});
+    return parts.map(p => p.type === 'accent'
+      ? `<span class="accent">${escapeHtml(p.text)}</span>`
+      : escapeHtml(p.text)
+    ).join('');
+  }
+  // CTA value supports <kw>KEYWORD</kw> -> highlighted keyword
+  function renderCtaValue(line){
+    if (line == null) return '';
+    const s = String(line);
+    const parts = [];
+    const re = /<kw>([\s\S]*?)<\/kw>/g;
+    let last = 0, m;
+    while ((m = re.exec(s)) !== null){
+      if (m.index > last) parts.push({type:'plain', text:s.slice(last, m.index)});
+      parts.push({type:'kw', text:m[1]});
+      last = m.index + m[0].length;
+    }
+    if (last < s.length) parts.push({type:'plain', text:s.slice(last)});
+    return parts.map(p => p.type === 'kw'
+      ? `<span class="kw">${escapeHtml(p.text)}</span>`
+      : escapeHtml(p.text)
+    ).join('');
+  }
 
-function renderCard(c, slide, idx, total){
-  const dotsHtml = Array.from({length:total},(_,i)=>`<span class="${i===idx?'on':''}"></span>`).join('');
-  const pageNum = String(idx+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
-  let body = '';
+  function renderTermLine(t){
+    if (!t) return '';
+    const v = escapeHtml(t.v ?? '');
+    switch (t.k){
+      case 'prompt': return `<span class="prompt">$</span> ${v}`;
+      case 'arrow':  return `<span class="arrow">-&gt;</span> ${v}`;
+      case 'ok':     return `<span class="ok">[OK]</span> ${v}`;
+      case 'bad':    return `<span class="bad">[X]</span> ${v}`;
+      case 'dim':    return `<span class="dim">${v}</span>`;
+      default:       return v;
+    }
+  }
 
-  if(slide.kind === 'hero'){
-    body = `
-      <div class="tag-row">
-        <span class="handle-top">${HANDLE}</span>
-        <span>${pageNum}</span>
-      </div>
-      <div class="section-tag">${slide.tag||''}</div>
-      <h1 class="headline">${slide.headline.map(l=>`<div>${l}</div>`).join('')}</h1>
-      <p class="subhead">${slide.sub}</p>
-      <div class="terminal-wrap">
-        ${slide.label?`<div class="terminal-label">${slide.label}</div>`:''}
-        <div class="terminal">
-          <div class="lights"><span></span><span></span><span></span></div>
-          ${slide.term.map(l=>`<div class="ln">${l}</div>`).join('')}
+  /* ===== LOAD ===== */
+  async function load(){
+    root.innerHTML = '<div class="empty">Loading data.json...</div>';
+    try {
+      const res = await fetch('data.json?ts=' + Date.now(), {cache:'no-store'});
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      DATA = await res.json();
+      HANDLE = (DATA && DATA.handle) ? DATA.handle : HANDLE;
+      validate();
+      render();
+    } catch (err) {
+      root.innerHTML = `<div class="error">Could not load <code>data.json</code>. Serve via <code>python -m http.server</code> (file:// blocks fetch).<br><small>${escapeHtml(err.message)}</small></div>`;
+    }
+  }
+
+  function validate(){
+    if (!DATA || !Array.isArray(DATA.carousels)) {
+      console.warn('Expected DATA.carousels array');
+      return;
+    }
+    if (DATA.carousels.length !== 5) console.warn('Expected 5 carousels, got', DATA.carousels.length);
+    DATA.carousels.forEach(c => {
+      if (!Array.isArray(c.slides) || c.slides.length !== 6){
+        console.warn(`Carousel ${c.id} should have 6 slides, got`, c.slides ? c.slides.length : 'none');
+      }
+    });
+  }
+
+  /* ===== BUILD CARD CONTENT (used for both preview + export) ===== */
+  function buildCardContent(carousel, slide, idx, total){
+    const dotsHtml = Array.from({length:total},(_,i)=>`<span class="${i===idx?'on':''}"></span>`).join('');
+    const pageNum = String(idx+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+    let body = '';
+
+    if (slide.kind === 'hero'){
+      body = `
+        <div class="tag-row">
+          <span>${escapeHtml(HANDLE)}</span>
+          <span>${escapeHtml(pageNum)}</span>
         </div>
-        <svg class="mascot"><use href="#${slide.bot}"/></svg>
-      </div>`;
-  }
-  else if(slide.kind === 'trick'){
-    body = `
-      <div class="tag-row">
-        <span class="handle-top">${HANDLE}</span>
-        <span>${pageNum}</span>
-      </div>
-      <div class="section-tag big">TRICK <span class="num">${slide.n}</span></div>
-      <h1 class="headline sm">${slide.headline.map(l=>`<div>${l}</div>`).join('')}</h1>
-      <p class="subhead">${slide.sub}</p>
-      <div class="terminal-wrap">
-        ${slide.label?`<div class="terminal-label">${slide.label}</div>`:''}
-        <div class="terminal">
-          <div class="lights"><span></span><span></span><span></span></div>
-          ${slide.term.map(l=>`<div class="ln">${l}</div>`).join('')}
+        <div class="section-tag">${escapeHtml(slide.tag || '')}</div>
+        <h1 class="headline">${(slide.headline||[]).map(l=>`<div>${renderHeadlineLine(l)}</div>`).join('')}</h1>
+        <p class="subhead">${escapeHtml(slide.sub || '')}</p>
+        <div class="terminal-wrap">
+          ${slide.label ? `<div class="terminal-label">${escapeHtml(slide.label)}</div>` : ''}
+          <div class="terminal">
+            <div class="lights"><span></span><span></span><span></span></div>
+            ${(slide.term||[]).map(t=>`<div class="ln">${renderTermLine(t)}</div>`).join('')}
+          </div>
+          <svg class="mascot" aria-hidden="true"><use href="#${escapeAttr(slide.bot || 'bot-point')}"/></svg>
+        </div>`;
+    }
+    else if (slide.kind === 'trick'){
+      body = `
+        <div class="tag-row">
+          <span>${escapeHtml(HANDLE)}</span>
+          <span>${escapeHtml(pageNum)}</span>
         </div>
-        <svg class="mascot"><use href="#${slide.bot}"/></svg>
-      </div>`;
-  }
-  else if(slide.kind === 'cta'){
-    body = `
-      <div class="tag-row">
-        <span class="handle-top">${HANDLE}</span>
-        <span>${pageNum}</span>
-      </div>
-      <div class="section-tag">${slide.tag||''}</div>
-      <h1 class="headline sm">${slide.headline.map(l=>`<div>${l}</div>`).join('')}</h1>
-      <p class="subhead">${slide.sub}</p>
-      <div class="cta-stack">
-        ${slide.ctas.map((x,i)=>`<div class="cta-pill ${i===slide.ctas.length-1?'alt':''}"><span class="k">${x.k}</span> <span>${x.v}</span></div>`).join('')}
-      </div>
-      <svg class="mascot lg" style="position:absolute;right:64px;bottom:120px;width:170px"><use href="#${slide.bot}"/></svg>`;
-  }
+        <div class="section-tag big">TRICK <span class="num">${escapeHtml(slide.n || '')}</span></div>
+        <h1 class="headline sm">${(slide.headline||[]).map(l=>`<div>${renderHeadlineLine(l)}</div>`).join('')}</h1>
+        <p class="subhead">${escapeHtml(slide.sub || '')}</p>
+        <div class="terminal-wrap">
+          ${slide.label ? `<div class="terminal-label">${escapeHtml(slide.label)}</div>` : ''}
+          <div class="terminal">
+            <div class="lights"><span></span><span></span><span></span></div>
+            ${(slide.term||[]).map(t=>`<div class="ln">${renderTermLine(t)}</div>`).join('')}
+          </div>
+          <svg class="mascot" aria-hidden="true"><use href="#${escapeAttr(slide.bot || 'bot-point')}"/></svg>
+        </div>`;
+    }
+    else if (slide.kind === 'cta'){
+      const ctas = (slide.ctas||[]).map((x,i) => {
+        const isLast = i === (slide.ctas.length - 1);
+        return `<div class="cta-pill ${isLast ? 'alt' : ''}"><span class="k">${escapeHtml(x.k || '')}</span> <span>${renderCtaValue(x.v || '')}</span></div>`;
+      }).join('');
+      body = `
+        <div class="tag-row">
+          <span>${escapeHtml(HANDLE)}</span>
+          <span>${escapeHtml(pageNum)}</span>
+        </div>
+        <div class="section-tag">${escapeHtml(slide.tag || '')}</div>
+        <h1 class="headline sm">${(slide.headline||[]).map(l=>`<div>${renderHeadlineLine(l)}</div>`).join('')}</h1>
+        <p class="subhead">${escapeHtml(slide.sub || '')}</p>
+        <div class="cta-stack">${ctas}</div>
+        <svg class="mascot lg" aria-hidden="true" style="position:absolute;right:64px;bottom:120px;width:170px"><use href="#${escapeAttr(slide.bot || 'bot-point')}"/></svg>`;
+    }
 
-  const isLast = idx === total-1;
-  const swipe = !isLast ? `<div class="swipe">SWIPE <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>` : '';
+    const isLast = idx === total - 1;
+    const swipe = !isLast
+      ? `<div class="swipe">SWIPE <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>`
+      : '';
 
-  return `
-    <div class="card-wrap">
-      <span class="num">${idx+1}/${total}</span>
-      <button class="dl" data-card-id="${c.id}-${idx}">↓ PNG</button>
-      <div class="card" id="card-${c.id}-${idx}">
+    const handleText = HANDLE.replace(/^@/, '');
+    const avatarSrc = carousel.avatar || '';
+    const avatarBlock = avatarSrc
+      ? `<img src="${escapeAttr(avatarSrc)}" class="avatar" crossorigin="anonymous" alt="" onerror="this.classList.add('empty');this.removeAttribute('src')">`
+      : `<span class="avatar empty"></span>`;
+
+    return `
+      <div class="card-content" role="img" aria-label="Slide ${idx+1} of ${total} for carousel ${escapeAttr(carousel.title)}">
         <div class="card-inner">${body}</div>
         <div class="dots">${dotsHtml}</div>
         ${swipe}
-        <div class="bottom" style="position:absolute;left:64px;right:64px;bottom:48px">
+        <div class="bottom">
           <div class="handle">
-            <img src="${AVATARS[c.id]}" class="avatar" crossorigin="anonymous">
-            <span>${HANDLE.replace('@','')}</span>
-            <span class="verified">✓</span>
+            ${avatarBlock}
+            <span>${escapeHtml(handleText)}</span>
+            <span class="verified">[v]</span>
           </div>
           <span></span>
         </div>
-      </div>
-    </div>`;
-}
-
-function render(){
-  const tabs = document.getElementById('tabs');
-  const root = document.getElementById('root');
-  tabs.innerHTML = carousels.map((c,i)=>`<button class="tab ${i===0?'active':''}" data-tab="${c.id}"><span class="num">0${i+1}</span>${c.tab}</button>`).join('');
-  root.innerHTML = carousels.map((c,i)=>`
-    <div class="carousel ${i===0?'active':''}" id="carousel-${c.id}">
-      <div class="carousel-head">
-        <div>
-          <h2>${c.title}</h2>
-          <div class="meta">${c.meta}</div>
-        </div>
-        <button class="btn-all" data-all="${c.id}">↓ Download all 6 PNGs</button>
-      </div>
-      <div class="cards">
-        ${c.slides.map((s,si)=>renderCard(c,s,si,c.slides.length)).join('')}
-      </div>
-    </div>
-  `).join('');
-
-  // tab clicks
-  tabs.querySelectorAll('.tab').forEach(t=>{
-    t.addEventListener('click',()=>{
-      tabs.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-      document.querySelectorAll('.carousel').forEach(x=>x.classList.remove('active'));
-      document.getElementById('carousel-'+t.dataset.tab).classList.add('active');
-    });
-  });
-
-  // single download
-  document.querySelectorAll('.dl').forEach(btn=>{
-    btn.addEventListener('click', async ()=>{
-      const id = btn.dataset.cardId;
-      await downloadCard(id);
-    });
-  });
-
-  // download all in carousel
-  document.querySelectorAll('.btn-all').forEach(btn=>{
-    btn.addEventListener('click', async ()=>{
-      const cid = btn.dataset.all;
-      btn.disabled = true; btn.textContent = 'rendering...';
-      const c = carousels.find(x=>x.id===cid);
-      for(let i=0;i<c.slides.length;i++){
-        await downloadCard(`${cid}-${i}`);
-        await new Promise(r=>setTimeout(r,300));
-      }
-      btn.disabled = false; btn.textContent = '↓ Download all 6 PNGs';
-    });
-  });
-}
-
-async function downloadCard(id){
-  const el = document.getElementById('card-'+id);
-  // temporarily un-scale for capture
-  const original = el.style.transform;
-  el.style.transform = 'none';
-  el.style.position = 'absolute';
-  el.style.left = '-99999px';
-  document.body.appendChild(el);
-  try{
-    const canvas = await html2canvas(el, {
-      width:1080, height:1350, scale:1,
-      backgroundColor:'#F2EBE0',
-      useCORS:true, allowTaint:true,
-    });
-    const link = document.createElement('a');
-    link.download = `waseem-carousel-${id}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  } finally {
-    el.style.transform = original;
-    el.style.position = '';
-    el.style.left = '';
-    // put back into card-wrap
-    document.getElementById('card-'+id+'-wrap-anchor');
+      </div>`;
   }
-}
-// simpler: render uses fixed positions — to safely re-host, wrap original anchor
-// simpler path: don't move element, just render and let html2canvas use the scaled origin inversed via canvas scale
-// → switching to a non-detach approach below
-async function downloadCardSafe(id){
-  const el = document.getElementById('card-'+id);
-  const canvas = await html2canvas(el, {
-    width:1080, height:1350, scale:1,
-    backgroundColor:'#F2EBE0',
-    useCORS:true, allowTaint:true,
-    onclone:(doc)=>{
-      const c = doc.getElementById('card-'+id);
-      if(c){ c.style.transform='none'; }
+
+  /* ===== BUILD PREVIEW (.card-frame + scaled .card-scale) ===== */
+  function buildPreviewCard(carousel, slide, idx, total){
+    const wrapId = `wrap-${carousel.id}-${idx}`;
+    const scaleId = `scale-${carousel.id}-${idx}`;
+    const slideKindLabel = (slide.kind || 'slide').toUpperCase();
+    const previewLabel = `Carousel ${escapeAttr(carousel.title)} slide ${idx+1} of ${total}`;
+
+    return `
+      <article class="card-wrap" data-cid="${escapeAttr(carousel.id)}" data-idx="${idx}">
+        <div class="card-frame" id="${wrapId}" role="img" aria-label="${previewLabel}">
+          <span class="num-badge">${idx+1} / ${total}</span>
+          <span class="kind-badge">${escapeHtml(slideKindLabel)}</span>
+          <div class="card-scale" id="${scaleId}">
+            ${buildCardContent(carousel, slide, idx, total)}
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="label">${escapeHtml(carousel.id.toUpperCase())} . slide ${idx+1}</span>
+          <button class="btn-dl" type="button" data-cid="${escapeAttr(carousel.id)}" data-idx="${idx}">Download PNG</button>
+        </div>
+      </article>`;
+  }
+
+  /* ===== BUILD GROUP ===== */
+  function buildCarouselGroup(c, isFirst){
+    const slidesHtml = c.slides.map((s, si) => buildPreviewCard(c, s, si, c.slides.length)).join('');
+    return `
+      <section class="carousel ${isFirst ? 'active' : ''}" id="carousel-${escapeAttr(c.id)}">
+        <div class="carousel-head">
+          <div>
+            <h2>${escapeHtml(c.title)}</h2>
+            <div class="meta">${escapeHtml(c.meta || '')}</div>
+          </div>
+          <button class="btn" type="button" data-all="${escapeAttr(c.id)}">Download all 6 (zip)</button>
+        </div>
+        <div class="cards">${slidesHtml}</div>
+      </section>`;
+  }
+
+  /* ===== RENDER ===== */
+  function render(){
+    if (!DATA || !DATA.carousels.length){
+      root.innerHTML = '<div class="empty">No carousels in data.json</div>';
+      return;
+    }
+    tabsEl.innerHTML = DATA.carousels.map((c,i) =>
+      `<button class="tab" role="tab" aria-selected="${i===0?'true':'false'}" data-tab="${escapeAttr(c.id)}"><span class="num">0${i+1}</span>${escapeHtml(c.tab || c.title)}</button>`
+    ).join('');
+    root.innerHTML = DATA.carousels.map((c,i) => buildCarouselGroup(c, i === 0)).join('');
+    const total = DATA.carousels.reduce((sum,c) => sum + (c.slides ? c.slides.length : 0), 0);
+    packCountEl.textContent = total;
+    bindTabs();
+    bindDownloadButtons();
+    rescaleAll();
+  }
+
+  /* ===== RESCALE PREVIEWS ===== */
+  function rescaleAll(){
+    document.querySelectorAll('.card-frame').forEach(frame => {
+      const w = frame.clientWidth;
+      if (!w) return;
+      const scale = w / 1080;
+      const inner = frame.querySelector('.card-scale');
+      if (inner) inner.style.transform = `scale(${scale})`;
+    });
+  }
+
+  /* ===== TABS ===== */
+  function bindTabs(){
+    tabsEl.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => {
+        tabsEl.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected','false'));
+        t.setAttribute('aria-selected','true');
+        document.querySelectorAll('.carousel').forEach(x => x.classList.remove('active'));
+        const target = document.getElementById('carousel-' + t.dataset.tab);
+        if (target) target.classList.add('active');
+        // re-scale newly visible cards
+        requestAnimationFrame(rescaleAll);
+      });
+    });
+  }
+
+  /* ===== DOWNLOAD HANDLERS ===== */
+  function bindDownloadButtons(){
+    document.querySelectorAll('.btn-dl').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const cid = btn.dataset.cid;
+        const idx = parseInt(btn.dataset.idx, 10);
+        const carousel = DATA.carousels.find(c => c.id === cid);
+        if (!carousel) return;
+        const slide = carousel.slides[idx];
+        const orig = btn.textContent;
+        btn.textContent = 'Rendering...';
+        btn.disabled = true;
+        try {
+          const blob = await renderToBlob(carousel, slide, idx, carousel.slides.length);
+          if (!blob) throw new Error('blob failed');
+          downloadBlob(blob, fileNameFor(carousel, idx));
+          btn.textContent = 'Done';
+        } catch (err){
+          console.error(err);
+          btn.textContent = 'Failed';
+        } finally {
+          setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 1200);
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-all]').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const cid = btn.dataset.all;
+        const carousel = DATA.carousels.find(c => c.id === cid);
+        if (!carousel) return;
+        const orig = btn.textContent;
+        btn.disabled = true;
+        try {
+          const zip = new JSZip();
+          for (let i = 0; i < carousel.slides.length; i++){
+            btn.textContent = `Rendering ${i+1}/${carousel.slides.length}...`;
+            const blob = await renderToBlob(carousel, carousel.slides[i], i, carousel.slides.length);
+            if (blob) zip.file(fileNameFor(carousel, i), blob);
+          }
+          btn.textContent = 'Zipping...';
+          const out = await zip.generateAsync({type:'blob'});
+          downloadBlob(out, `waseem-carousel-${carousel.id}-${new Date().toISOString().slice(0,10)}.zip`);
+          btn.textContent = 'Zip ready';
+        } catch (err){
+          console.error(err);
+          btn.textContent = 'Zip failed';
+        } finally {
+          setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 1500);
+        }
+      });
+    });
+  }
+
+  /* ===== EXPORT NODE (offscreen, exact 1080x1350) ===== */
+  async function renderToBlob(carousel, slide, idx, total){
+    // Build a fresh export node into the offscreen host
+    exportHost.innerHTML = '';
+    const exportNode = document.createElement('div');
+    exportNode.className = 'card-export';
+    exportNode.innerHTML = buildCardContent(carousel, slide, idx, total);
+    exportHost.appendChild(exportNode);
+
+    // Wait for fonts
+    if (document.fonts && document.fonts.ready){
+      try { await document.fonts.ready; } catch(e){}
+    }
+    // Wait for any avatar image to load
+    const img = exportNode.querySelector('img.avatar');
+    if (img && !img.complete){
+      await new Promise(resolve => {
+        img.addEventListener('load', resolve, {once:true});
+        img.addEventListener('error', resolve, {once:true});
+        setTimeout(resolve, 2500);
+      });
+    }
+
+    const target = exportNode.querySelector('.card-content');
+    const canvas = await html2canvas(target, {
+      width: 1080,
+      height: 1350,
+      windowWidth: 1080,
+      windowHeight: 1350,
+      backgroundColor: '#F2EBE0',
+      scale: 1,
+      useCORS: true,
+      allowTaint: true,
+      logging: false
+    });
+
+    return new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0));
+  }
+
+  function fileNameFor(carousel, idx){
+    return `waseem-carousel-${carousel.id}-${String(idx+1).padStart(2,'0')}.png`;
+  }
+
+  function downloadBlob(blob, filename){
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  /* ===== ZIP ALL 30 ===== */
+  zipAllBtn.addEventListener('click', async () => {
+    if (!DATA || !DATA.carousels.length) return;
+    zipAllBtn.disabled = true;
+    const orig = zipAllBtn.textContent;
+    try {
+      const zip = new JSZip();
+      let count = 0;
+      const total = DATA.carousels.reduce((s,c) => s + c.slides.length, 0);
+      for (const c of DATA.carousels){
+        const folder = zip.folder(c.id);
+        for (let i = 0; i < c.slides.length; i++){
+          count++;
+          zipAllBtn.textContent = `Rendering ${count}/${total}...`;
+          const blob = await renderToBlob(c, c.slides[i], i, c.slides.length);
+          if (blob) folder.file(fileNameFor(c, i), blob);
+        }
+      }
+      zipAllBtn.textContent = 'Building zip...';
+      const out = await zip.generateAsync({type:'blob'});
+      downloadBlob(out, `waseem-carousels-cream-rust-${new Date().toISOString().slice(0,10)}.zip`);
+      zipAllBtn.textContent = 'Zip downloaded';
+    } catch (err){
+      console.error(err);
+      zipAllBtn.textContent = 'Zip failed';
+    } finally {
+      setTimeout(() => { zipAllBtn.textContent = orig; zipAllBtn.disabled = false; }, 2000);
     }
   });
-  const link = document.createElement('a');
-  link.download = `waseem-carousel-${id}.png`;
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-}
-// override
-downloadCard = downloadCardSafe;
 
-render();
+  reloadBtn.addEventListener('click', load);
+  window.addEventListener('resize', () => requestAnimationFrame(rescaleAll));
+
+  load();
+})();
 </script>
 
 </body>

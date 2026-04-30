@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waseem X-Pack — 12 Image Tweets (1200×675)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --ink:#0a0a0a;
+    --paper:#F5F1EA;
+    --gold:#D4AF37;
+    --gold-soft:#C9A227;
+    --line:#1f1f1f;
+    --mid:#2a2a2a;
+    --dim:#7a7268;
+    --warn:#E0533D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#050505;color:var(--paper);font-family:'Inter',system-ui,sans-serif}
+  body{padding:clamp(16px,3vw,32px) clamp(12px,3vw,28px) 80px;min-height:100vh}
+
+  /* ============ PAGE CHROME ============ */
+  .page-head{max-width:1320px;margin:0 auto 24px;padding:0 4px}
+  .page-head h1{font-family:'Fraunces',serif;font-size:clamp(26px,4vw,40px);letter-spacing:-0.5px;line-height:1.05;color:#fff;margin-bottom:8px}
+  .page-head h1 .accent{color:var(--gold);font-style:italic}
+  .page-head p{color:var(--dim);font-size:clamp(12px,1.6vw,14px);line-height:1.55;max-width:760px}
+  .page-head code{background:#161616;padding:2px 6px;border-radius:3px;color:#E8DFCF;font-family:'JetBrains Mono';font-size:11px}
+
+  /* ============ TABS ============ */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;max-width:1320px;margin:24px auto 28px;padding:0 4px}
+  .tab{
+    padding:12px 18px;
+    min-height:44px;
+    background:#141414;color:#bdb5a8;border:1px solid #262626;border-radius:6px;
+    cursor:pointer;font-size:11.5px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;
+    transition:all .15s;font-family:'Inter',sans-serif;
+    display:inline-flex;align-items:center;gap:8px;
+  }
+  .tab:hover{background:#1c1c1c;color:#fff}
+  .tab.active{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+  .tab .num{opacity:.65;font-family:'JetBrains Mono';font-size:10px}
+
+  /* ============ BULK BAR ============ */
+  .bulk-bar{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+    max-width:1320px;margin:0 auto 28px;padding:14px 18px;
+    background:#101010;border:1px solid #1f1f1f;border-radius:8px;
+  }
+  .bulk-bar .meta{color:var(--dim);font-size:12px;font-family:'JetBrains Mono'}
+  .bulk-bar .meta b{color:var(--gold)}
+  .btn-zip{
+    padding:12px 20px;min-height:44px;
+    background:var(--gold);color:#0a0a0a;border:0;border-radius:6px;
+    cursor:pointer;font-weight:700;font-size:12px;letter-spacing:0.8px;text-transform:uppercase;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-zip:hover{background:#E5C04A}
+  .btn-zip:disabled{opacity:.5;cursor:not-allowed}
+
+  /* ============ GRID ============ */
+  .group{display:none;max-width:1320px;margin:0 auto}
+  .group.active{display:block}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));
+    gap:clamp(20px,2.5vw,32px);
+    justify-content:center;
+  }
+
+  /* ============ CARD WRAP (responsive preview) ============ */
+  .card-wrap{
+    position:relative;
+    width:100%;
+    max-width:600px;
+    aspect-ratio:1200 / 675;
+    background:var(--bg);
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 20px rgba(0,0,0,0.4);
+    margin:0 auto;
+  }
+  .card-wrap .num-badge{
+    position:absolute;top:10px;left:10px;z-index:50;
+    padding:5px 10px;background:rgba(10,10,10,0.8);color:var(--gold);
+    border:1px solid rgba(212,175,55,0.4);border-radius:4px;
+    font-family:'JetBrains Mono';font-size:10px;font-weight:700;letter-spacing:0.5px;
+    backdrop-filter:blur(4px);
+  }
+  .card-wrap .type-badge{
+    position:absolute;top:10px;right:10px;z-index:50;
+    padding:5px 10px;background:rgba(212,175,55,0.92);color:#0a0a0a;
+    border-radius:4px;font-family:'JetBrains Mono';font-size:10px;font-weight:700;
+    text-transform:uppercase;letter-spacing:0.6px;
+  }
+
+  /* ============ ACTUAL CARD (1200×675 export node) ============ */
+  /* Lives in viewport but visually scaled via CSS transform inside .card-wrap */
+  .card-scale{
+    position:absolute;
+    top:0;left:0;
+    width:1200px;
+    height:675px;
+    transform-origin:top left;
+    /* JS sets scale = wrap.width / 1200 */
+  }
+
+  .card{
+    width:1200px;height:675px;
+    background:var(--bg);
+    position:relative;
+    font-family:'Inter',sans-serif;
+    color:var(--paper);
+    overflow:hidden;
+  }
+  /* Subtle grid texture */
+  .card::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px);
+    background-size:60px 60px;
+    pointer-events:none;
+  }
+  /* Soft gold glow corners */
+  .card::after{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 0% 0%, rgba(212,175,55,0.10), transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(212,175,55,0.06), transparent 45%);
+    pointer-events:none;
+  }
+  .card-inner{
+    position:relative;z-index:2;
+    padding:56px 72px;
+    height:100%;
+    display:flex;flex-direction:column;
+  }
+
+  /* Top row: handle + dot */
+  .top-row{display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono';font-size:18px;color:#bdb5a8;letter-spacing:0.5px}
+  .top-row .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(212,175,55,0.6)}
+  .top-row .handle{font-weight:700;color:#e8e0d2}
+  .top-row .pill{
+    margin-left:auto;font-family:'JetBrains Mono';font-size:13px;
+    padding:5px 11px;border:1px solid rgba(212,175,55,0.35);border-radius:3px;
+    color:var(--gold);text-transform:uppercase;letter-spacing:1.4px;font-weight:700;
+  }
+
+  /* Hook (Fraunces 72px) */
+  .hook{
+    font-family:'Fraunces',serif;
+    font-size:72px;
+    line-height:1.05;
+    letter-spacing:-1.2px;
+    color:#fff;
+    margin-top:auto;
+    font-weight:500;
+    max-width:1056px;
+  }
+  .hook .accent{color:var(--gold);font-style:italic;font-weight:400}
+  .hook.smaller{font-size:60px}
+  .hook.smallest{font-size:54px}
+
+  /* Body (Inter 24px, 2 lines) */
+  .body{
+    font-family:'Inter',sans-serif;
+    font-size:24px;
+    line-height:1.4;
+    color:#bdb5a8;
+    margin-top:24px;
+    font-weight:500;
+    max-width:920px;
+  }
+
+  /* Bottom row: photo + brand */
+  .bottom-row{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-top:auto;
+  }
+  .brand{
+    font-family:'JetBrains Mono';font-size:13px;color:var(--dim);
+    letter-spacing:1.2px;text-transform:uppercase;font-weight:700;
+  }
+  .brand b{color:var(--gold)}
+  .photo{
+    width:96px;height:96px;border-radius:50%;
+    background:#1a1a1a;
+    border:3px solid var(--gold);
+    overflow:hidden;
+    box-shadow:0 0 0 6px rgba(212,175,55,0.10);
+    flex-shrink:0;
+  }
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .photo.empty{
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);font-family:'JetBrains Mono';font-size:11px;font-weight:700;
+  }
+
+  /* ============ CARD FOOTER (controls outside card) ============ */
+  .card-footer{
+    margin-top:14px;
+    padding:14px 16px;
+    background:#101010;border:1px solid #1f1f1f;border-radius:8px;
+  }
+  .tweet-box{
+    background:#0a0a0a;border:1px solid #1f1f1f;border-radius:6px;
+    padding:12px 14px;color:#d8cfc0;font-size:13px;line-height:1.55;
+    white-space:pre-wrap;word-break:break-word;
+    font-family:'Inter',sans-serif;
+    max-height:180px;overflow:auto;
+  }
+  .thread-followups{
+    margin-top:10px;border-top:1px dashed #2a2a2a;padding-top:10px;
+  }
+  .thread-followups .fu{
+    background:#0e0e0e;border-left:2px solid var(--gold);
+    padding:8px 12px;margin-top:8px;
+    font-size:12.5px;line-height:1.55;color:#bdb5a8;
+    border-radius:0 4px 4px 0;
+  }
+  .footer-row{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    margin-top:12px;
+  }
+  .char-count{
+    font-family:'JetBrains Mono';font-size:12px;color:var(--dim);font-weight:700;
+  }
+  .char-count.warn{color:var(--warn)}
+  .char-count.ok{color:#7BA86F}
+  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{
+    padding:10px 14px;min-height:44px;
+    background:#1a1a1a;color:var(--paper);border:1px solid #2a2a2a;border-radius:5px;
+    cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;
+    font-family:'Inter',sans-serif;
+  }
+  .btn:hover{background:#222;border-color:#333}
+  .btn-gold{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+  .btn-gold:hover{background:#E5C04A;border-color:#E5C04A}
+
+  .copied{color:#7BA86F !important}
+
+  /* ============ RESPONSIVE BREAKPOINTS ============ */
+  @media (max-width:1024px){
+    .grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr))}
+  }
+  @media (max-width:768px){
+    .grid{grid-template-columns:1fr}
+    .card-wrap{max-width:100%}
+    .tab{font-size:10.5px;padding:10px 12px}
+  }
+  @media (max-width:480px){
+    body{padding:14px 10px 60px}
+    .bulk-bar{flex-direction:column;align-items:stretch}
+    .btn-zip{width:100%}
+  }
+  @media (max-width:360px){
+    .page-head h1{font-size:22px}
+    .tabs{gap:6px}
+  }
+
+  /* ============ HIDDEN EXPORT NODE ============ */
+  /* Off-screen sibling rendered at exact 1200x675 for html2canvas */
+  .export-stage{
+    position:absolute;left:-99999px;top:0;
+    width:1200px;height:675px;
+    pointer-events:none;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-head">
+  <h1>Waseem <span class="accent">X-Pack</span> — 12 image tweets, 1200×675, MWF drip</h1>
+  <p>
+    Editorial dark+gold, Fraunces hook, Inter body. Scheduled native X / Hypefury (NOT GHL).
+    Tabs filter by type. Each card exports at exact <code>1200×675</code> via html2canvas.
+    Char counter turns red ≥240 to leave room for link card. Threads show numbered follow-ups inline.
+  </p>
+</header>
+
+<div class="tabs" role="tablist">
+  <button class="tab active" data-group="all" role="tab"><span class="num">12</span>All Tweets</button>
+  <button class="tab" data-group="oneliner" role="tab"><span class="num">4</span>Punchy 1-liners</button>
+  <button class="tab" data-group="story" role="tab"><span class="num">4</span>Mini-stories</button>
+  <button class="tab" data-group="thread" role="tab"><span class="num">4</span>Threaded teases</button>
+</div>
+
+<div class="bulk-bar">
+  <div class="meta">
+    Pack: <b id="packCount">12</b> tweets &nbsp;·&nbsp; Export size: <b>1200×675</b> &nbsp;·&nbsp; Drip: <b>MWF × 4 weeks</b>
+  </div>
+  <button class="btn-zip" id="zipAll">Download all 12 PNGs (zip)</button>
+</div>
+
+<main id="root"></main>
+
+<script>
+  const DATA_URL = 'data.json';
+
+  /* ---------- LOAD ---------- */
+  async function loadData(){
+    try{
+      const res = await fetch(DATA_URL);
+      if(!res.ok) throw new Error('Failed to load data.json: '+res.status);
+      return await res.json();
+    }catch(err){
+      console.error(err);
+      document.getElementById('root').innerHTML =
+        `<div style="max-width:760px;margin:60px auto;padding:24px;background:#1a0e0e;border:1px solid #4a2222;border-radius:8px;color:#E0533D">
+          <b>Error:</b> Could not load <code>data.json</code>. Serve via <code>python -m http.server</code> (file:// blocks fetch).
+          <br><br><small>${err.message}</small>
+        </div>`;
+      return null;
+    }
+  }
+
+  /* ---------- CHAR COUNT ---------- */
+  function charClass(n){
+    if(n >= 240) return 'warn';
+    if(n >= 200) return '';
+    return 'ok';
+  }
+
+  /* ---------- ESCAPE ---------- */
+  function esc(s){
+    return String(s||'').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  /* ---------- HOOK SIZE TIER ---------- */
+  function hookSizeClass(text){
+    const len = (text||'').length;
+    if(len > 50) return 'smallest';
+    if(len > 32) return 'smaller';
+    return '';
+  }
+
+  /* ---------- BUILD CARD ---------- */
+  function buildCard(item, idx){
+    const id = `card-${item.id}`;
+    const sizeCls = hookSizeClass(item.card_hook);
+    const photoBlock = item.photo
+      ? `<div class="photo"><img src="${esc(item.photo)}" alt="Waseem Nasir" onerror="this.parentNode.classList.add('empty');this.parentNode.innerHTML='PHOTO'"></div>`
+      : `<div class="photo empty">PHOTO</div>`;
+
+    const charCount = (item.tweet_text||'').length;
+    const ccCls = charClass(charCount);
+
+    const followups = (item.thread_followups||[]).map((t,i) =>
+      `<div class="fu"><b style="color:var(--gold)">↳ ${i+2}/</b> ${esc(t)}</div>`
+    ).join('');
+
+    return `
+    <article class="card-block" data-type="${esc(item.type)}" data-id="${item.id}">
+      <div class="card-wrap" id="wrap-${id}" role="img" aria-label="X tweet card ${item.id}: ${esc(item.card_hook)}">
+        <span class="num-badge">${String(item.id).padStart(2,'0')} / 12</span>
+        <span class="type-badge">${esc(item.type)}</span>
+        <div class="card-scale" id="scale-${id}">
+          <div class="card" id="${id}">
+            <div class="card-inner">
+              <div class="top-row">
+                <span class="dot"></span>
+                <span class="handle">@waseembali2k26</span>
+                <span class="pill">${esc(item.type)}</span>
+              </div>
+              <div class="hook ${sizeCls}">${esc(item.card_hook)}</div>
+              <div class="body">${esc(item.card_body)}</div>
+              <div class="bottom-row">
+                <div class="brand">SkynetLabs · <b>Waseem Nasir</b></div>
+                ${photoBlock}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="tweet-box" id="tweet-${id}">${esc(item.tweet_text)}</div>
+        ${followups ? `<div class="thread-followups">${followups}</div>` : ''}
+        <div class="footer-row">
+          <span class="char-count ${ccCls}" id="cc-${id}">${charCount} / 240 chars</span>
+          <div class="actions">
+            <button class="btn" data-copy="${item.id}">Copy tweet text</button>
+            <button class="btn btn-gold" data-dl="${item.id}">Download PNG</button>
+          </div>
+        </div>
+      </div>
+    </article>`;
+  }
+
+  /* ---------- BUILD GROUP ---------- */
+  function buildGroup(items, group){
+    return `<section class="group ${group==='all'?'active':''}" data-group="${group}">
+      <div class="grid">
+        ${items.map((it,i) => buildCard(it,i)).join('')}
+      </div>
+    </section>`;
+  }
+
+  /* ---------- RESCALE PREVIEW ---------- */
+  function rescaleAll(){
+    document.querySelectorAll('.card-wrap').forEach(wrap => {
+      const scale = wrap.clientWidth / 1200;
+      const inner = wrap.querySelector('.card-scale');
+      if(inner) inner.style.transform = `scale(${scale})`;
+      wrap.style.height = (675 * scale) + 'px';
+    });
+  }
+
+  /* ---------- RENDER PNG ---------- */
+  async function renderPNG(item){
+    // Build a fresh, off-screen, full-size 1200x675 stage so html2canvas
+    // captures the exact export dims regardless of preview scale.
+    const stage = document.createElement('div');
+    stage.className = 'export-stage';
+    stage.innerHTML = `
+      <div class="card" style="transform:none">
+        <div class="card-inner">
+          <div class="top-row">
+            <span class="dot"></span>
+            <span class="handle">@waseembali2k26</span>
+            <span class="pill">${esc(item.type)}</span>
+          </div>
+          <div class="hook ${hookSizeClass(item.card_hook)}">${esc(item.card_hook)}</div>
+          <div class="body">${esc(item.card_body)}</div>
+          <div class="bottom-row">
+            <div class="brand">SkynetLabs · <b>Waseem Nasir</b></div>
+            ${item.photo
+              ? `<div class="photo"><img src="${esc(item.photo)}" alt="" crossorigin="anonymous"></div>`
+              : `<div class="photo empty">PHOTO</div>`}
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(stage);
+
+    // Wait for image (if any) to load
+    const img = stage.querySelector('img');
+    if(img && !img.complete){
+      await new Promise(r => { img.onload = r; img.onerror = r; });
+    }
+
+    const canvas = await html2canvas(stage.querySelector('.card'), {
+      width: 1200,
+      height: 675,
+      scale: 1,
+      backgroundColor: '#0a0a0a',
+      useCORS: true,
+      logging: false
+    });
+
+    document.body.removeChild(stage);
+    return canvas;
+  }
+
+  function canvasToBlob(canvas){
+    return new Promise(resolve => canvas.toBlob(b => resolve(b), 'image/png'));
+  }
+
+  function downloadCanvas(canvas, filename){
+    canvas.toBlob(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    }, 'image/png');
+  }
+
+  /* ---------- TABS ---------- */
+  function bindTabs(){
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        const target = t.dataset.group;
+        document.querySelectorAll('.group').forEach(g => g.classList.remove('active'));
+        const group = document.querySelector(`.group[data-group="${target}"]`);
+        if(group) group.classList.add('active');
+        rescaleAll();
+      });
+    });
+  }
+
+  /* ---------- COPY + DOWNLOAD HANDLERS ---------- */
+  function bindActions(items){
+    const byId = {};
+    items.forEach(it => { byId[it.id] = it; });
+
+    document.addEventListener('click', async e => {
+      // Copy tweet text
+      const cBtn = e.target.closest('[data-copy]');
+      if(cBtn){
+        const id = cBtn.dataset.copy;
+        const item = byId[id];
+        if(!item) return;
+        try{
+          await navigator.clipboard.writeText(item.tweet_text);
+          const orig = cBtn.textContent;
+          cBtn.textContent = 'Copied ✓';
+          cBtn.classList.add('copied');
+          setTimeout(() => { cBtn.textContent = orig; cBtn.classList.remove('copied'); }, 1500);
+        }catch(err){
+          alert('Copy failed. Tweet:\n\n'+item.tweet_text);
+        }
+        return;
+      }
+
+      // Download PNG
+      const dBtn = e.target.closest('[data-dl]');
+      if(dBtn){
+        const id = dBtn.dataset.dl;
+        const item = byId[id];
+        if(!item) return;
+        const orig = dBtn.textContent;
+        dBtn.textContent = 'Rendering...';
+        dBtn.disabled = true;
+        try{
+          const canvas = await renderPNG(item);
+          downloadCanvas(canvas, `x-tweet-${String(item.id).padStart(2,'0')}-${item.type}.png`);
+          dBtn.textContent = 'Done ✓';
+          setTimeout(() => { dBtn.textContent = orig; dBtn.disabled = false; }, 1200);
+        }catch(err){
+          console.error(err);
+          dBtn.textContent = 'Failed';
+          setTimeout(() => { dBtn.textContent = orig; dBtn.disabled = false; }, 1500);
+        }
+      }
+    });
+  }
+
+  /* ---------- BULK ZIP ---------- */
+  function bindZip(items){
+    const btn = document.getElementById('zipAll');
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      const orig = btn.textContent;
+      try{
+        const zip = new JSZip();
+        for(let i=0;i<items.length;i++){
+          const it = items[i];
+          btn.textContent = `Rendering ${i+1}/${items.length}...`;
+          const canvas = await renderPNG(it);
+          const blob = await canvasToBlob(canvas);
+          zip.file(`x-tweet-${String(it.id).padStart(2,'0')}-${it.type}.png`, blob);
+        }
+        btn.textContent = 'Building zip...';
+        const blob = await zip.generateAsync({type:'blob'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'waseem-x-pack-12-tweets.zip';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 8000);
+        btn.textContent = 'Zip downloaded ✓';
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2000);
+      }catch(err){
+        console.error(err);
+        btn.textContent = 'Zip failed — check console';
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; }, 2500);
+      }
+    });
+  }
+
+  /* ---------- BOOT ---------- */
+  (async () => {
+    const data = await loadData();
+    if(!data) return;
+
+    const root = document.getElementById('root');
+    const oneliners = data.filter(d => d.type === 'oneliner');
+    const stories   = data.filter(d => d.type === 'story');
+    const threads   = data.filter(d => d.type === 'thread');
+
+    root.innerHTML =
+      buildGroup(data, 'all') +
+      buildGroup(oneliners, 'oneliner') +
+      buildGroup(stories, 'story') +
+      buildGroup(threads, 'thread');
+
+    document.getElementById('packCount').textContent = data.length;
+
+    bindTabs();
+    bindActions(data);
+    bindZip(data);
+
+    rescaleAll();
+    window.addEventListener('resize', rescaleAll);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 ---
 name: social-stack
-version: 1.1.0
+version: 1.2.0
+repo: https://github.com/waseemnasir2k26/skynet-social-stack
 description: |
   Build, render, and schedule social-media post packs end-to-end across LinkedIn,
   Instagram, Facebook, X/Twitter, Pinterest, YouTube. Picks the right template
@@ -138,6 +139,7 @@ outputs/<slug>-<YYYY-MM-DD>/
 6. **NDA scrub.** Strip client names from FB/IG/Pin (LinkedIn = signal but check). E.g. "ROSELYNE" scrubbed from FB/IG/Pin per linkedin-viral-30 precedent.
 7. **Date-shift safety.** Run shifter BEFORE upload or lose 9/30 pins to past dates (Pinterest precedent).
 8. **24–72h Meta soak.** Submit WA templates BEFORE Day 1 or funnel dies.
+9. **Responsive output contract.** Every PNG/PDF/MP4 ships fully responsive — fixed-px export node + fluid preview frame, viewport tests 360/480/768/1024/1440, ≥44px touch, role=img + aria-label. → `references/responsive-output-contract.md`
 
 ---
 
@@ -155,23 +157,28 @@ outputs/<slug>-<YYYY-MM-DD>/
 
 ---
 
-## TEMPLATES
+## TEMPLATES (5 working, v1.2.0)
 
 - `templates/carousel-cream-rust/` — Archivo Black + circuit + robot mascot, 1080×1350
-- `templates/li-card-editorial-dark/` — Fraunces serif + dark+gold, 1080×1350
-- `templates/fb-news-9card/` — 9-card mix (4 info + 2 motiv + 3 sell + closer)
-- `templates/x-pack/` — text-card 1200×675
-- `templates/pin-card/` — vertical 1000×1500
+- `templates/li-card-editorial-dark/` — Fraunces serif + dark+gold, 1080×1350 (NEW v1.2)
+- `templates/fb-news-9card/` — 9-card mix (4 info + 2 motiv + 3 sell + locked closer), 1080×1350 (NEW v1.2)
+- `templates/x-pack/` — image-tweet 1200×675, 12-tweet pack w/ thread followups (NEW v1.2)
+- `templates/pin-card/` — vertical 1000×1500, 30-pin batch, 3 palettes, UTM auto-inject (NEW v1.2)
 
-Each template is a working HTML — fork, swap data, ship.
+Every template ships with: `index.html` (responsive preview + html2canvas export), `data.json` (sample data), `README.md` (responsive contract + usage), `_avatars/` (rotation-log photo dest).
+
+All templates inherit `references/responsive-output-contract.md`.
 
 ---
 
 ## SCRIPTS
 
-- `scripts/build_ghl_csv.py` — generic 6-col CSV builder
-- `scripts/shift_dates.py` — date-shift CSV by N days, MWF/daily/weekday cadence
-- `scripts/pick_avatar.py` — wraps `_pick-next.py` w/ batch + auto-mark
+- `scripts/build_ghl_csv.py` — canonical 6-col CSV builder (postAtSpecificTime, content, link, imageUrls, gifUrl, videoUrls). QUOTE_ALL. Validates input.
+- `scripts/shift_dates.py` — date-shift canonical CSV by N days, MWF/daily/weekday cadence. Try/except on malformed dates.
+- `scripts/pick_avatar.py` — wraps `_pick-next.py` w/ rotation-log validation + forced --mark or --no-mark (no silent skip)
+- `scripts/utm_inject.py` — adds utm params per row to GHL CSV
+- `scripts/seed_replies.py` — first-30-min engagement seed comments
+- `scripts/caption_variants.py` — A/B hook variants from hook-bank
 
 ---
 
@@ -186,4 +193,4 @@ Each template is a working HTML — fork, swap data, ship.
 
 ---
 
-Last updated: 2026-04-30
+Last updated: 2026-04-30 (v1.2.0 — responsive contract + 4 templates shipped)

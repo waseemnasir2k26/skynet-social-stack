@@ -1,0 +1,492 @@
+{
+  "handle": "@waseemnasir2k26",
+  "carousels": [
+    {
+      "id": "c1",
+      "tab": "Claude Code",
+      "title": "STOP HITTING CLAUDE CODE LIMITS",
+      "meta": "6 slides · LinkedIn carousel + IG · save as Claude-Code-Limits-PNG",
+      "avatar": "_avatars/IMG_2742.jpg",
+      "slides": [
+        {
+          "kind": "hero",
+          "tag": "CLAUDE CODE",
+          "headline": ["STOP HITTING", "CLAUDE CODE", "<accent>USAGE LIMITS</accent>"],
+          "sub": "5 TRICKS THAT ACTUALLY WORK. YOU DON'T NEED A BIGGER PLAN, YOU NEED TO USE IT SMARTER.",
+          "term": [
+            {"k": "prompt", "v": "claude --check-usage"},
+            {"k": "arrow", "v": "usage limit reached"},
+            {"k": "bad", "v": "burning tokens too fast"},
+            {"k": "ok", "v": "5 fixes incoming"},
+            {"k": "ok", "v": "no upgrade needed"}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "trick",
+          "n": "01",
+          "headline": ["LET OPUS", "PLAN. LET", "<accent>SONNET</accent> EXECUTE."],
+          "sub": "5X CHEAPER ON THE HEAVY LIFTING. SAME OUTPUT. ZERO COMPROMISE.",
+          "label": "Run this command:",
+          "term": [
+            {"k": "prompt", "v": "/model opus-plan"},
+            {"k": "arrow", "v": "Opus writes the plan"},
+            {"k": "arrow", "v": "Sonnet does the work"},
+            {"k": "ok", "v": "smart thinking up front"},
+            {"k": "ok", "v": "cheap execution after"},
+            {"k": "ok", "v": "~5x less spend on output"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "02",
+          "headline": ["<accent>/CLEAR</accent>", "EVERY", "MILESTONE."],
+          "sub": "BLOATED CONTEXT BURNS TOKENS YOU'RE NOT USING. RESET OFTEN.",
+          "label": "Habit to build:",
+          "term": [
+            {"k": "prompt", "v": "/clear"},
+            {"k": "arrow", "v": "context window: 0 tokens"},
+            {"k": "ok", "v": "cache rebuilds in 5 min"},
+            {"k": "ok", "v": "no stale file references"},
+            {"k": "ok", "v": "next prompt = fresh start"}
+          ],
+          "bot": "bot-cross"
+        },
+        {
+          "kind": "trick",
+          "n": "03",
+          "headline": ["PARALLEL", "AGENTS", "<accent>NOT</accent> SERIAL."],
+          "sub": "ONE MESSAGE. MANY AGENTS. INDEPENDENT WORK FINISHES IN 1/N TIME.",
+          "label": "The pattern:",
+          "term": [
+            {"k": "prompt", "v": "Agent x 5 in single message"},
+            {"k": "arrow", "v": "research / build / test / scan / draft"},
+            {"k": "ok", "v": "zero idle waiting"},
+            {"k": "ok", "v": "main context stays clean"},
+            {"k": "ok", "v": "5x throughput, same cost"}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "trick",
+          "n": "04",
+          "headline": ["CACHE", "EVERY", "<accent>SYSTEM PROMPT.</accent>"],
+          "sub": "PROMPT CACHE = 90% DISCOUNT ON REPEATED TOKENS. 5-MIN TTL. USE IT.",
+          "label": "API call upgrade:",
+          "term": [
+            {"k": "prompt", "v": "cache_control: ephemeral"},
+            {"k": "arrow", "v": "first call: full price"},
+            {"k": "arrow", "v": "next call (under 5min): 10%"},
+            {"k": "ok", "v": "huge savings on long sysprompts"},
+            {"k": "ok", "v": "zero quality loss"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "cta",
+          "tag": "TAKEAWAY",
+          "headline": ["STOP", "UPGRADING.", "<accent>START</accent> SHIPPING."],
+          "sub": "5 FREE TRICKS. ZERO PLAN UPGRADES. SAME CLAUDE CODE.",
+          "ctas": [
+            {"k": "01.", "v": "Save this post."},
+            {"k": "02.", "v": "Follow @waseemnasir2k26"},
+            {"k": "03.", "v": "DM me <kw>CLAUDE</kw> for the full PDF."}
+          ],
+          "bot": "bot-point"
+        }
+      ]
+    },
+    {
+      "id": "c2",
+      "tab": "AEO Pivot",
+      "title": "STOP OPTIMIZING FOR GOOGLE",
+      "meta": "6 slides · LinkedIn + IG · CiteLift launch tease",
+      "avatar": "_avatars/IMG_2745.jpg",
+      "slides": [
+        {
+          "kind": "hero",
+          "tag": "ANSWER ENGINE OPTIMIZATION",
+          "headline": ["STOP RANKING", "ON GOOGLE.", "<accent>START GETTING CITED.</accent>"],
+          "sub": "AEO IS HERE. CHATGPT, CLAUDE, AND PERPLEXITY DECIDE WHAT YOUR BUYERS SEE.",
+          "term": [
+            {"k": "prompt", "v": "aeo --audit your-site.com"},
+            {"k": "arrow", "v": "google rank: #4"},
+            {"k": "bad", "v": "chatgpt mentions: 0"},
+            {"k": "bad", "v": "perplexity citations: 0"},
+            {"k": "ok", "v": "5-step fix loading..."}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "trick",
+          "n": "01",
+          "headline": ["ANSWER", "<accent>FIRST.</accent>", "CONTEXT SECOND."],
+          "sub": "LLMS SCAN THE TOP 200 WORDS. BURY THE ANSWER, GET SKIPPED.",
+          "label": "Page rewrite rule:",
+          "term": [
+            {"k": "prompt", "v": "inspect first-paragraph"},
+            {"k": "arrow", "v": "lead with direct answer"},
+            {"k": "arrow", "v": "save brand story for footer"},
+            {"k": "ok", "v": "LLM extraction +400%"},
+            {"k": "ok", "v": "citation rate jumps"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "02",
+          "headline": ["CITE", "OR", "<accent>DIE.</accent>"],
+          "sub": "OPINIONS DON'T GET QUOTED. SOURCED CLAIMS DO. ADD PROOF EVERYWHERE.",
+          "label": "Page-level upgrade:",
+          "term": [
+            {"k": "prompt", "v": "grep -r \"studies show\" pages/"},
+            {"k": "bad", "v": "vague: \"studies show\""},
+            {"k": "ok", "v": "linked: 2024 NIH study"},
+            {"k": "ok", "v": "LLMs trust citations"},
+            {"k": "ok", "v": "your URL = the source"}
+          ],
+          "bot": "bot-cross"
+        },
+        {
+          "kind": "trick",
+          "n": "03",
+          "headline": ["SCHEMA", "EVERY", "<accent>PAGE.</accent>"],
+          "sub": "FAQPAGE. HOWTO. ARTICLE. GIVE LLMS THE STRUCTURED HOOK.",
+          "label": "JSON-LD on every page:",
+          "term": [
+            {"k": "prompt", "v": "add @type FAQPage"},
+            {"k": "arrow", "v": "Q + A pairs in JSON"},
+            {"k": "arrow", "v": "HowTo for guides"},
+            {"k": "arrow", "v": "Article for posts"},
+            {"k": "ok", "v": "Perplexity citation rate ~3x"},
+            {"k": "ok", "v": "Google AI Overviews +"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "04",
+          "headline": ["OWN", "<accent>ONE</accent>", "CITATION."],
+          "sub": "ONE QUOTE IN CHATGPT BEATS RANK #1 ON GOOGLE. CHASE THE QUOTE.",
+          "label": "Weekly habit:",
+          "term": [
+            {"k": "prompt", "v": "ask: \"best [your-niche] tool\""},
+            {"k": "arrow", "v": "chatgpt + perplexity + claude"},
+            {"k": "arrow", "v": "note who gets cited"},
+            {"k": "ok", "v": "reverse-engineer their format"},
+            {"k": "ok", "v": "own that question forever"}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "cta",
+          "tag": "WHAT'S NEXT",
+          "headline": ["THE FIRST", "<accent>AEO AUDIT</accent>", "TOOL IS COMING."],
+          "sub": "CITELIFT.APP. FREE 30-SEC AUDIT. SEE WHAT CHATGPT THINKS OF YOUR SITE.",
+          "ctas": [
+            {"k": "01.", "v": "Follow @waseemnasir2k26"},
+            {"k": "02.", "v": "DM <kw>CITELIFT</kw> for early access."},
+            {"k": "03.", "v": "Save this. Re-read in 90 days."}
+          ],
+          "bot": "bot-point"
+        }
+      ]
+    },
+    {
+      "id": "c3",
+      "tab": "Kill SaaS",
+      "title": "KILL YOUR $500/MO SAAS STACK",
+      "meta": "6 slides · n8n value content · DM keyword N8N",
+      "avatar": "_avatars/IMG_2747.jpg",
+      "slides": [
+        {
+          "kind": "hero",
+          "tag": "AUTOMATION",
+          "headline": ["KILL YOUR", "$500/MO", "<accent>SAAS STACK.</accent>"],
+          "sub": "ONE SELF-HOSTED SERVER REPLACES ZAPIER, MAKE, AIRTABLE AUTOMATION, AND HALF YOUR CRM.",
+          "term": [
+            {"k": "prompt", "v": "saas-bill --total"},
+            {"k": "arrow", "v": "zapier pro: $99"},
+            {"k": "arrow", "v": "make pro: $79"},
+            {"k": "arrow", "v": "airtable auto: $54"},
+            {"k": "bad", "v": "total: $500+/mo"},
+            {"k": "ok", "v": "replace with: $5 VPS"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "01",
+          "headline": ["<accent>n8n</accent>", "REPLACES", "ZAPIER."],
+          "sub": "UNLIMITED RUNS. SELF-HOSTED. ALL THE NODES YOU ACTUALLY NEED.",
+          "label": "One-line install:",
+          "term": [
+            {"k": "prompt", "v": "docker run n8nio/n8n"},
+            {"k": "arrow", "v": "400+ integrations"},
+            {"k": "arrow", "v": "unlimited workflow runs"},
+            {"k": "ok", "v": "no per-task pricing"},
+            {"k": "ok", "v": "your data stays yours"}
+          ],
+          "bot": "bot-cross"
+        },
+        {
+          "kind": "trick",
+          "n": "02",
+          "headline": ["HOOK", "<accent>CLAUDE</accent>", "INTO ANYTHING."],
+          "sub": "HTTP NODE + SYSTEM PROMPT. NOW EVERY APP HAS AN AI BRAIN.",
+          "label": "The pattern:",
+          "term": [
+            {"k": "prompt", "v": "HTTP -> Anthropic API"},
+            {"k": "arrow", "v": "system: your domain prompt"},
+            {"k": "arrow", "v": "user: trigger payload"},
+            {"k": "ok", "v": "Slack -> AI summary"},
+            {"k": "ok", "v": "Form -> AI lead score"},
+            {"k": "ok", "v": "Calendar -> AI brief"}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "trick",
+          "n": "03",
+          "headline": ["QUEUE", "<accent>+ RETRY</accent>", "= NO DEAD JOBS."],
+          "sub": "BUILT-IN. NO REDIS SETUP. NO BULL.JS. JUST WORKS.",
+          "label": "Per-node setting:",
+          "term": [
+            {"k": "prompt", "v": "settings -> execution"},
+            {"k": "arrow", "v": "retry on fail: 3x"},
+            {"k": "arrow", "v": "wait between: 30s"},
+            {"k": "arrow", "v": "on failure: send to error queue"},
+            {"k": "ok", "v": "zero ghosted webhooks"},
+            {"k": "ok", "v": "zero \"must rerun manually\""}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "04",
+          "headline": ["VERSION", "<accent>YOUR</accent>", "FLOWS."],
+          "sub": "GIT EXPORT JSON. NO VENDOR LOCK. ROLLBACK IN 1 COMMAND.",
+          "label": "Real DevOps for automations:",
+          "term": [
+            {"k": "prompt", "v": "n8n export:workflow --all"},
+            {"k": "arrow", "v": "commit to git"},
+            {"k": "arrow", "v": "diff between versions"},
+            {"k": "ok", "v": "rollback bad deploys"},
+            {"k": "ok", "v": "share flows team-wide"},
+            {"k": "ok", "v": "Zapier could never"}
+          ],
+          "bot": "bot-cross"
+        },
+        {
+          "kind": "cta",
+          "tag": "YOUR MOVE",
+          "headline": ["ONE WEEKEND.", "<accent>$5/MO.</accent>", "OWN YOUR STACK."],
+          "sub": "I MIGRATED A CLIENT FROM $487/MO ZAPIER+MAKE TO $5/MO n8n. SAME WORKFLOWS. ZERO REGRETS.",
+          "ctas": [
+            {"k": "01.", "v": "Save the post."},
+            {"k": "02.", "v": "DM <kw>N8N</kw> for my setup script."},
+            {"k": "03.", "v": "Follow @waseemnasir2k26"}
+          ],
+          "bot": "bot-point"
+        }
+      ]
+    },
+    {
+      "id": "c4",
+      "tab": "1-Man Agency",
+      "title": "THE 1-MAN AGENCY STACK",
+      "meta": "6 slides · Jarvis stack reveal · DM keyword GITHUB",
+      "avatar": "_avatars/IMG_2748.jpg",
+      "slides": [
+        {
+          "kind": "hero",
+          "tag": "THE STACK",
+          "headline": ["HOW I RUN A", "<accent>1-MAN</accent>", "AGENCY."],
+          "sub": "4 TOOLS. 1 BRAIN. ZERO EMPLOYEES. SHIPS FOR ~25 CLIENTS A QUARTER.",
+          "term": [
+            {"k": "prompt", "v": "whoami"},
+            {"k": "arrow", "v": "Waseem · Founder · SkynetLabs"},
+            {"k": "arrow", "v": "clients shipped Q1: 24"},
+            {"k": "arrow", "v": "headcount: 1"},
+            {"k": "ok", "v": "the stack: revealing now"}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "trick",
+          "n": "01",
+          "headline": ["CLAUDE", "CODE", "<accent>= BUILDER.</accent>"],
+          "sub": "FULL-DAY SWE WORK. PARALLEL AGENTS. NO CONTEXT-SWITCH TAX.",
+          "label": "Layer 1 - Build:",
+          "term": [
+            {"k": "prompt", "v": "claude code"},
+            {"k": "arrow", "v": "5 agents in parallel"},
+            {"k": "arrow", "v": "research / build / test / QA / ship"},
+            {"k": "ok", "v": "1 prompt = 5 hrs of work"},
+            {"k": "ok", "v": "I review, not type"},
+            {"k": "ok", "v": "100% of code reviewed by me"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "02",
+          "headline": ["<accent>n8n</accent>", "=", "DEPLOYER."],
+          "sub": "CRONS. WEBHOOKS. LEAD ROUTING. FOLLOW-UPS. ALL ON A $5 VPS.",
+          "label": "Layer 2 - Run:",
+          "term": [
+            {"k": "prompt", "v": "n8n workflows --active"},
+            {"k": "arrow", "v": "lead -> CRM -> AI score -> Slack"},
+            {"k": "arrow", "v": "scheduled content drips"},
+            {"k": "arrow", "v": "client onboarding chain"},
+            {"k": "ok", "v": "no SaaS bills"},
+            {"k": "ok", "v": "runs while I sleep"}
+          ],
+          "bot": "bot-cross"
+        },
+        {
+          "kind": "trick",
+          "n": "03",
+          "headline": ["OBSIDIAN", "<accent>+ MCP</accent>", "= BRAIN."],
+          "sub": "PERSISTENT MEMORY ACROSS CHATS. CLAUDE REMEMBERS EVERY CLIENT, EVERY DECISION.",
+          "label": "Layer 3 - Remember:",
+          "term": [
+            {"k": "prompt", "v": "mcp obsidian search \"client:nasir\""},
+            {"k": "arrow", "v": "300+ project notes"},
+            {"k": "arrow", "v": "every brief, every spec"},
+            {"k": "ok", "v": "zero re-explaining"},
+            {"k": "ok", "v": "zero lost context"}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "trick",
+          "n": "04",
+          "headline": ["GHL", "<accent>+ MANYCHAT</accent>", "= FUNNEL."],
+          "sub": "NO HUMAN CHASES A LEAD. CONTENT -> DM -> CALL -> CONTRACT. ALL AUTO.",
+          "label": "Layer 4 - Sell:",
+          "term": [
+            {"k": "prompt", "v": "post -> trigger keyword"},
+            {"k": "arrow", "v": "ManyChat: collect email"},
+            {"k": "arrow", "v": "GHL: tag + nurture"},
+            {"k": "arrow", "v": "Calendly: book call"},
+            {"k": "ok", "v": "zero CRM data entry"},
+            {"k": "ok", "v": "zero \"did you reply yet?\""}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "cta",
+          "tag": "YOUR PLAYBOOK",
+          "headline": ["STEAL THE", "<accent>WHOLE</accent>", "STACK."],
+          "sub": "I WROTE THE FREE GUIDE. EVERY TOOL, EVERY WORKFLOW, EVERY DOLLAR.",
+          "ctas": [
+            {"k": "01.", "v": "Comment <kw>GITHUB</kw> for the free guide."},
+            {"k": "02.", "v": "Follow @waseemnasir2k26"},
+            {"k": "03.", "v": "Save -> re-read in 30 days."}
+          ],
+          "bot": "bot-point"
+        }
+      ]
+    },
+    {
+      "id": "c5",
+      "tab": "Vibe Code",
+      "title": "VIBE CODE LIKE A SENIOR",
+      "meta": "6 slides · Claude Code workflow · save & share",
+      "avatar": "_avatars/IMG_2749.jpg",
+      "slides": [
+        {
+          "kind": "hero",
+          "tag": "AI-NATIVE WORKFLOW",
+          "headline": ["VIBE CODE", "LIKE A", "<accent>SENIOR.</accent>"],
+          "sub": "THE 4 RULES THAT SEPARATE JUNIORS FROM SHIPPERS WHEN AI WRITES THE CODE.",
+          "term": [
+            {"k": "prompt", "v": "vibe-coder --score"},
+            {"k": "arrow", "v": "idea -> ship time: 2 weeks"},
+            {"k": "bad", "v": "rewrites needed: 4"},
+            {"k": "bad", "v": "prod bugs: 7"},
+            {"k": "ok", "v": "4 rules incoming -> 2 days, 0 bugs"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "01",
+          "headline": ["PLAN", "<accent>BEFORE</accent>", "YOU PROMPT."],
+          "sub": "5 MINUTES OF SPEC SAVES 5 HOURS OF REWRITES. LET OPUS THINK FIRST.",
+          "label": "Step zero:",
+          "term": [
+            {"k": "prompt", "v": "/plan"},
+            {"k": "arrow", "v": "what changes? where? why?"},
+            {"k": "arrow", "v": "which files? which tests?"},
+            {"k": "arrow", "v": "what could break?"},
+            {"k": "ok", "v": "lock the plan"},
+            {"k": "ok", "v": "THEN start typing"}
+          ],
+          "bot": "bot-point"
+        },
+        {
+          "kind": "trick",
+          "n": "02",
+          "headline": ["READ", "<accent>BEFORE</accent>", "YOU EDIT."],
+          "sub": "AI THAT EDITS BLIND BREAKS THINGS. ALWAYS READ THE FILE FIRST.",
+          "label": "Hard rule:",
+          "term": [
+            {"k": "prompt", "v": "Read file.ts -> Edit file.ts"},
+            {"k": "bad", "v": "NEVER: Edit without Read"},
+            {"k": "ok", "v": "catches stale assumptions"},
+            {"k": "ok", "v": "catches API drift"},
+            {"k": "ok", "v": "half the bugs gone"}
+          ],
+          "bot": "bot-cross"
+        },
+        {
+          "kind": "trick",
+          "n": "03",
+          "headline": ["TASKS", "<accent>&gt;</accent>", "MEMORY."],
+          "sub": "YOUR BRAIN FORGETS. THE TASK LIST DOESN'T. PIN EVERY STEP.",
+          "label": "Working memory:",
+          "term": [
+            {"k": "prompt", "v": "TaskCreate x 5"},
+            {"k": "arrow", "v": "one task = one ship-able unit"},
+            {"k": "arrow", "v": "mark done as you go"},
+            {"k": "ok", "v": "zero \"what was I doing?\""},
+            {"k": "ok", "v": "zero half-finished features"},
+            {"k": "ok", "v": "clean PRs every time"}
+          ],
+          "bot": "bot-laptop"
+        },
+        {
+          "kind": "trick",
+          "n": "04",
+          "headline": ["DIFF", "<accent>EVERYTHING.</accent>", ""],
+          "sub": "GIT DIFF IS THE ONLY SOURCE OF TRUTH. AI SUMMARIES LIE BY OMISSION.",
+          "label": "Before \"done\":",
+          "term": [
+            {"k": "prompt", "v": "git diff main...HEAD"},
+            {"k": "arrow", "v": "every line, with eyes"},
+            {"k": "arrow", "v": "not the AI summary"},
+            {"k": "ok", "v": "catch silent rewrites"},
+            {"k": "ok", "v": "catch removed tests"},
+            {"k": "ok", "v": "catch console.logs"}
+          ],
+          "bot": "bot-cross"
+        },
+        {
+          "kind": "cta",
+          "tag": "THE REAL UPGRADE",
+          "headline": ["THE TOOL", "<accent>DIDN'T CHANGE.</accent>", "YOUR PROCESS DID."],
+          "sub": "4 RULES. ZERO COST. SHIP FASTER WITHOUT SHIPPING TRASH.",
+          "ctas": [
+            {"k": "01.", "v": "Save this post."},
+            {"k": "02.", "v": "Tag a vibe-coder friend."},
+            {"k": "03.", "v": "Follow @waseemnasir2k26"}
+          ],
+          "bot": "bot-point"
+        }
+      ]
+    }
+  ]
+}

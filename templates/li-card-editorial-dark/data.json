@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "card-01",
+    "label": "FIELD NOTES / 01",
+    "hook": "Build the demo before the deck.",
+    "body": "Pitches die in slide review. Working prototypes get forwarded. Ship the proof first, write the words second.",
+    "name": "Waseem Nasir",
+    "role": "Founder, SkynetLabs",
+    "avatar": "_avatars/IMG_2742.jpg"
+  },
+  {
+    "slug": "card-02",
+    "label": "STACK / 02",
+    "hook": "One operator, full stack.",
+    "body": "Claude Code writes it. n8n routes it. Vercel ships it. The three-tool stack replaced a four-person team this quarter.",
+    "name": "Waseem Nasir",
+    "role": "Founder, SkynetLabs",
+    "avatar": "_avatars/IMG_2745.jpg"
+  },
+  {
+    "slug": "card-03",
+    "label": "POSITIONING / 03",
+    "hook": "AEO is the open lane.",
+    "body": "SEO is crowded. LLM citations are not. The agencies pricing AEO at fifteen hundred a month own the next eighteen months.",
+    "name": "Waseem Nasir",
+    "role": "Founder, SkynetLabs",
+    "avatar": "_avatars/IMG_2747.jpg"
+  },
+  {
+    "slug": "card-04",
+    "label": "CRAFT / 04",
+    "hook": "Real proof or no post.",
+    "body": "Invented metrics get caught. Specific case studies get shared. Cite the client, the stack, the timeline, the outcome.",
+    "name": "Waseem Nasir",
+    "role": "Founder, SkynetLabs",
+    "avatar": "_avatars/IMG_2748.jpg"
+  },
+  {
+    "slug": "card-05",
+    "label": "OPERATOR / 05",
+    "hook": "Batch the boring work.",
+    "body": "Ten posts in one render pass beats ten render passes. Cards, captions, CSV, schedule. One run, two hours, two weeks of feed.",
+    "name": "Waseem Nasir",
+    "role": "Founder, SkynetLabs",
+    "avatar": "_avatars/IMG_2749.jpg"
+  }
+]

@@ -1,0 +1,110 @@
+[
+  {
+    "slug": "fb-01",
+    "day": 1,
+    "slot": "11:00",
+    "post_number": 1,
+    "type": "info",
+    "headline": "GPT-5.5 ships with native browser tool.",
+    "body": "OpenAI quietly turned on a built-in browse for paid tiers this week. Anyone running scrape pipelines through proxies has a smaller bill on Monday.",
+    "source_url": "https://openai.com/index/gpt-5-5-browser",
+    "photo": "_avatars/IMG_2742.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-02",
+    "day": 1,
+    "slot": "16:00",
+    "post_number": 2,
+    "type": "motiv",
+    "headline": "The boring hour is the leverage hour.",
+    "body": "Nobody pays for inspiration. They pay for the operator who showed up at 6am for nine months while everyone else was tweeting about discipline.",
+    "source_url": "",
+    "photo": "_avatars/IMG_2745.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-03",
+    "day": 1,
+    "slot": "21:00",
+    "post_number": 3,
+    "type": "sell",
+    "headline": "Five-day WhatsApp bot, fifty-fifty split.",
+    "body": "n8n + GPT-5 + Hostinger KVM. Real-estate deal rooms, clinic intake, lead routing. Reply BOT and I will send the brief.",
+    "source_url": "",
+    "photo": "_avatars/IMG_2747.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-04",
+    "day": 2,
+    "slot": "11:00",
+    "post_number": 4,
+    "type": "info",
+    "headline": "DeepSeek V4 weights drop, MIT licensed.",
+    "body": "Open weights, frontier benchmarks, and a license that lets you ship it commercially. Self-hosted agents just got a serious option.",
+    "source_url": "https://github.com/deepseek-ai/DeepSeek-V4",
+    "photo": "_avatars/IMG_2748.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-05",
+    "day": 2,
+    "slot": "16:00",
+    "post_number": 5,
+    "type": "info",
+    "headline": "Shopify launches AI Toolkit for storefronts.",
+    "body": "Native product copy, alt text, and review summaries inside admin. Every Shopify SEO retainer needs to re-price this week.",
+    "source_url": "https://shopify.com/news/ai-toolkit",
+    "photo": "_avatars/IMG_2749.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-06",
+    "day": 2,
+    "slot": "21:00",
+    "post_number": 6,
+    "type": "motiv",
+    "headline": "Ship the demo before the deck.",
+    "body": "Pitches die in slide review. Working prototypes get forwarded. Build it Friday, send the link Monday.",
+    "source_url": "",
+    "photo": "_avatars/IMG_2742.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-07",
+    "day": 3,
+    "slot": "11:00",
+    "post_number": 7,
+    "type": "info",
+    "headline": "Upwork posts +109% AI category growth.",
+    "body": "Quarterly report shows AI work is the fastest-growing line on the platform. The freelancers who specialised six months ago are booked through July.",
+    "source_url": "https://www.upwork.com/research/ai-services-2026",
+    "photo": "_avatars/IMG_2745.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-08",
+    "day": 3,
+    "slot": "16:00",
+    "post_number": 8,
+    "type": "sell",
+    "headline": "AEO retainer slot opening in May.",
+    "body": "LLM citation tracking, schema upgrade, on-page rebuild. One client per month. Reply AEO if you want the scope sheet.",
+    "source_url": "",
+    "photo": "_avatars/IMG_2747.jpg",
+    "locked": false
+  },
+  {
+    "slug": "fb-09",
+    "day": 3,
+    "slot": "21:00",
+    "post_number": 9,
+    "type": "closer",
+    "headline": "What I build, why I build it.",
+    "body": "SkynetLabs ships agency sites, AI bots, and content engines for operators who want the system, not the slide deck. One founder, full stack, real proof. Reply BUILD and we talk.",
+    "source_url": "",
+    "photo": "_avatars/IMG_2748.jpg",
+    "locked": true
+  }
+]

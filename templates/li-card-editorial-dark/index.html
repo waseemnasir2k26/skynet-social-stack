@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LI Editorial Dark + Gold | Card Template</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    /* ---------- Tokens ---------- */
+    :root {
+      --bg: #0a0a0a;
+      --ink: #F5F1EA;
+      --gold: #D4AF37;
+      --gold-soft: #E8C389;
+      --muted: #9aa0a6;
+      --rule: rgba(245, 241, 234, 0.18);
+      --card-w: 1080px;
+      --card-h: 1350px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #050505;
+      color: var(--ink);
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---------- Page chrome (preview only, hidden in export) ---------- */
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: clamp(16px, 4vw, 48px);
+    }
+
+    .page-header {
+      margin-bottom: clamp(24px, 5vw, 48px);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: clamp(16px, 3vw, 24px);
+    }
+
+    .page-header h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(28px, 5vw, 44px);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+
+    .page-header h1 .dot { color: var(--gold); }
+
+    .page-header p {
+      color: var(--muted);
+      font-size: clamp(14px, 1.6vw, 16px);
+      max-width: 60ch;
+    }
+
+    .global-controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      min-height: 44px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      border-radius: 2px;
+    }
+
+    .btn:hover, .btn:focus-visible {
+      border-color: var(--gold);
+      color: var(--gold);
+      outline: none;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #0a0a0a;
+      border-color: var(--gold);
+    }
+
+    .btn-primary:hover, .btn-primary:focus-visible {
+      background: var(--gold-soft);
+      border-color: var(--gold-soft);
+      color: #0a0a0a;
+    }
+
+    /* ---------- Grid of card frames ---------- */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(540px, 100%), 1fr));
+      gap: clamp(24px, 4vw, 48px);
+      margin-top: 32px;
+    }
+
+    .card-block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .card-meta .slug {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 480px) {
+      .card-actions { width: 100%; flex-direction: column; }
+      .card-actions .btn { width: 100%; }
+    }
+
+    /* ---------- Preview frame (responsive scale) ---------- */
+    .card-frame {
+      width: 100%;
+      aspect-ratio: 1080 / 1350;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+    }
+
+    .card-frame .card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top left;
+      /* JS sets transform: scale(...) based on container width */
+    }
+
+    /* ---------- Export node (offscreen, exact pixel size for html2canvas) ---------- */
+    .export-stage {
+      position: absolute;
+      left: -10000px;
+      top: 0;
+      width: var(--card-w);
+      height: var(--card-h);
+      pointer-events: none;
+    }
+
+    /* ---------- Card itself (exact 1080x1350 always) ---------- */
+    .card {
+      width: var(--card-w);
+      height: var(--card-h);
+      background: var(--bg);
+      color: var(--ink);
+      position: relative;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      isolation: isolate;
+    }
+
+    /* subtle gold glow corner accent */
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0) 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* fine grain (svg fractal noise) */
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.05;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card-inner {
+      position: absolute;
+      inset: 80px;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+    }
+
+    /* top label */
+    .label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .label::before {
+      content: "";
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+      vertical-align: middle;
+      margin-right: 14px;
+      transform: translateY(-3px);
+    }
+
+    /* hook */
+    .hook {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 96px;
+      line-height: 1.02;
+      letter-spacing: -0.022em;
+      color: var(--ink);
+      margin-top: 56px;
+      max-width: 880px;
+    }
+
+    .hook .accent { color: var(--gold); }
+
+    /* body */
+    .body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1.45;
+      letter-spacing: -0.005em;
+      color: var(--ink);
+      margin-top: 48px;
+      max-width: 760px;
+      opacity: 0.92;
+    }
+
+    /* spacer pushes footer down */
+    .spacer { flex: 1; }
+
+    /* gold rule */
+    .rule {
+      width: 240px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 36px;
+      opacity: 0.75;
+    }
+
+    /* footer row: name+role left, photo right */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .ident { display: flex; flex-direction: column; gap: 6px; }
+
+    .ident .name {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 600;
+      font-size: 30px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .ident .role {
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #1a1a1a;
+      border: 4px solid var(--gold);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* fallback when no avatar image */
+    .avatar.is-empty::after {
+      content: "WN";
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 38px;
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    /* ---------- Export progress toast ---------- */
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      background: #111;
+      border: 1px solid var(--gold);
+      color: var(--ink);
+      padding: 14px 20px;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      transform: translateY(150%);
+      transition: transform 0.28s ease;
+      max-width: calc(100% - 48px);
+    }
+
+    .toast.show { transform: translateY(0); }
+
+    /* ---------- Responsive: confirm preview legibility down to 360px ---------- */
+    @media (max-width: 540px) {
+      .grid { gap: 32px; }
+      .page { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="page-header" role="banner">
+      <h1>LI Editorial Dark <span class="dot">+</span> Gold</h1>
+      <p>Reference template for SkynetLabs LinkedIn cards. Edit <code>data.json</code> to swap copy. Drop a square photo into <code>_avatars/</code> and reference it per card. Export at exactly 1080 x 1350 px regardless of preview size.</p>
+      <div class="global-controls">
+        <button class="btn btn-primary" id="exportAll" type="button">Export all 5 cards</button>
+        <button class="btn" id="reload" type="button">Reload data.json</button>
+      </div>
+    </header>
+
+    <section class="grid" id="grid" aria-label="Card previews">
+      <!-- cards injected here -->
+    </section>
+  </main>
+
+  <!-- Hidden export stage: html2canvas targets these (exact 1080x1350) -->
+  <div class="export-stage" id="exportStage" aria-hidden="true"></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ============================================================
+    // LI Editorial Dark + Gold | render + export pipeline
+    // ============================================================
+
+    const CARD_W = 1080;
+    const CARD_H = 1350;
+
+    const state = { cards: [] };
+
+    // Build card DOM (used for both preview and export)
+    function buildCard(card) {
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.setAttribute('role', 'img');
+      el.setAttribute('aria-label', `${card.label}. ${card.hook}. ${card.body} By ${card.name}, ${card.role}.`);
+
+      const avatarHasImg = card.avatar && card.avatar.trim().length > 0;
+      const avatarMarkup = avatarHasImg
+        ? `<div class="avatar"><img src="${escapeAttr(card.avatar)}" alt="${escapeAttr(card.name)}" onerror="this.parentNode.classList.add('is-empty'); this.remove();" /></div>`
+        : `<div class="avatar is-empty"></div>`;
+
+      el.innerHTML = `
+        <div class="card-inner">
+          <div class="label">${escapeHtml(card.label)}</div>
+          <h2 class="hook">${escapeHtml(card.hook)}</h2>
+          <p class="body">${escapeHtml(card.body)}</p>
+          <div class="spacer"></div>
+          <div class="rule" aria-hidden="true"></div>
+          <div class="footer">
+            <div class="ident">
+              <span class="name">${escapeHtml(card.name)}</span>
+              <span class="role">${escapeHtml(card.role)}</span>
+            </div>
+            ${avatarMarkup}
+          </div>
+        </div>
+      `;
+      return el;
+    }
+
+    // Build a preview frame (scaled card)
+    function buildPreviewBlock(card, idx) {
+      const block = document.createElement('div');
+      block.className = 'card-block';
+      block.innerHTML = `
+        <div class="card-meta">
+          <span class="slug">${escapeHtml(card.slug || `card-${String(idx + 1).padStart(2, '0')}`)}</span>
+          <div class="card-actions">
+            <button class="btn" type="button" data-action="png" data-idx="${idx}">Download PNG</button>
+          </div>
+        </div>
+        <div class="card-frame" data-frame="${idx}" role="img" aria-label="${escapeAttr(card.label || 'LI card')} ${escapeAttr(card.hook || '')}"></div>
+      `;
+      const frame = block.querySelector('.card-frame');
+      frame.appendChild(buildCard(card));
+      return block;
+    }
+
+    // Scale preview cards to fit container
+    function rescalePreviews() {
+      document.querySelectorAll('.card-frame').forEach(frame => {
+        const card = frame.querySelector('.card');
+        if (!card) return;
+        const w = frame.clientWidth;
+        const scale = w / CARD_W;
+        card.style.transform = `scale(${scale})`;
+        // ensure card height is reflected in frame via aspect-ratio (already set in CSS)
+      });
+    }
+
+    // Render export-stage card and screenshot it
+    async function exportCard(idx) {
+      const card = state.cards[idx];
+      if (!card) return;
+
+      const stage = document.getElementById('exportStage');
+      stage.innerHTML = '';
+      const node = buildCard(card);
+      // override any preview transforms
+      node.style.transform = 'none';
+      stage.appendChild(node);
+
+      // wait one frame so fonts settle
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      // also wait for fonts ready (Fraunces / Inter)
+      if (document.fonts && document.fonts.ready) {
+        try { await document.fonts.ready; } catch (e) { /* noop */ }
+      }
+
+      const canvas = await html2canvas(node, {
+        width: CARD_W,
+        height: CARD_H,
+        windowWidth: CARD_W,
+        windowHeight: CARD_H,
+        scale: 1,
+        backgroundColor: '#0a0a0a',
+        useCORS: true,
+        allowTaint: false,
+        logging: false
+      });
+
+      const filename = `${card.slug || `li-card-${String(idx + 1).padStart(2, '0')}`}.png`;
+      await downloadCanvas(canvas, filename);
+
+      stage.innerHTML = '';
+    }
+
+    function downloadCanvas(canvas, filename) {
+      return new Promise(resolve => {
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => { URL.revokeObjectURL(url); resolve(); }, 100);
+        }, 'image/png', 1.0);
+      });
+    }
+
+    async function exportAll() {
+      const total = state.cards.length;
+      for (let i = 0; i < total; i++) {
+        toast(`Rendering ${i + 1} of ${total}...`);
+        await exportCard(i);
+        // small spacing so browsers do not collapse downloads
+        await new Promise(r => setTimeout(r, 350));
+      }
+      toast(`Done. ${total} PNG${total === 1 ? '' : 's'} saved.`, 1800);
+    }
+
+    // ----------------- helpers -----------------
+    function escapeHtml(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+    function escapeAttr(s) {
+      return escapeHtml(s).replace(/"/g, '&quot;');
+    }
+
+    let toastTimer = null;
+    function toast(msg, hideAfter = 0) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      if (hideAfter > 0) {
+        toastTimer = setTimeout(() => el.classList.remove('show'), hideAfter);
+      }
+    }
+
+    // ----------------- bootstrap -----------------
+    async function loadData() {
+      try {
+        const res = await fetch('data.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('data.json must be an array');
+        return data;
+      } catch (err) {
+        // fallback: inline default so file:// still demos
+        console.warn('Falling back to inline sample data:', err.message);
+        return INLINE_FALLBACK;
+      }
+    }
+
+    const INLINE_FALLBACK = [
+      {
+        slug: 'card-01',
+        label: 'FIELD NOTES / 01',
+        hook: 'Build the demo before the deck.',
+        body: 'Pitches die in slide review. Working prototypes get forwarded. Ship the proof first, write the words second.',
+        name: 'Waseem Nasir',
+        role: 'Founder, SkynetLabs',
+        avatar: '_avatars/IMG_2742.jpg'
+      }
+    ];
+
+    async function render() {
+      state.cards = await loadData();
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      state.cards.forEach((c, i) => grid.appendChild(buildPreviewBlock(c, i)));
+      rescalePreviews();
+    }
+
+    // event delegation for per-card download
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('button[data-action="png"]');
+      if (!btn) return;
+      const idx = parseInt(btn.dataset.idx, 10);
+      toast('Rendering...');
+      exportCard(idx).then(() => toast('Saved.', 1500));
+    });
+
+    document.getElementById('exportAll').addEventListener('click', () => exportAll());
+    document.getElementById('reload').addEventListener('click', () => render());
+
+    window.addEventListener('resize', () => {
+      // rescale on debounced resize
+      clearTimeout(window.__rzt);
+      window.__rzt = setTimeout(rescalePreviews, 80);
+    });
+
+    // initial paint
+    render();
+  </script>
+</body>
+</html>

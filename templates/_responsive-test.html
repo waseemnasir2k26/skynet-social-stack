@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Responsive QA Matrix - social-stack v1.2.0</title>
+<style>
+  :root {
+    --bg: #0e1116;
+    --panel: #161b22;
+    --panel-2: #1f2733;
+    --ink: #e6edf3;
+    --mute: #8b949e;
+    --line: #30363d;
+    --amber: #f4b400;
+    --good: #2ea043;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: clamp(13px, 1.1vw, 15px); line-height: 1.45; }
+  a { color: var(--amber); }
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: linear-gradient(180deg, #0e1116 0%, #0e1116ee 100%);
+    border-bottom: 1px solid var(--line);
+    padding: 14px clamp(12px, 2vw, 24px);
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between;
+  }
+  header h1 { margin: 0; font-size: clamp(15px, 1.6vw, 20px); font-weight: 700; letter-spacing: -0.01em; }
+  header .meta { color: var(--mute); font-size: 12px; }
+  button.refresh {
+    background: var(--amber); color: #1a1a1a; border: 0;
+    font-weight: 700; font-size: 14px; cursor: pointer;
+    padding: 12px 18px; min-height: 44px; min-width: 44px;
+    border-radius: 8px; transition: filter .15s ease;
+  }
+  button.refresh:hover, button.refresh:focus { filter: brightness(1.1); outline: 2px solid #fff3; }
+  .usage {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    margin: 14px clamp(12px, 2vw, 24px) 0; padding: 14px 18px;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12.5px; color: var(--ink); white-space: pre-wrap;
+  }
+  .usage b { color: var(--amber); }
+  .scroll-wrap { overflow-x: auto; padding: 16px clamp(12px, 2vw, 24px) 40px; }
+  table.matrix { border-collapse: separate; border-spacing: 8px; }
+  table.matrix th, table.matrix td { vertical-align: top; }
+  table.matrix th.corner { background: transparent; }
+  table.matrix th.viewport, table.matrix th.template {
+    background: var(--panel-2); color: var(--ink); font-weight: 700;
+    padding: 10px 12px; border-radius: 6px; text-align: left;
+    font-size: 13px; letter-spacing: 0.02em;
+  }
+  table.matrix th.viewport { text-align: center; }
+  table.matrix th.viewport small { display: block; color: var(--mute); font-weight: 400; font-size: 11px; }
+  table.matrix th.template { min-width: 180px; max-width: 220px; }
+  table.matrix th.template small { display: block; color: var(--mute); font-weight: 400; font-size: 11px; margin-top: 4px; }
+  .cell {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px; transition: outline .12s ease, transform .12s ease;
+    outline: 2px solid transparent;
+  }
+  .cell:hover, .cell:focus-within { outline-color: var(--amber); }
+  .cell .label {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    margin-bottom: 6px; font-size: 11px; color: var(--mute);
+  }
+  .cell .label .w { color: var(--amber); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .cell .label a {
+    color: var(--ink); text-decoration: none; padding: 6px 10px;
+    border: 1px solid var(--line); border-radius: 6px; font-size: 11px;
+    min-height: 28px; display: inline-flex; align-items: center;
+  }
+  .cell .label a:hover, .cell .label a:focus { border-color: var(--amber); color: var(--amber); }
+  .frame-shell {
+    background: #fff; border-radius: 4px; overflow: hidden;
+    height: 600px; display: block; position: relative;
+  }
+  .frame-shell iframe { border: 0; display: block; height: 600px; }
+  footer {
+    color: var(--mute); font-size: 11px;
+    padding: 10px clamp(12px, 2vw, 24px) 24px; border-top: 1px solid var(--line);
+  }
+  @media (max-width: 700px) {
+    table.matrix th.template { min-width: 140px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Responsive QA Matrix - social-stack v1.2.0</h1>
+    <div class="meta">5 templates &times; 5 viewport widths = 25 cells. Hover any cell for amber outline.</div>
+  </div>
+  <button class="refresh" id="refreshAll" type="button" aria-label="Refresh all iframes">Refresh all</button>
+</header>
+
+<pre class="usage" aria-label="How to use">
+<b>HOW TO USE</b>
+1. Run `python -m http.server 8000` in templates/ folder
+2. Open http://localhost:8000/_responsive-test.html
+3. Visually scan grid - every cell must show the template legibly
+4. Failures = template needs responsive contract fix
+</pre>
+
+<div class="scroll-wrap" role="region" aria-label="Responsive QA matrix">
+<table class="matrix" id="matrix">
+  <thead>
+    <tr>
+      <th class="corner" scope="col"></th>
+      <th class="viewport" scope="col">360<small>mobile S</small></th>
+      <th class="viewport" scope="col">480<small>mobile L</small></th>
+      <th class="viewport" scope="col">768<small>tablet</small></th>
+      <th class="viewport" scope="col">1024<small>laptop</small></th>
+      <th class="viewport" scope="col">1440<small>desktop</small></th>
+    </tr>
+  </thead>
+  <tbody id="matrixBody"></tbody>
+</table>
+</div>
+
+<footer>
+  Cells are RELATIVE iframes. If a frame is blank: confirm the template `index.html` exists in its sibling folder, then click <b>Refresh all</b>.
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var TEMPLATES = [
+    { name: "carousel-cream-rust",   src: "./carousel-cream-rust/index.html" },
+    { name: "li-card-editorial-dark", src: "./li-card-editorial-dark/index.html" },
+    { name: "fb-news-9card",         src: "./fb-news-9card/index.html" },
+    { name: "x-pack",                src: "./x-pack/index.html" },
+    { name: "pin-card",              src: "./pin-card/index.html" }
+  ];
+  var WIDTHS = [360, 480, 768, 1024, 1440];
+
+  var body = document.getElementById("matrixBody");
+  var rows = "";
+
+  TEMPLATES.forEach(function (tpl) {
+    var safe = tpl.name.replace(/[^a-z0-9]/gi, "-");
+    var row = '<tr>';
+    row += '<th class="template" scope="row">' + tpl.name +
+           '<small>' + tpl.src + '</small></th>';
+    WIDTHS.forEach(function (w) {
+      var id = "frame-" + safe + "-" + w;
+      row += '<td>' +
+        '<div class="cell">' +
+          '<div class="label">' +
+            '<span><span class="w">' + w + 'px</span> &middot; ' + tpl.name + '</span>' +
+            '<a href="' + tpl.src + '" target="_blank" rel="noopener">Open in new tab &#8599;</a>' +
+          '</div>' +
+          '<div class="frame-shell" style="width:' + w + 'px;">' +
+            '<iframe id="' + id + '" src="' + tpl.src + '" ' +
+              'width="' + w + '" height="600" loading="lazy" ' +
+              'title="' + tpl.name + ' at ' + w + 'px" ' +
+              'sandbox="allow-scripts allow-same-origin allow-popups"></iframe>' +
+          '</div>' +
+        '</div>' +
+      '</td>';
+    });
+    row += '</tr>';
+    rows += row;
+  });
+
+  body.innerHTML = rows;
+
+  document.getElementById("refreshAll").addEventListener("click", function () {
+    var frames = document.querySelectorAll("#matrix iframe");
+    frames.forEach(function (f) {
+      var src = f.getAttribute("src");
+      f.setAttribute("src", "about:blank");
+      // re-assign on next tick so the browser actually reloads
+      setTimeout(function () { f.setAttribute("src", src); }, 30);
+    });
+  });
+})();
+</script>
+</body>
+</html>

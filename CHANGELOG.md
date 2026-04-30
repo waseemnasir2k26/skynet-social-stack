@@ -2,6 +2,34 @@
 
 All notable changes to skynet-social-stack.
 
+## [1.2.0] - 2026-04-30 — Responsive contract + 4 templates + script canonicalization
+
+### Added — templates (4 of 5 stub folders converted to working templates)
+- `templates/li-card-editorial-dark/` — 1080×1350 Fraunces dark+gold LI editorial card. Two-node responsive pattern (fixed 1080×1350 export node + scaled `.card-frame` preview), 5 sample cards, html2canvas + per-card download, font preload gates.
+- `templates/fb-news-9card/` — 1080×1350 FB personal-news 9-card mix (4 info + 2 motiv + 2 sell + 1 locked closer). Card #9 visually locked, info cards require source URL (≤48h), JSZip bulk download, 3-day timeline preview.
+- `templates/x-pack/` — 1200×675 image-tweet card pack, 12 tweets (4 oneliner / 4 story / 4 thread). Char counter, hook auto-shrink, copy-tweet-text uses `tweet_text` not `card_hook`, ranking rubric in README (impressions×1 + replies×5 + saves×10 + reposts×8).
+- `templates/pin-card/` — 1000×1500 Pinterest batch, 30 pins, 3 palette filter (cream/claret/dark), UTM auto-injected at render, date-shift trap warning banner, 70/30 layout.
+
+### Added — references
+- `references/responsive-output-contract.md` (NEW) — master cross-format responsiveness contract. Two-node pattern (fixed-px export + fluid preview), html2canvas config, PDF print CSS, video aspect wrappers, per-platform export specs (IG Reel/LI/X/YT/FB), QA gates with file-size caps (PNG <2MB / Video <512MB / PDF <8MB), viewport tests 360/480/768/1024/1440.
+
+### Fixed — scripts (canonical alignment)
+- `scripts/build_ghl_csv.py` — REWROTE. Was outputting wrong headers (`Account,Schedule Date,Schedule Time,Caption,Media URL,Hashtags`) which GHL silently rejects. Now outputs canonical 6-col: `postAtSpecificTime (YYYY-MM-DD HH:mm:ss),content,link (OGmetaUrl),imageUrls,gifUrl,videoUrls`. Added input validation, time format guard, csv.QUOTE_ALL.
+- `scripts/shift_dates.py` — REWROTE. Reads/writes canonical `postAtSpecificTime` column. try/except on malformed dates with row-index error reporting. Combined datetime preserved across shifts.
+- `scripts/pick_avatar.py` — HARDENED. Validates picker output exists in PROFESSIONAL/ before copy. Forces explicit `--mark <tag>` OR `--no-mark` flag (no silent skip — was rotation-rule violation). Tag format regex enforces `<fmt>-<yyyy-mm-dd>-<slug>` per feedback-image-rotation.
+
+### Fixed — references
+- `references/ghl-csv-format.md` — REWROTE. Killed broken header set that was being taught as canonical. Now matches memory `ghl-csv-sample-reference.md` exactly. Added field-by-field spec table, anti-pattern reject-on-sight list (8 items), pre-upload checklist.
+
+### Fixed — recipes (closed action loops)
+- `recipes/competitor-sweep.md` (31→ ~46/50) — Was observation dead-end. Now: peer scan → score on post-mortem rubric → 4 parallel artifact updates (hook-bank, aesthetic-rotation, anti-patterns) → feeds next batch via li-card-batch + x-pack-mwf-drip. Output file `outputs/competitor-sweep-<YYYY-MM-DD>.md`.
+- `recipes/x-pack-mwf-drip.md` (33→ ~46/50) — Was orphan from hook-bank. Now: hooks SOURCED from hook-bank → 12 drafts → ranking rubric /15 (hook strength + specificity + saveability) → top 10 keep → image cards via templates/x-pack → UTM inject → GHL CSV → Day-21 post-mortem promotes top 3 back, demotes bottom 3.
+
+### Frontmatter
+- `version: 1.1.0` → `version: 1.2.0`
+- Added `repo: https://github.com/waseemnasir2k26/skynet-social-stack` to SKILL.md frontmatter
+- Added rule #9 (Responsive output contract) to SKILL.md rules list
+
 ## [1.1.0] - 2026-04-30 — Senior-SMM upgrade
 
 ### Added — content strategy

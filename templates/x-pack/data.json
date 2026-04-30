@@ -1,0 +1,120 @@
+[
+  {
+    "id": 1,
+    "type": "oneliner",
+    "tweet_text": "SEO is crowded. AEO is wide open. The agencies pricing LLM citations at $1.5K/mo own the next 18 months.",
+    "card_hook": "AEO is the open lane.",
+    "card_body": "SEO is crowded. LLM citations are not. The mid-tier is empty.",
+    "photo": "_avatars/IMG_2742.jpg"
+  },
+  {
+    "id": 2,
+    "type": "oneliner",
+    "tweet_text": "Stop pitching with slides. Ship the demo first. Working prototypes get forwarded. Decks die in slide review.",
+    "card_hook": "Build the demo before the deck.",
+    "card_body": "Pitches die in review. Working prototypes get forwarded.",
+    "photo": "_avatars/IMG_2745.jpg"
+  },
+  {
+    "id": 3,
+    "type": "oneliner",
+    "tweet_text": "One operator stack. Claude Code writes it. n8n routes it. Vercel ships it. Replaced a four-person team this quarter.",
+    "card_hook": "One operator. Full stack.",
+    "card_body": "Claude writes. n8n routes. Vercel ships. That is the team.",
+    "photo": "_avatars/IMG_2747.jpg"
+  },
+  {
+    "id": 4,
+    "type": "oneliner",
+    "tweet_text": "Real proof or no post. Invented metrics get caught. Specific case studies get shared. Cite the client, the stack, the outcome.",
+    "card_hook": "Real proof or no post.",
+    "card_body": "Invented metrics get caught. Specific case studies get shared.",
+    "photo": "_avatars/IMG_2748.jpg"
+  },
+  {
+    "id": 5,
+    "type": "story",
+    "tweet_text": "Client said the demo had to land in 5 days. We shipped it in 3, kept the last 2 for the pitch deck. Won the retainer in the call.",
+    "card_hook": "Five days became three.",
+    "card_body": "Built fast. Saved two days for the pitch. Won the retainer.",
+    "photo": "_avatars/IMG_2749.jpg"
+  },
+  {
+    "id": 6,
+    "type": "story",
+    "tweet_text": "Spent a Sunday batching 30 posts. Cards, captions, CSV, schedule. One render pass. Two weeks of feed shipped before Monday standup.",
+    "card_hook": "One Sunday. Two weeks of feed.",
+    "card_body": "Thirty posts. One render pass. Done before Monday.",
+    "photo": "_avatars/IMG_2742.jpg"
+  },
+  {
+    "id": 7,
+    "type": "story",
+    "tweet_text": "Wrote a proposal at 11pm. Mirrored the JD line by line, anchored price, asked 3 sharp questions. Got the reply at 7am. Booked at noon.",
+    "card_hook": "Mirror, anchor, ask, close.",
+    "card_body": "Late-night proposal. Reply at 7. Booked at noon.",
+    "photo": "_avatars/IMG_2745.jpg"
+  },
+  {
+    "id": 8,
+    "type": "story",
+    "tweet_text": "Killed the pricing page. Moved to demos plus discovery calls. Inbound dropped 30%. Booked calls doubled. Worth the trade.",
+    "card_hook": "Killed the pricing page.",
+    "card_body": "Inbound dropped 30%. Booked calls doubled. Trade taken.",
+    "photo": "_avatars/IMG_2747.jpg"
+  },
+  {
+    "id": 9,
+    "type": "thread",
+    "tweet_text": "Most people think AI replaces the work. It does not. It collapses the time. Here is the actual stack one person can run today (1/5)",
+    "card_hook": "AI does not replace work. It collapses time.",
+    "card_body": "Five tools. One operator. Full agency output.",
+    "photo": "_avatars/IMG_2748.jpg",
+    "thread_followups": [
+      "(2/5) Claude Code: writes code, drafts copy, reviews PRs, runs research subagents in parallel. The brain.",
+      "(3/5) n8n: routes everything. Webhooks, cron, OAuth, AI calls, Sheets, ManyChat. The nervous system.",
+      "(4/5) Vercel: ships static, edge, serverless, preview deploys per branch. The hands.",
+      "(5/5) Supabase + GHL: data + CRM + scheduler. The memory. That is the full stack. Five tools. One operator. Replace this with people only when revenue forces you."
+    ]
+  },
+  {
+    "id": 10,
+    "type": "thread",
+    "tweet_text": "Pricing AEO at $5K/mo and clients still say yes. Here is why the LLM-citation lane is the cleanest mid-tier opening in agency since 2014 (1/4)",
+    "card_hook": "Why AEO clears at $5K/mo.",
+    "card_body": "The cleanest mid-tier agency lane since 2014.",
+    "photo": "_avatars/IMG_2749.jpg",
+    "thread_followups": [
+      "(2/4) SEO mid-tier is dead. $1.5K/mo gets you 50 SEO agencies fighting for the same Google ranking. Race to zero.",
+      "(3/4) AEO is the same buyer, same budget, no competition. Get cited in ChatGPT, Claude, Perplexity, Gemini. Measurable. Provable.",
+      "(4/4) The agencies that learn LLM citations now own the next 18 months. After that the lane fills like SEO did. Window is open. Walk through it."
+    ]
+  },
+  {
+    "id": 11,
+    "type": "thread",
+    "tweet_text": "I run a one-person agency. 9 client demos shipped in 6 weeks. Here is the system that makes it possible without burnout (1/4)",
+    "card_hook": "One person. Nine demos. Six weeks.",
+    "card_body": "The system, not the hustle.",
+    "photo": "_avatars/IMG_2742.jpg",
+    "thread_followups": [
+      "(2/4) Skill files. Every workflow lives in /.claude/skills/ as a runbook. Trigger word loads it. Same quality every time. No memory required.",
+      "(3/4) Templates over starters. 20-niche demo repo. Fork, retheme, deploy in 90 minutes. Speculative pitch goes out same day.",
+      "(4/4) Parallel agents. Research, draft, build, review run at the same time, not sequential. One operator becomes a four-person team in clock-time."
+    ]
+  },
+  {
+    "id": 12,
+    "type": "thread",
+    "tweet_text": "The 4 mistakes that kept me at $2K/month for two years. Fixed them in one quarter. Hit $20K/month the next. Here they are (1/5)",
+    "card_hook": "Four mistakes. Two years lost.",
+    "card_body": "Fixed in one quarter. Receipts in thread.",
+    "photo": "_avatars/IMG_2745.jpg",
+    "thread_followups": [
+      "(2/5) Mistake 1: pricing by hour. Switched to fixed-scope. Margin tripled because clients paid for outcome, not effort.",
+      "(3/5) Mistake 2: hiding the demo behind a discovery call. Started shipping demos in the proposal. Close rate doubled.",
+      "(4/5) Mistake 3: writing every post from scratch. Built a hook bank + template stack. Shipped 5x more without burning out.",
+      "(5/5) Mistake 4: chasing every niche. Picked 3 verticals where I had real proof. Inbound got better, churn dropped, referrals tripled."
+    ]
+  }
+]
