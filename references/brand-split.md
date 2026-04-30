@@ -49,4 +49,4 @@ One topic, two voices. Don't blanket-paste.
 
 ## Memory pointer
 
-`feedback-personal-social-style.md` — original rule. This file extends it.
+`~/.claude/projects/C--Users-info/memory/feedback-personal-social-style.md` — original rule (memory file, lives outside the skill). This file extends it.

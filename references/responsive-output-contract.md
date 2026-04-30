@@ -359,14 +359,14 @@ Every recipe that ships visuals must include this line in its QA section:
 ```
 
 Files that MUST link back:
-- `templates/li-card/README.md`
-- `templates/carousel/README.md`
-- `templates/fb-news/README.md`
-- `templates/x-pack/README.md`
-- `templates/pinterest/README.md`
-- `templates/video-drip/README.md`
-- `recipes/*.md` — any recipe producing visuals
-- Top-level `SKILL.md` — link in the "Quality" section
+- `../templates/li-card-editorial-dark/README.md`
+- `../templates/carousel-cream-rust/README.md`
+- `../templates/fb-news-9card/README.md`
+- `../templates/x-pack/README.md`
+- `../templates/pin-card/README.md`
+- (video-drip template not yet built — see `../recipes/video-drip.md` roadmap stub)
+- Recipes shipping visuals: `../recipes/carousel-launch.md`, `../recipes/li-card-batch.md`, `../recipes/fb-news-3day.md`, `../recipes/pin-batch.md`, `../recipes/x-pack-mwf-drip.md`
+- Top-level `../SKILL.md` — link in the "Quality" section
 
 ---
 

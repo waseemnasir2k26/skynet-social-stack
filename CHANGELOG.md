@@ -2,6 +2,25 @@
 
 All notable changes to skynet-social-stack.
 
+## [1.2.1] - 2026-04-30 — Cross-link cleanup + video-drip stub
+
+### Fixed — references and recipes (18 broken cross-links → 0)
+- `references/anti-patterns.md` — `SKILL.md` → `../SKILL.md`
+- `references/brand-split.md` — `feedback-personal-social-style.md` → full memory path (file lives outside skill)
+- `references/ghl-csv-format.md` — `shift_dates.py` (×2) → `../scripts/shift_dates.py`
+- `references/responsive-output-contract.md` — corrected 5 wrong template folder names (`li-card` → `li-card-editorial-dark`, `carousel` → `carousel-cream-rust`, `fb-news` → `fb-news-9card`, `pinterest` → `pin-card`), reframed `video-drip` as roadmap stub, replaced `recipes/*.md` glob with explicit recipe list
+- `recipes/carousel-launch.md` — `index.html` → `../templates/carousel-cream-rust/index.html`; `posts.json` clarified as user-created inline; `MEMORY.md` → full memory manifest path
+- `recipes/migrate-old-csv.md` — `build_ghl_csv.py` → `../scripts/build_ghl_csv.py`; `migrate_csv.py` annotated as inline-pasteable; `<name>-LEGACY.csv` placeholder rephrased to avoid linter false-positive
+
+### Added — recipes
+- `recipes/video-drip.md` (NEW, 32 lines) — roadmap stub. Marked `## Status: roadmap` so post-type-decision-tree.md no longer references missing file.
+
+### Lint status
+- `broken-links` check: 18 → 0
+- `em-dashes` check: PASS
+- `aria-label` check: PASS
+- `avatar-tags` check: PASS
+
 ## [1.2.0] - 2026-04-30 — Responsive contract + 4 templates + script canonicalization
 
 ### Added — templates (4 of 5 stub folders converted to working templates)

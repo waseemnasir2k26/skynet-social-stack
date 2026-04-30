@@ -71,4 +71,4 @@ Each one of these = at least one shipped-and-regretted post. This file is the cu
 When a post under-performs OR breaks something:
 1. Identify the root anti-pattern
 2. Add here under correct section
-3. If repeated 2x, escalate to a hard rule in `SKILL.md`
+3. If repeated 2x, escalate to a hard rule in `../SKILL.md`

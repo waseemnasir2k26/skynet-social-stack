@@ -35,7 +35,7 @@ Real claims only. Apply `references/no-fake-claims.md`.
 mkdir -p outputs/<slug>-<date>
 cp -r templates/carousel-cream-rust/* outputs/<slug>-<date>/
 ```
-Edit the `carousels` array in `index.html` with your data + avatar paths.
+Edit the `carousels` array in `../templates/carousel-cream-rust/index.html` (now copied into your output dir) with your data + avatar paths.
 
 ### 5. Open + visual QA (10 min)
 ```bash
@@ -61,7 +61,7 @@ captions/
 ```
 
 ### 9. Build GHL CSVs (5 min)
-For each platform, prep `posts.json`:
+For each platform, prep a posts JSON file (your input data — you create it, structure shown below):
 ```json
 [
   {"caption": "...", "media_url": "https://.../carousel-1-slide-1.png", "hashtags": "#AI #n8n"}
@@ -103,7 +103,7 @@ Write `outputs/<slug>-<date>/_README.md`:
 - Where PNGs are hosted
 
 ### 14. Add memory entry
-Update `MEMORY.md` Active Projects or Scheduled Drips section.
+Update `~/.claude/projects/C--Users-info/memory/MEMORY.md` Active Projects or Scheduled Drips section.
 
 ## Pre-flight checklist
 

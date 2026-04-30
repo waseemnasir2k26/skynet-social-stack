@@ -1,6 +1,6 @@
 ---
 name: social-stack
-version: 1.2.0
+version: 1.2.1
 repo: https://github.com/waseemnasir2k26/skynet-social-stack
 description: |
   Build, render, and schedule social-media post packs end-to-end across LinkedIn,

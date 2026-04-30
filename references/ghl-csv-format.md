@@ -67,7 +67,7 @@ GHL upload: Marketing → Social Planner → Bulk Upload → tick the channels (
 - **Per-platform fanout (multiple rows for the same post on LI / FB / IG / Pin).** Reject. GHL handles fanout from a single row when channels are ticked at import. Duplicating rows triggers duplicate-post penalties on Meta + LinkedIn.
 - **Split datetime columns** (`Schedule Date` + `Schedule Time`). Reject. Single combined column only.
 - **Unquoted `content` with newlines or commas.** Will corrupt the CSV mid-row and GHL silently drops downstream rows. Always `csv.QUOTE_ALL`.
-- **Past-dated `postAtSpecificTime`.** GHL accepts the row but never fires it. Always run `shift_dates.py` if the pack aged.
+- **Past-dated `postAtSpecificTime`.** GHL accepts the row but never fires it. Always run `../scripts/shift_dates.py` if the pack aged.
 - **Bare links without UTM.** Lose attribution + Plausible can't segment. Always UTM-inject.
 - **Image URLs returning 404 / 403.** Test 3 random rows with `curl -I` before upload. GitHub raw URLs flip when repos go private — re-test after any repo visibility change.
 - **More than ~5 hashtags inside `content` for LI/FB-heavy packs.** Acceptable for IG-richest captions, but trim if the same row also targets LinkedIn (LinkedIn caps soft at 3-5).
@@ -84,10 +84,11 @@ GHL upload: Marketing → Social Planner → Bulk Upload → tick the channels (
 ## 6. Pre-upload checklist
 
 1. [ ] Headers match section 1 exactly (paste-compare)
-2. [ ] All `postAtSpecificTime` values ≥ tomorrow (run `shift_dates.py` if not)
+2. [ ] All `postAtSpecificTime` values ≥ tomorrow (run `../scripts/shift_dates.py` if not)
 3. [ ] `content` uses richest caption with hashtags + DM keyword
 4. [ ] `link (OGmetaUrl)` UTM-tagged
 5. [ ] `imageUrls` return HTTP 200 (test 3 random)
 6. [ ] All fields wrapped in `"` (open in plain editor, eyeball)
 7. [ ] No `Account` / platform / split-date columns hiding from a stale script
 8. [ ] If DM-keyword CTA in `content` → ManyChat WA template approved (24-72h Meta soak)
+9. [ ] All dates re-shifted via `../scripts/shift_dates.py` if drip window aged past today

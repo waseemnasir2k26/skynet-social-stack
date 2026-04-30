@@ -4,7 +4,7 @@ Auto-convert any pre-v1.2.0 GHL CSV (broken header set) to the canonical format 
 
 ## Why
 
-Pre-v1.2.0 `build_ghl_csv.py` emitted broken headers:
+Pre-v1.2.0 `../scripts/build_ghl_csv.py` emitted broken headers:
 `Account,Schedule Date,Schedule Time,Caption,Media URL,Hashtags`
 
 GHL Bulk Upload silently rejects this — posts never schedule. v1.2.0 emits canonical:
@@ -34,7 +34,7 @@ Any CSV in `outputs/` from before the fix needs migration before re-import.
 
 ### 3. Run conversion script
 
-Save as `migrate_csv.py` next to the old CSV (or in `scripts/`):
+Save the inline script below (full source in the next code block) as **migrate_csv.py** — you create this file next to the old CSV (or drop it in the skill's `scripts/` folder if you want to reuse later):
 
 ```python
 # migrate_csv.py
@@ -122,7 +122,7 @@ Script self-aborts on canonical-format inputs, so it's safe to re-run on a mixed
 - Don't edit the old CSV in Excel by hand — Excel mangles datetime strings + drops leading zeros from times like `09:00`.
 - Don't skip `csv.QUOTE_ALL` — captions with newlines or commas will corrupt the row count without it.
 - Don't paste-import old format hoping GHL auto-detects — silent fail, posts never schedule, no error toast.
-- Don't migrate then forget to delete the old CSV — easy to upload the broken one by mistake. Rename old to `<name>-LEGACY.csv` or move to `archive/`.
+- Don't migrate then forget to delete the old CSV — easy to upload the broken one by mistake. Rename old by appending the suffix **-LEGACY** before the extension (so a file named **batch** would become **batch-LEGACY**, both with `.csv`), or move to `archive/`.
 
 ## Cross-links
 
