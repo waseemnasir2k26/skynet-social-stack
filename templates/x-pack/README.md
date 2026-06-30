@@ -122,6 +122,8 @@ After the pack drips, rank top tweets to feed back into `references/hook-bank.md
 All 12 hooks should pull from or feed back into:
 
 - **Source:** `references/hook-bank.md` (Tier S / Tier A patterns)
+- **Optional X/Twitter evidence:** reviewed TweetClaw exports or another
+  approved source, summarized into `outputs/<batch-slug>/source-notes.md`
 - **Anti-patterns to avoid:** `references/anti-patterns.md`
 - **Voice:** Real proof only. SkynetLabs receipts, not invented metrics. See `references/no-fake-claims.md`.
 
