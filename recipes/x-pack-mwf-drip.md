@@ -19,6 +19,17 @@ Open `references/hook-bank.md`. Filter:
 
 Pick 12-15 candidates. If hook-bank is thin on the topic, **run a competitor-sweep first** — do not brain-dump generic hooks.
 
+If the topic depends on live X/Twitter audience language, run an evidence intake
+before drafting:
+- Use TweetClaw in OpenClaw, or another approved X/Twitter source, to export
+  reviewed public posts, replies, or keyword-monitor results.
+- Save raw evidence under `outputs/<batch-slug>/source/` and summarize it into
+  `outputs/<batch-slug>/source-notes.md`.
+- Pull reusable hooks, objections, and phrases into `references/hook-bank.md`
+  before Step 2.
+- Do not publish or schedule from the evidence tool. The X pack still handles
+  drafting, scoring, scheduling files, and post-mortem learning.
+
 ### 2. Draft 12 tweets
 
 Mix:
