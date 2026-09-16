@@ -1,0 +1,8 @@
+# 2026.09 — Maintenance release
+
+- Maintenance review of skynet-social-stack — the master social-media post engine: one topic becomes a cross-platform pack (carousel, LinkedIn card, FB news, X pack, Pinterest pin, video drip) rendered to platform-correct PNGs and staged as a scheduled drip.
+- Status: a skill-shaped repo — `SKILL.md` plus 11 recipes, 12 reference docs (post-type decision tree, brand split, hook bank, humanizer checklist, no-fake-claims, image-rotation rule, anti-patterns, responsive output contract), 5 HTML template families (`carousel-cream-rust`, `li-card-editorial-dark`, `fb-news-9card`, `pin-card`, `x-pack`) with `html2canvas` PNG download, 7 Python helper scripts (GHL CSV build, caption variants, avatar pick, reply seeding, date shifting, UTM injection, skill lint), worked examples, and a shipped `packs/fable51-launch-2026-09-02` carousel (7 PNG + PDF). LICENSE, CONTRIBUTING and CHANGELOG all present.
+- Reviewed September 2026: docs refreshed, CHANGELOG extended with a 2026.09 section, released as v2026.09. No template, script or recipe changes.
+- Known gaps: the README and `references/ghl-csv-format.md` still present the GHL CSV as the canonical scheduling output; that lane is legacy for SkynetLabs' own channels and `scripts/build_ghl_csv.py` has not been repointed in this repo.
+- Known gaps: `recipes/video-drip.md` is explicitly a roadmap stub, so the video-drip post type advertised in the README is documented but not implemented here.
+- Repo hygiene: the last substantive CHANGELOG entry is 1.2.1 (2026-04-30) even though content landed as recently as 2026-09-02; there is no CI workflow, so `scripts/lint_skill.py` and the broken-link check are run by hand rather than on push.

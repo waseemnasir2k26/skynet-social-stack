@@ -3,6 +3,10 @@
 > Build, render, and schedule social-media post packs end-to-end.
 > One topic → cross-platform drop → GHL CSV → live drip in ~90 minutes.
 
+## Status
+
+Last reviewed: September 2026 · release v2026.09
+
 ## What it does
 
 - Picks the right template per post type (carousel, LI card, FB news, X pack, Pin, video drip)
