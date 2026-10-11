@@ -5,7 +5,7 @@
 
 ## Status
 
-Last reviewed: September 2026 · release v2026.09
+Last reviewed: October 2026 · release v2026.10
 
 ## What it does
 
@@ -109,3 +109,11 @@ MIT. See `LICENSE`.
 [GitHub](https://github.com/waseemnasir2k26) · [LinkedIn](https://linkedin.com/in/waseemnasir2k26)
 
 Distilled from 30+ shipped social packs across LinkedIn, IG, FB, X, Pinterest.
+
+## Work with SkynetLabs
+
+Built by [Waseem Nasir](https://www.skynetjoe.com/?utm_source=github&utm_medium=readme&utm_campaign=skynet-social-stack) at SkynetLabs — n8n + AI automation for small businesses.
+
+- Hire on Fiverr: https://www.fiverr.com/agencies/skynetjoellc
+- Hire on Upwork: https://www.upwork.com/freelancers/muhammadwaseemnasir
+- Book a free call: https://calendly.com/skynetlabs/schedule-a-free-consultation

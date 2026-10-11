@@ -2,6 +2,13 @@
 
 All notable changes to skynet-social-stack.
 
+## [2026.10] - 2026-10-12
+
+- Public MIT skill-shaped repo (`SKILL.md` plus recipes, references, HTML templates, helper scripts and a shipped Fable-5 launch carousel pack) that turns one topic into a cross-platform social post pack and staged drip.
+- October 2026 review: README, tree and history re-read; last content commit is 2026-09-02 (launch pack) and nothing changed in templates, scripts or recipes. All 3 external README links returned HTTP 200.
+- A Work with SkynetLabs section was appended after the existing Author section.
+- Known gaps: README and `references/ghl-csv-format.md` still present the GHL CSV as the canonical scheduling output, which is legacy for SkynetLabs' own channels; `recipes/video-drip.md` is a roadmap stub; the last substantive CHANGELOG entry before the monthly releases is 1.2.1 (2026-04-30); no CI, so `scripts/lint_skill.py` and link checks are run by hand.
+
 ## [2026.09] - 2026-09-16
 
 - Maintenance review of skynet-social-stack — the master social-media post engine: one topic becomes a cross-platform pack (carousel, LinkedIn card, FB news, X pack, Pinterest pin, video drip) rendered to platform-correct PNGs and staged as a scheduled drip.
