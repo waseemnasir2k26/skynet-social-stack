@@ -1,119 +1,52 @@
-# Social Stack — Master Social-Media Post Engine
+# skynet-social-stack
 
-> Build, render, and schedule social-media post packs end-to-end.
-> One topic → cross-platform drop → GHL CSV → live drip in ~90 minutes.
+A Claude Code skill and template set for building a full social post pack from one topic: HTML templates that export to PNG, caption variants for each platform, and a six-column GoHighLevel scheduling CSV.
 
-## Status
+- **Templates** in `templates/`: cream-and-rust carousel (1080x1350), editorial dark LinkedIn card, Facebook 9-card news mix, X image pack (1200x675), Pinterest pin (1000x1500). Each has an `index.html` and a `data.json` you edit.
+- **Recipes** in `recipes/`: carousel launch, LinkedIn card batch, 3-day Facebook drip, X pack, Pin batch, cross-platform pack, video drip, repurpose chain, migrating an old CSV.
+- **References** in `references/`: post-type decision tree, GHL CSV format, image rotation rule, no-fake-claims checklist, humanizer checklist, brand split, ManyChat keyword flow, hook bank.
+- **Scripts** in `scripts/`: `build_ghl_csv.py`, `shift_dates.py`, `caption_variants.py`, `utm_inject.py`, `seed_replies.py`, `pick_avatar.py`, `lint_skill.py`.
+- **Examples**: a 10-format showcase, a carousel pack and a shipped launch pack (`packs/fable51-launch-2026-09-02/`).
 
-Last reviewed: October 2026 · release v2026.10
+## Quickstart
 
-## What it does
-
-- Picks the right template per post type (carousel, LI card, FB news, X pack, Pin, video drip)
-- Generates 1080×1350 (or platform-correct) HTML with `html2canvas` PNG download
-- Builds canonical 6-col GHL CSV per platform (LI / FB / IG / Pin)
-- Stages cross-platform drip with staggered times (LI 11:00 / FB 13:00 / IG 19:00 / Pin 20:00)
-- Wires ManyChat keyword funnels (IG / FB / WA)
-- Enforces image rotation, no-fake-claims, humanizer pass
-
-## Triggers
-
-User says any of:
-- "build a carousel"
-- "social pack"
-- "LI cards batch"
-- "FB news drip"
-- "X pack"
-- "Pinterest batch"
-- "GHL CSV"
-- "schedule drip"
-- "post pack for [topic]"
-- `/social-stack`
-- Pastes a topic + asks for cross-platform content
-
-## Layout
-
-```
-social-stack/
-├── SKILL.md                 # main entry, decision logic, flow
-├── README.md                # this file
-├── templates/
-│   ├── carousel-cream-rust/    # tenfoldmarc-style 1080×1350 carousels
-│   ├── li-card-editorial-dark/ # Fraunces dark+gold LI single cards
-│   ├── fb-news-9card/          # FB personal-news 9-card mix
-│   ├── x-pack/                 # 1200×675 image tweets
-│   └── pin-card/               # 1000×1500 vertical pins
-├── recipes/
-│   ├── carousel-launch.md          # 5×6 cross-platform drop
-│   ├── li-card-batch.md            # 15-30 LI editorial cards
-│   ├── fb-news-3day.md             # 9-card × 3-day drip
-│   ├── x-pack-mwf-drip.md          # 12 tweets MWF
-│   ├── pin-batch.md                # 30 pins +14d
-│   └── cross-platform-pack.md      # one topic × 4 CSVs
-├── references/
-│   ├── post-type-decision-tree.md
-│   ├── ghl-csv-format.md
-│   ├── image-rotation-rule.md
-│   ├── no-fake-claims.md
-│   ├── humanizer-checklist.md
-│   ├── brand-split.md
-│   └── manychat-keyword-flow.md
-├── scripts/
-│   ├── build_ghl_csv.py     # generic 6-col CSV builder
-│   ├── shift_dates.py       # date-shift CSV by N days OR re-anchor
-│   └── pick_avatar.py       # batch picker + copy + auto-mark
-└── examples/
-    └── carousel-claude-pack-2026-04-30/   # shipped reference
+```bash
+git clone https://github.com/waseemnasir2k26/skynet-social-stack.git ~/.claude/skills/social-stack
 ```
 
-## The 6 hard rules
-
-1. **No fake claims.** Real builds only. `references/no-fake-claims.md`.
-2. **Image rotation.** Always `_pick-next.py`. Never by eye. Mark used after.
-3. **Humanize.** Strip em-dashes, "delve", AI-tells. Run `/humanizer`.
-4. **Brand split.** Personal voice ≠ SkynetLabs voice. Don't paste-blanket.
-5. **GHL = 6-col canonical.** Don't invent headers.
-6. **24-72h Meta soak** for any DM-keyword WA template before Day 1.
-
-## Quick start
+In Claude Code, ask for a pack, for example:
 
 ```
-You: "build me a 5-carousel pack on Claude Code, n8n, AEO. Schedule from May 5, weekday cadence, DM keyword JARVIS"
-
-Claude (loads skill):
-  → reads SKILL.md
-  → confirms inputs (volume, brand)
-  → forks templates/carousel-cream-rust/
-  → calls scripts/pick_avatar.py for 5 portraits
-  → renders HTML → opens browser
-  → writes 4 caption variants
-  → builds 4 GHL CSVs
-  → flags ManyChat WA template submit deadline
+/social-stack build a 5-carousel pack on Claude Code, n8n and AEO, weekday cadence
 ```
 
-## Improving the skill
+The skill reads `SKILL.md`, forks the matching template, renders the HTML for PNG export and builds the CSVs with `scripts/build_ghl_csv.py`. You can also use the templates alone: open a template's `index.html`, edit `data.json`, and use the in-page PNG download.
 
-Each shipped pack is a new data point. After every drop:
-- Note what worked (engagement, DM conversion)
-- Note what broke (rendering, CSV reject, dead funnel)
-- Update the relevant recipe or reference
-- Bump version in SKILL.md
+## The rules it enforces
+
+1. No fake claims: only real builds and results (`references/no-fake-claims.md`).
+2. Rotate images with the picker script, not by eye.
+3. Strip AI tells and em-dashes before anything ships.
+4. Keep personal voice and company voice separate.
+5. Use the canonical six-column GHL CSV, no invented headers.
+
+## For you if
+
+You make carousels and platform cards on a schedule, use GoHighLevel for scheduling, and want the layout, copy checks and CSV handled the same way every time.
+
+## Status and limits
+
+- Written for Claude Code. The scripts run on their own, but the flow in `SKILL.md` assumes Claude drives it.
+- The CSV format targets GoHighLevel's bulk scheduler. For other schedulers you would adapt `build_ghl_csv.py`.
+- `pick_avatar.py` expects a local folder of portrait images you supply.
+- Templates carry the SkynetLabs look. Change fonts, colours and handles in `data.json` and the template CSS.
 
 ## License
 
-MIT. See `LICENSE`.
+MIT, see [LICENSE](LICENSE).
 
-## Author
+---
 
-[Waseem Nasir](https://www.skynetjoe.com) — Founder, SkynetLabs.
-[GitHub](https://github.com/waseemnasir2k26) · [LinkedIn](https://linkedin.com/in/waseemnasir2k26)
+Built by SkynetLabs. Contact: info@skynetjoe.com
 
-Distilled from 30+ shipped social packs across LinkedIn, IG, FB, X, Pinterest.
-
-## Work with SkynetLabs
-
-Built by [Waseem Nasir](https://www.skynetjoe.com/?utm_source=github&utm_medium=readme&utm_campaign=skynet-social-stack) at SkynetLabs — n8n + AI automation for small businesses.
-
-- Hire on Fiverr: https://www.fiverr.com/agencies/skynetjoellc
-- Hire on Upwork: https://www.upwork.com/freelancers/muhammadwaseemnasir
-- Book a free call: https://calendly.com/skynetlabs/schedule-a-free-consultation
+Need this wired into your business? SkynetLabs builds voice agents, n8n back offices and sites that convert → https://skynetjoe.com
